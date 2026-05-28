@@ -29,12 +29,22 @@ interface CalendarDay {
       <!-- Main Calendar Area (Left) -->
       <div class="flex-1">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
-          <div>
-            <h1 class="text-5xl font-black tracking-tight mb-2">{{ currentMonthName() }} {{ currentYear() }}</h1>
-            <p class="text-neutral-400 font-medium text-lg flex items-center gap-2">
-              <span class="text-cyan-400 text-xs">●</span> 
-              {{ summary().shows }} Shows Agendados • {{ summary().ensaios }} Ensaios
-            </p>
+          <div class="flex items-center gap-6">
+            <div class="flex gap-2">
+              <button (click)="previousMonth()" class="text-neutral-400 hover:text-white hover:bg-neutral-800 p-2 rounded-full transition-colors border border-neutral-800 bg-neutral-900 shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              </button>
+              <button (click)="nextMonth()" class="text-neutral-400 hover:text-white hover:bg-neutral-800 p-2 rounded-full transition-colors border border-neutral-800 bg-neutral-900 shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </button>
+            </div>
+            <div>
+              <h1 class="text-5xl font-black tracking-tight mb-2">{{ currentMonthName() }} {{ currentYear() }}</h1>
+              <p class="text-neutral-400 font-medium text-lg flex items-center gap-2">
+                <span class="text-cyan-400 text-xs">●</span> 
+                {{ summary().shows }} Shows Agendados • {{ summary().ensaios }} Ensaios
+              </p>
+            </div>
           </div>
           <div class="flex flex-wrap gap-4 items-center">
             <div class="flex bg-neutral-900 border border-neutral-800 rounded-full p-1">
@@ -81,7 +91,7 @@ interface CalendarDay {
         </div>
         
         <!-- Calendar Grid -->
-        <div class="bg-[#1a1a1a] border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl">
+        <div class="bg-[#1a1a1a] border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl select-none">
           <!-- Weekdays Header -->
           <div class="grid grid-cols-7 border-b border-neutral-800 bg-[#222]">
             <div *ngFor="let day of ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']" class="py-4 text-center text-xs font-bold text-neutral-500 tracking-widest uppercase">
@@ -91,7 +101,8 @@ interface CalendarDay {
           <!-- Days Grid -->
           <div class="grid grid-cols-7 bg-neutral-800 gap-[1px] border-b border-neutral-800">
              <div *ngFor="let day of calendarDays()" 
-                  class="bg-[#1a1a1a] min-h-[140px] p-2 transition-colors hover:bg-[#222]"
+                  (dblclick)="scheduleEventOn(day.date)"
+                  class="bg-[#1a1a1a] min-h-[140px] p-2 transition-colors hover:bg-[#222] cursor-pointer"
                   [ngClass]="{'opacity-50': !day.isCurrentMonth}">
                
                <!-- Day Number -->
@@ -105,7 +116,7 @@ interface CalendarDay {
                </div>
 
                <!-- Event Chips -->
-               <div class="space-y-1.5">
+               <div class="space-y-1.5 pointer-events-none">
                  <div *ngFor="let ev of day.events" class="w-full">
                    
                    <!-- Ensaio/Viagem Style -->
@@ -183,7 +194,7 @@ export class AgendaComponent implements OnInit {
   events = signal<Event[]>([]);
   isAddingEvent = false;
   
-  currentDate = new Date(); // To drive the current month view
+  currentDate = signal(new Date());
 
   eventForm = this.fb.nonNullable.group({
     title: ['', Validators.required],
@@ -203,8 +214,9 @@ export class AgendaComponent implements OnInit {
   });
 
   calendarDays = computed(() => {
-    const year = this.currentDate.getFullYear();
-    const month = this.currentDate.getMonth();
+    const date = this.currentDate();
+    const year = date.getFullYear();
+    const month = date.getMonth();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     
@@ -218,7 +230,7 @@ export class AgendaComponent implements OnInit {
       endDate.setDate(lastDay.getDate() + (6 - lastDay.getDay()));
     }
     
-    // Always show 6 weeks (42 days) for consistent grid height, or at least until endDate
+    // Always show 6 weeks (42 days) for consistent grid height
     const days: CalendarDay[] = [];
     const current = new Date(startDate);
     const today = new Date();
@@ -226,7 +238,7 @@ export class AgendaComponent implements OnInit {
     const evs = this.events();
     
     for (let i = 0; i < 42; i++) {
-      if (current > endDate && i % 7 === 0) break; // If we filled the last week, we can stop at 35 days if month is short
+      if (current > endDate && i % 7 === 0) break;
       
       const isCurrentMonth = current.getMonth() === month;
       const isToday = current.getDate() === today.getDate() && 
@@ -272,12 +284,41 @@ export class AgendaComponent implements OnInit {
     this.loadEvents();
   }
 
+  previousMonth() {
+    const d = new Date(this.currentDate());
+    d.setMonth(d.getMonth() - 1);
+    this.currentDate.set(d);
+  }
+
+  nextMonth() {
+    const d = new Date(this.currentDate());
+    d.setMonth(d.getMonth() + 1);
+    this.currentDate.set(d);
+  }
+
+  scheduleEventOn(date: Date) {
+    this.isAddingEvent = true;
+    
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    const dateString = `${year}-${month}-${day}T19:00`;
+    
+    this.eventForm.patchValue({
+      date: dateString
+    });
+    
+    // Scroll to top so user sees the form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   currentMonthName() {
-    return this.currentDate.toLocaleDateString('pt-BR', { month: 'long' }).replace(/^\w/, c => c.toUpperCase());
+    return this.currentDate().toLocaleDateString('pt-BR', { month: 'long' }).replace(/^\w/, c => c.toUpperCase());
   }
   
   currentYear() {
-    return this.currentDate.getFullYear();
+    return this.currentDate().getFullYear();
   }
 
   getRelativeDayName(dateString: string): string {
@@ -314,7 +355,6 @@ export class AgendaComponent implements OnInit {
   }
 
   seedMockData() {
-    // Mock data based on the provided image
     const now = new Date();
     const year = now.getFullYear();
     const month = now.getMonth();
@@ -336,6 +376,9 @@ export class AgendaComponent implements OnInit {
         this.isAddingEvent = false;
         this.eventForm.reset({type: 'SHOW', status: 'SCHEDULED'});
         this.loadEvents();
+        if (typeof (this.bandStore as any).refreshDashboard === 'function') {
+          (this.bandStore as any).refreshDashboard();
+        }
       });
     } else if (this.eventForm.valid) {
       // Optimistic update for local dev without bandId
@@ -344,6 +387,9 @@ export class AgendaComponent implements OnInit {
       this.events.set([...this.events(), newEv]);
       this.isAddingEvent = false;
       this.eventForm.reset({type: 'SHOW', status: 'SCHEDULED'});
+      if (typeof (this.bandStore as any).refreshDashboard === 'function') {
+        (this.bandStore as any).refreshDashboard();
+      }
     }
   }
 }

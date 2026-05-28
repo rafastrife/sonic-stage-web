@@ -57,6 +57,13 @@ export class BandStore {
     this.loadDashboardData(bandId);
   }
 
+  refreshDashboard() {
+    const bandId = this._activeBandId();
+    if (bandId) {
+      this.loadDashboardData(bandId);
+    }
+  }
+
   private loadDashboardData(bandId: number) {
     this._isLoading.set(true);
     this.http.get<DashboardMetrics>(`/api/bands/${bandId}/dashboard/`).pipe(

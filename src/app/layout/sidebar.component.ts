@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { BandStore } from '../core/stores/band.store';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CreateBandModalComponent } from '../features/dashboard/components/create-band-modal.component';
+import { LogoComponent } from '../shared/components/logo.component';
+import { AuthStore } from '../core/stores/auth.store';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, CreateBandModalComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, CreateBandModalComponent, LogoComponent],
   template: `
     <div class="w-64 h-screen bg-[#0a0a0a] border-r border-neutral-800 flex flex-col pt-6 pb-6 text-neutral-400 font-medium">
       
       <!-- Logo -->
-      <div class="px-8 mb-10 flex items-center gap-2 text-white font-extrabold text-2xl tracking-tight">
-        <span class="text-cyan-400">⚡</span> Sonic Stage
+      <div class="px-8 mb-10 mt-2 flex items-center">
+        <app-logo class="w-48"></app-logo>
       </div>
 
       <!-- Band Selector -->
@@ -71,11 +73,17 @@ import { CreateBandModalComponent } from '../features/dashboard/components/creat
 
       <!-- Bottom Actions -->
       <div class="px-6 mt-auto">
-        <button (click)="openCreateBandModal()" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-neutral-800 hover:bg-neutral-900 hover:border-neutral-700 text-white transition-colors font-bold text-sm">
+        <button (click)="openCreateBandModal()" class="w-full flex items-center justify-center gap-2 py-3 mb-2 rounded-xl border border-neutral-800 hover:bg-neutral-900 hover:border-neutral-700 text-white transition-colors font-bold text-sm">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
           Nova Banda
+        </button>
+        <button (click)="logout()" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl hover:bg-neutral-900/50 text-neutral-400 hover:text-white transition-colors font-bold text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Sair
         </button>
       </div>
 
@@ -87,6 +95,11 @@ import { CreateBandModalComponent } from '../features/dashboard/components/creat
 })
 export class SidebarComponent {
   bandStore = inject(BandStore);
+  authStore = inject(AuthStore);
+
+  logout() {
+    this.authStore.logout();
+  }
 
   onBandChange(event: any) {
     const bandId = Number(event.target.value);

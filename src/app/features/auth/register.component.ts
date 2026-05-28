@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthStore } from '../../core/stores/auth.store';
 import { RouterModule, Router } from '@angular/router';
-
+import { LogoComponent } from '../../shared/components/logo.component';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, LogoComponent],
   template: `
     <div class="min-h-screen flex bg-[#0a0a0a] text-white">
       
@@ -15,14 +15,7 @@ import { RouterModule, Router } from '@angular/router';
       <div class="hidden lg:flex lg:w-1/2 flex-col p-12 border-r border-white/5 relative overflow-hidden">
         
         <div class="z-10 mb-8">
-          <div class="flex items-center space-x-3 mb-6">
-            <div class="flex items-center space-x-1">
-              <div class="w-1 h-5 bg-neon-cyan rounded-full"></div>
-              <div class="w-1 h-8 bg-neon-cyan rounded-full"></div>
-              <div class="w-1 h-5 bg-neon-cyan rounded-full"></div>
-            </div>
-            <h1 class="text-4xl font-black text-neon-cyan tracking-wide">Sonic Stage</h1>
-          </div>
+          <app-logo class="w-64 mb-8 block"></app-logo>
           <p class="text-2xl font-medium text-neutral-300 leading-snug max-w-md">
             Entre no mundo de alta energia da performance digital. Crie, transmita e conecte-se com pura fidelidade.
           </p>

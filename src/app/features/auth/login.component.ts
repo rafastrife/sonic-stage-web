@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthStore } from '../../core/stores/auth.store';
 import { RouterModule } from '@angular/router';
-
+import { LogoComponent } from '../../shared/components/logo.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, LogoComponent],
   template: `
     <div class="min-h-screen flex items-center justify-center bg-dark-bg p-4 relative overflow-hidden">
       <!-- Ambient Glow Effects -->
@@ -15,15 +15,8 @@ import { RouterModule } from '@angular/router';
       <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon-pink/10 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div class="w-full max-w-[400px] bg-black/40 backdrop-blur-xl border border-white/5 rounded-2xl shadow-2xl p-8 z-10">
-        <div class="text-center mb-10">
-          <div class="flex items-center justify-center space-x-1.5 mb-5">
-            <div class="w-1.5 h-6 bg-neon-pink rounded-full"></div>
-            <div class="w-1.5 h-8 bg-neon-pink rounded-full"></div>
-            <div class="w-1.5 h-8 bg-neon-cyan rounded-full"></div>
-            <div class="w-1.5 h-8 bg-neon-cyan rounded-full"></div>
-            <div class="w-1.5 h-6 bg-neon-cyan rounded-full"></div>
-          </div>
-          <h1 class="text-3xl font-black text-white tracking-wide uppercase">Sonic Stage</h1>
+        <div class="text-center mb-10 flex flex-col items-center">
+          <app-logo class="w-56 mb-2"></app-logo>
           <p class="text-neon-cyan text-xs font-bold tracking-widest mt-2 uppercase">Vibe Check HQ</p>
         </div>
 
