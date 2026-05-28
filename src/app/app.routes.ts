@@ -5,8 +5,9 @@ export const routes: Routes = [
   { path: 'register', loadComponent: () => import('./features/auth/register.component').then(m => m.RegisterComponent) },
   { 
     path: 'dashboard', 
-    loadComponent: () => import('./features/bands/dashboard.component').then(m => m.DashboardComponent),
+    loadComponent: () => import('./layout/layout.component').then(m => m.LayoutComponent),
     children: [
+      { path: '', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent), pathMatch: 'full' },
       { path: 'members', loadComponent: () => import('./features/members/members.component').then(m => m.MembersComponent) },
       { path: 'repertoire', loadComponent: () => import('./features/repertoire/repertoire.component').then(m => m.RepertoireComponent) },
       { path: 'agenda', loadComponent: () => import('./features/agenda/agenda.component').then(m => m.AgendaComponent) },

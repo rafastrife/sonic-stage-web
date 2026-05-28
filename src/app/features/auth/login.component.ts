@@ -29,7 +29,7 @@ import { RouterModule } from '@angular/router';
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
           <div>
-            <label class="block text-xs font-bold text-neutral-400 mb-2 uppercase tracking-wider">E-mail</label>
+            <label class="block text-xs font-bold text-neutral-400 mb-2 uppercase tracking-wider">E-mail ou Nickname</label>
             <div class="relative">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -39,7 +39,7 @@ import { RouterModule } from '@angular/router';
               </span>
               <input type="text" formControlName="username" 
                 class="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-neon-cyan focus:border-transparent transition-all outline-none text-white placeholder-neutral-600"
-                placeholder="nome@dominio.com">
+                placeholder="email@exemplo.com ou nickname">
             </div>
           </div>
 

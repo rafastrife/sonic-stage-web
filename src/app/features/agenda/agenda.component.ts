@@ -102,16 +102,16 @@ export class AgendaComponent implements OnInit {
   }
 
   loadEvents() {
-    const band = this.bandStore.activeBand();
-    if (band) {
-      this.http.get<any[]>(`/api/bands/${band.id}/events/`).subscribe(data => this.events.set(data));
+    const bandId = this.bandStore.activeBandId();
+    if (bandId) {
+      this.http.get<any[]>(`/api/bands/${bandId}/events/`).subscribe(data => this.events.set(data));
     }
   }
 
   addEvent() {
-    const band = this.bandStore.activeBand();
-    if (this.eventForm.valid && band) {
-      this.http.post(`/api/bands/${band.id}/events/`, this.eventForm.getRawValue()).subscribe(() => {
+    const bandId = this.bandStore.activeBandId();
+    if (this.eventForm.valid && bandId) {
+      this.http.post(`/api/bands/${bandId}/events/`, this.eventForm.getRawValue()).subscribe(() => {
         this.isAddingEvent = false;
         this.eventForm.reset({type: 'SHOW', status: 'SCHEDULED'});
         this.loadEvents();
