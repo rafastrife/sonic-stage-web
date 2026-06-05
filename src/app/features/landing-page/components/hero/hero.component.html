@@ -1,0 +1,45 @@
+<section class="hero-section relative py-32 flex flex-col items-center justify-center text-center overflow-hidden">
+  <!-- Background with stage lighting effect -->
+  <div class="absolute inset-0 bg-gray-900 -z-10">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-[#00d1ff] opacity-20 rounded-full blur-[128px]"></div>
+    <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-[#ff2d55] opacity-20 rounded-full blur-[128px]"></div>
+  </div>
+
+  <div class="container mx-auto px-4 z-10">
+    <div class="inline-block bg-pink-900 bg-opacity-30 border border-[#ff2d55] text-[#ff2d55] px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-8">
+      🔴 Em Breve: O Futuro da Gestão Musical
+    </div>
+    
+    <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 font-montserrat leading-tight">
+      Assuma o <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2d55] to-pink-300 italic">Controle</span> do Seu<br/>Palco
+    </h1>
+    
+    <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
+      A plataforma definitiva para gestão de bandas, shows e ensaios. Do setlist ao fechamento do cachê, organize sua carreira musical com tecnologia de estúdio.
+    </p>
+    
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <button 
+        (click)="scrollToWaitlist()" 
+        class="w-full sm:w-auto px-8 py-4 bg-[#00d1ff] hover:bg-blue-400 text-gray-900 font-bold rounded-lg transition-colors text-lg shadow-[0_0_15px_rgba(0,209,255,0.5)]">
+        Quero ser avisado do lançamento
+      </button>
+      
+      <button 
+        (click)="scrollToFeatures()" 
+        class="w-full sm:w-auto px-8 py-4 bg-transparent hover:bg-white hover:bg-opacity-5 text-white font-bold rounded-lg transition-colors border border-gray-600 text-lg">
+        Explorar Funcionalidades
+      </button>
+    </div>
+    
+    <!-- Equalizer Animation visual representation -->
+    <div class="mt-20 flex items-end justify-center gap-1 h-12 opacity-50">
+      <div class="w-2 bg-[#00d1ff] rounded-t-sm h-4 animate-pulse"></div>
+      <div class="w-2 bg-[#00d1ff] rounded-t-sm h-8 animate-pulse" style="animation-delay: 0.1s"></div>
+      <div class="w-2 bg-[#00d1ff] rounded-t-sm h-12 animate-pulse" style="animation-delay: 0.2s"></div>
+      <div class="w-2 bg-[#ff2d55] rounded-t-sm h-6 animate-pulse" style="animation-delay: 0.3s"></div>
+      <div class="w-2 bg-[#ff2d55] rounded-t-sm h-10 animate-pulse" style="animation-delay: 0.4s"></div>
+      <div class="w-2 bg-[#00d1ff] rounded-t-sm h-5 animate-pulse" style="animation-delay: 0.5s"></div>
+    </div>
+  </div>
+</section>

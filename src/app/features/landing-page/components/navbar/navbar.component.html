@@ -1,0 +1,40 @@
+<nav class="fixed top-0 w-full z-50 bg-gray-900 bg-opacity-90 backdrop-blur-md border-b border-gray-800">
+  <div class="container mx-auto px-4 h-20 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center gap-3 cursor-pointer" (click)="scrollTo('top')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-9 h-9">
+        <rect x="10" y="35" width="10" height="30" rx="5" fill="#00d1ff" />
+        <rect x="28" y="20" width="10" height="60" rx="5" fill="#00d1ff" />
+        <rect x="46" y="5" width="10" height="90" rx="5" fill="#ff2d55" />
+        <rect x="64" y="20" width="10" height="60" rx="5" fill="#ff9f0a" />
+        <rect x="82" y="35" width="10" height="30" rx="5" fill="#00d1ff" />
+      </svg>
+      <div class="flex flex-col justify-center">
+        <span class="text-white font-montserrat font-black text-base tracking-[0.15em] leading-tight">SONIC</span>
+        <span class="text-[#00d1ff] font-montserrat font-black text-base tracking-[0.15em] leading-tight">STAGE</span>
+      </div>
+    </div>
+
+    <!-- Desktop Links -->
+    <div class="hidden md:flex items-center gap-8">
+      <button (click)="scrollTo('features')" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+        Funcionalidades
+      </button>
+      <button (click)="scrollTo('faq')" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+        FAQ
+      </button>
+      <button (click)="scrollTo('waitlist')" class="px-5 py-2 bg-[#00d1ff] bg-opacity-20 hover:bg-opacity-30 text-[#00d1ff] border border-[#00d1ff] font-bold rounded-md transition-colors text-sm">
+        Aviso de Lançamento
+      </button>
+    </div>
+
+    <!-- Mobile Menu Button (mocked for visual) -->
+    <div class="md:hidden">
+      <button class="text-gray-300 hover:text-white p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>

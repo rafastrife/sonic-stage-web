@@ -13,5 +13,5 @@ export const routes: Routes = [
       { path: 'agenda', loadComponent: () => import('./features/agenda/agenda.component').then(m => m.AgendaComponent) },
     ]
   },
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  { path: '', loadChildren: () => import('./features/landing-page/landing-page.routes').then(m => m.LANDING_PAGE_ROUTES) }
 ];

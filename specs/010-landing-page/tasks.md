@@ -20,8 +20,8 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create `landing-page` feature base component in `src/app/features/landing-page/landing-page.component.ts`
-- [ ] T002 Create routing configuration for the landing page in `src/app/features/landing-page/landing-page.routes.ts`
+- [x] T001 Create `landing-page` feature base component in `src/app/features/landing-page/landing-page.component.ts`
+- [x] T002 Create routing configuration for the landing page in `src/app/features/landing-page/landing-page.routes.ts`
 
 ---
 
@@ -31,8 +31,8 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 [P] Implement `LeadPayload` and `LeadResponse` interfaces in `src/app/models/lead.model.ts`
-- [ ] T004 Implement `LeadService` according to the API contract in `src/app/services/lead.service.ts`
+- [x] T003 [P] Implement `LeadPayload` and `LeadResponse` interfaces in `src/app/models/lead.model.ts`
+- [x] T004 Implement `LeadService` according to the API contract in `src/app/services/lead.service.ts`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -46,11 +46,11 @@
 
 ### Implementation for User Story 1
 
-- [ ] T005 [P] [US1] Create the Waitlist Form component with Angular Signals in `src/app/features/landing-page/components/waitlist-form/waitlist-form.component.ts`
-- [ ] T006 [P] [US1] Create the Hero component with Call-To-Action buttons in `src/app/features/landing-page/components/hero/hero.component.ts`
-- [ ] T007 [P] [US1] Create the Navbar component with smooth scroll anchor links in `src/app/features/landing-page/components/navbar/navbar.component.ts`
-- [ ] T008 [US1] Integrate `WaitlistFormComponent` with `LeadService` to send POST requests
-- [ ] T009 [US1] Assemble `Navbar`, `Hero` and `WaitlistForm` into the main layout in `src/app/features/landing-page/landing-page.component.html`
+- [x] T005 [P] [US1] Create the Waitlist Form component with Angular Signals in `src/app/features/landing-page/components/waitlist-form/waitlist-form.component.ts`
+- [x] T006 [P] [US1] Create the Hero component with Call-To-Action buttons in `src/app/features/landing-page/components/hero/hero.component.ts`
+- [x] T007 [P] [US1] Create the Navbar component with smooth scroll anchor links in `src/app/features/landing-page/components/navbar/navbar.component.ts`
+- [x] T008 [US1] Integrate `WaitlistFormComponent` with `LeadService` to send POST requests
+- [x] T009 [US1] Assemble `Navbar`, `Hero` and `WaitlistForm` into the main layout in `src/app/features/landing-page/landing-page.component.html`
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -64,8 +64,8 @@
 
 ### Implementation for User Story 2
 
-- [ ] T010 [P] [US2] Create the Features component (3 cards) using Tailwind CSS in `src/app/features/landing-page/components/features/features.component.ts`
-- [ ] T011 [US2] Add the `FeaturesComponent` to the main layout in `src/app/features/landing-page/landing-page.component.html`
+- [x] T010 [P] [US2] Create the Features component (3 cards) using Tailwind CSS in `src/app/features/landing-page/components/features/features.component.ts`
+- [x] T011 [US2] Add the `FeaturesComponent` to the main layout in `src/app/features/landing-page/landing-page.component.html`
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -79,8 +79,8 @@
 
 ### Implementation for User Story 3
 
-- [ ] T012 [P] [US3] Create the FAQ component with Signal-based state for accordion logic in `src/app/features/landing-page/components/faq/faq.component.ts`
-- [ ] T013 [US3] Add the `FaqComponent` to the main layout in `src/app/features/landing-page/landing-page.component.html`
+- [x] T012 [P] [US3] Create the FAQ component with Signal-based state for accordion logic in `src/app/features/landing-page/components/faq/faq.component.ts`
+- [x] T013 [US3] Add the `FaqComponent` to the main layout in `src/app/features/landing-page/landing-page.component.html`
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -90,10 +90,10 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T014 [P] Update the main `app.routes.ts` to lazy-load the `landing-page.routes.ts` at the root path (`/`)
-- [ ] T015 [P] Create the Footer component with social media links and copyright in `src/app/features/landing-page/components/footer/footer.component.ts`
-- [ ] T016 Add the Footer component to the main layout and run responsive layout checks
-- [ ] T017 Final polish of glassmorphism UI elements and Dark Mode colors across all components
+- [x] T014 [P] Update the main `app.routes.ts` to lazy-load the `landing-page.routes.ts` at the root path (`/`)
+- [x] T015 [P] Create the Footer component with social media links and copyright in `src/app/features/landing-page/components/footer/footer.component.ts`
+- [x] T016 Add the Footer component to the main layout and run responsive layout checks
+- [x] T017 Final polish of glassmorphism UI elements and Dark Mode colors across all components
 
 ---
 
