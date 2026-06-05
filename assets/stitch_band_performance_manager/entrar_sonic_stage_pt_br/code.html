@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#004e60",
+                        "outline-variant": "#3c494e",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-background": "#e5e2e1",
+                        "surface-dim": "#131313",
+                        "on-secondary-container": "#590026",
+                        "on-secondary-fixed-variant": "#8f0041",
+                        "surface-container-high": "#2a2a2a",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "surface-container": "#201f1f",
+                        "on-secondary-fixed": "#3f0019",
+                        "surface-variant": "#353534",
+                        "tertiary": "#ffd59c",
+                        "surface": "#131313",
+                        "on-tertiary-container": "#6b4700",
+                        "primary-fixed": "#b7eaff",
+                        "outline": "#859399",
+                        "secondary-container": "#ff4b89",
+                        "background": "#131313",
+                        "primary-fixed-dim": "#4cd6ff",
+                        "error-container": "#93000a",
+                        "surface-tint": "#4cd6ff",
+                        "primary": "#a4e6ff",
+                        "inverse-primary": "#00677f",
+                        "tertiary-fixed-dim": "#ffba49",
+                        "on-primary-container": "#00566a",
+                        "on-tertiary-fixed-variant": "#624000",
+                        "secondary-fixed-dim": "#ffb1c3",
+                        "tertiary-container": "#feb127",
+                        "tertiary-fixed": "#ffddb1",
+                        "primary-container": "#00d1ff",
+                        "on-tertiary-fixed": "#291800",
+                        "on-primary": "#003543",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary": "#442b00",
+                        "inverse-on-surface": "#313030",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#e5e2e1",
+                        "secondary": "#ffb1c3",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary": "#66002c",
+                        "surface-bright": "#3a3939",
+                        "on-surface-variant": "#bbc9cf",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary-fixed": "#001f28",
+                        "secondary-fixed": "#ffd9e0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "max-width": "1440px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-sm": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "label-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "body-lg": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "body-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom Neon Glow Utilities */
+        .glow-primary {
+            box-shadow: 0 0 20px -5px rgba(0, 209, 255, 0.4);
+        }
+        .glow-secondary {
+            box-shadow: 0 0 30px -10px rgba(255, 75, 137, 0.3);
+        }
+        
+        /* Minimal Audio Visualizer Animation */
+        @keyframes pulse-bar {
+            0%, 100% { transform: scaleY(0.3); opacity: 0.5; }
+            50% { transform: scaleY(1); opacity: 1; }
+        }
+        .v-bar {
+            animation: pulse-bar 1.5s ease-in-out infinite;
+            transform-origin: bottom;
+        }
+        .v-bar:nth-child(2) { animation-delay: 0.2s; }
+        .v-bar:nth-child(3) { animation-delay: 0.4s; }
+        .v-bar:nth-child(4) { animation-delay: 0.1s; }
+        .v-bar:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex items-center justify-center relative overflow-hidden font-sans selection:bg-secondary-container selection:text-white">
+<!-- Atmospheric Background Layers -->
+<div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+<!-- Magenta ambient glow top right -->
+<div class="absolute -top-[20%] -right-[10%] w-[50vw] h-[50vw] rounded-full bg-secondary-container opacity-[0.03] blur-[100px]"></div>
+<!-- Electric Blue ambient glow bottom left -->
+<div class="absolute -bottom-[20%] -left-[10%] w-[60vw] h-[60vw] rounded-full bg-primary-container opacity-[0.04] blur-[120px]"></div>
+</div>
+<!-- Main Content Canvas -->
+<main class="relative z-10 w-full max-w-[420px] px-margin-mobile md:px-0">
+<!-- Login Card -->
+<div class="bg-surface-container rounded-xl p-8 md:p-10 shadow-2xl border border-surface-bright/30 glow-secondary backdrop-blur-sm relative overflow-hidden">
+<!-- Subtle top border accent -->
+<div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary-container via-secondary-container to-primary-container opacity-70"></div>
+<!-- Brand Header -->
+<div class="text-center mb-10">
+<!-- Abstract Visualizer Logo Element -->
+<div class="flex justify-center items-end gap-1 mb-4 h-8">
+<div class="w-1.5 h-full bg-primary-container rounded-t-sm v-bar"></div>
+<div class="w-1.5 h-full bg-gradient-to-t from-primary-container to-secondary-container rounded-t-sm v-bar"></div>
+<div class="w-1.5 h-full bg-secondary-container rounded-t-sm v-bar"></div>
+<div class="w-1.5 h-full bg-gradient-to-t from-secondary-container to-primary-container rounded-t-sm v-bar"></div>
+<div class="w-1.5 h-full bg-primary-container rounded-t-sm v-bar"></div>
+</div>
+<h1 class="text-headline-lg font-headline-lg font-extrabold text-primary tracking-tighter uppercase">Sonic Stage</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2">Vibe Check HQ</p>
+</div>
+<!-- Login Form -->
+<form action="#" class="space-y-6 flex flex-col">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider pl-1" for="email">E-mail</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant group-focus-within:text-primary transition-colors text-[20px]">mail</span>
+</div>
+<input class="w-full bg-surface-container-lowest border border-surface-variant text-on-surface text-body-md font-body-md rounded-lg py-3.5 pl-12 pr-4 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all placeholder:text-surface-variant" id="email" name="email" placeholder="nome@dominio.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex justify-between items-center pl-1">
+<label class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider" for="password">Senha</label>
+<a class="text-label-sm font-label-sm text-primary hover:text-primary-fixed transition-colors" href="#">Esqueci a Senha</a>
+</div>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant group-focus-within:text-primary transition-colors text-[20px]">lock</span>
+</div>
+<input class="w-full bg-surface-container-lowest border border-surface-variant text-on-surface text-body-md font-body-md rounded-lg py-3.5 pl-12 pr-4 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all placeholder:text-surface-variant" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Main CTA -->
+<button class="w-full bg-primary-container hover:bg-primary text-on-primary-container text-label-lg font-label-lg uppercase tracking-widest py-4 px-6 rounded-full mt-4 transition-all duration-300 transform active:scale-[0.98] flex items-center justify-center gap-2 glow-primary relative overflow-hidden group" type="submit">
+<span class="relative z-10 font-bold">Entrar no Palco</span>
+<span class="material-symbols-outlined relative z-10 text-[20px] fill-icon">arrow_forward</span>
+<!-- Hover flare effect -->
+<div class="absolute inset-0 w-full h-full bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none mix-blend-overlay"></div>
+</button>
+</form>
+<!-- Secondary Actions -->
+<div class="mt-8 pt-6 border-t border-surface-variant/50 text-center">
+<p class="text-body-md font-body-md text-on-surface-variant">
+                    Novo por aqui? 
+                    <a class="text-secondary-container hover:text-secondary font-bold transition-colors ml-1" href="#">Criar Conta</a>
+</p>
+</div>
+</div>
+</main>
+</body></html>

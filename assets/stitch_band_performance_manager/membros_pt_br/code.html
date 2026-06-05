@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Convidar Membros</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#004e60",
+                        "outline-variant": "#3c494e",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-background": "#e5e2e1",
+                        "surface-dim": "#131313",
+                        "on-secondary-container": "#590026",
+                        "on-secondary-fixed-variant": "#8f0041",
+                        "surface-container-high": "#2a2a2a",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "surface-container": "#201f1f",
+                        "on-secondary-fixed": "#3f0019",
+                        "surface-variant": "#353534",
+                        "tertiary": "#ffd59c",
+                        "surface": "#131313",
+                        "on-tertiary-container": "#6b4700",
+                        "primary-fixed": "#b7eaff",
+                        "outline": "#859399",
+                        "secondary-container": "#ff4b89",
+                        "background": "#131313",
+                        "primary-fixed-dim": "#4cd6ff",
+                        "error-container": "#93000a",
+                        "surface-tint": "#4cd6ff",
+                        "primary": "#a4e6ff",
+                        "inverse-primary": "#00677f",
+                        "tertiary-fixed-dim": "#ffba49",
+                        "on-primary-container": "#00566a",
+                        "on-tertiary-fixed-variant": "#624000",
+                        "secondary-fixed-dim": "#ffb1c3",
+                        "tertiary-container": "#feb127",
+                        "tertiary-fixed": "#ffddb1",
+                        "primary-container": "#00d1ff",
+                        "on-tertiary-fixed": "#291800",
+                        "on-primary": "#003543",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary": "#442b00",
+                        "inverse-on-surface": "#313030",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#e5e2e1",
+                        "secondary": "#ffb1c3",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary": "#66002c",
+                        "surface-bright": "#3a3939",
+                        "on-surface-variant": "#bbc9cf",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary-fixed": "#001f28",
+                        "secondary-fixed": "#ffd9e0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "max-width": "1440px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-sm": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "label-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "body-lg": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "body-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .neon-glow-magenta {
+            box-shadow: 0 0 15px rgba(255, 75, 137, 0.3);
+        }
+        .neon-glow-primary-focus:focus-within {
+            box-shadow: 0 0 15px rgba(164, 230, 255, 0.2);
+            border-color: #a4e6ff;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c1b1b; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #353534; 
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background dark:bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<!-- TopNavBar (Mobile Only) -->
+<nav class="md:hidden flex justify-between items-center w-full px-margin-mobile py-4 bg-background dark:bg-background flat no shadows">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+<span class="text-headline-md font-headline-md font-extrabold text-primary dark:text-primary tracking-tighter">Sonic Stage</span>
+</div>
+<div class="flex items-center gap-4 text-primary dark:text-primary">
+<button class="hover:text-primary transition-colors duration-200 scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:text-primary transition-colors duration-200 scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar (Desktop Only) -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full flex-col p-base w-64 bg-surface-container dark:bg-surface-container shadow-sm z-50">
+<div class="flex items-center gap-3 px-4 py-6 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-lg">
+<span class="material-symbols-outlined">album</span>
+</div>
+<div>
+<div class="text-headline-md font-headline-md font-black text-primary dark:text-primary leading-tight">Sonic Stage</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Vibe Check HQ</div>
+</div>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Inactive Tab -->
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-lg font-label-lg">Painel</span>
+</a>
+<!-- Inactive Tab -->
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-label-lg font-label-lg">Agenda</span>
+</a>
+<!-- Inactive Tab -->
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">library_music</span>
+<span class="text-label-lg font-label-lg">Repertório</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-full px-4 py-3 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="text-label-lg font-label-lg">Membros</span>
+</a>
+<!-- Inactive Tab -->
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-label-lg font-label-lg">Financeiro</span>
+</a>
+</div>
+<div class="mt-auto px-4 py-4">
+<button class="w-full py-3 rounded-full bg-transparent border border-primary text-primary text-label-lg font-label-lg font-bold hover:bg-primary/10 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-secondary-container">podcasts</span>
+                Entrar ao Vivo
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow md:ml-64 p-margin-mobile md:p-margin-desktop bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-surface-container/40 via-background to-background min-h-screen">
+<!-- Header -->
+<header class="mb-12">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-display-lg md:text-display-lg text-on-surface mb-2">Monte a Equipe</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Expanda sua presença sonora. Envie credenciais digitais para novos colaboradores e atribua suas presenças no palco.</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Invite Form Module (Left) -->
+<section class="xl:col-span-7 bg-[#0A0A0A] rounded-2xl p-8 border border-surface-variant/30 relative overflow-hidden group">
+<!-- Atmospheric Glow -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-secondary-container/10 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-700 pointer-events-none"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary-container">person_add</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Novo Convite</h2>
+</div>
+<form class="space-y-8">
+<!-- Email Input -->
+<div class="space-y-3">
+<label class="font-label-lg text-label-lg text-on-surface-variant block">E-mail do Colaborador</label>
+<div class="relative flex items-center bg-[#050505] border border-[#1A1A1A] rounded-xl overflow-hidden transition-all duration-300 neon-glow-primary-focus">
+<span class="material-symbols-outlined text-outline ml-4">mail</span>
+<input class="w-full bg-transparent border-none text-on-surface focus:ring-0 py-4 px-4 font-body-md text-body-md placeholder-outline-variant" placeholder="artista@estudio.com" required="" type="email"/>
+</div>
+</div>
+<!-- Role Selection -->
+<div class="space-y-4">
+<label class="font-label-lg text-label-lg text-on-surface-variant block flex justify-between items-center">
+                                Atribuir Função
+                                <span class="font-label-sm text-label-sm text-outline">Selecione um</span>
+</label>
+<div class="flex flex-wrap gap-3">
+<!-- Role Chip (Inactive) -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio" value="vocals"/>
+<div class="px-5 py-2.5 rounded-full border border-surface-variant bg-surface-container-low text-on-surface-variant font-label-lg text-label-lg hover:border-outline transition-colors peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container peer-checked:neon-glow-magenta">
+                                        Vocais
+                                    </div>
+</label>
+<!-- Role Chip (Inactive) -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio" value="guitar"/>
+<div class="px-5 py-2.5 rounded-full border border-surface-variant bg-surface-container-low text-on-surface-variant font-label-lg text-label-lg hover:border-outline transition-colors peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container peer-checked:neon-glow-magenta">
+                                        Guitarra
+                                    </div>
+</label>
+<!-- Role Chip (Active Default) -->
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="role" type="radio" value="bass"/>
+<div class="px-5 py-2.5 rounded-full border border-surface-variant bg-surface-container-low text-on-surface-variant font-label-lg text-label-lg hover:border-outline transition-colors peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container peer-checked:neon-glow-magenta">
+                                        Baixo
+                                    </div>
+</label>
+<!-- Role Chip (Inactive) -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio" value="drums"/>
+<div class="px-5 py-2.5 rounded-full border border-surface-variant bg-surface-container-low text-on-surface-variant font-label-lg text-label-lg hover:border-outline transition-colors peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container peer-checked:neon-glow-magenta">
+                                        Bateria
+                                    </div>
+</label>
+<!-- Role Chip (Inactive) -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio" value="keys"/>
+<div class="px-5 py-2.5 rounded-full border border-surface-variant bg-surface-container-low text-on-surface-variant font-label-lg text-label-lg hover:border-outline transition-colors peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container peer-checked:neon-glow-magenta">
+                                        Teclados
+                                    </div>
+</label>
+<!-- Role Chip (Inactive) -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio" value="producer"/>
+<div class="px-5 py-2.5 rounded-full border border-surface-variant bg-surface-container-low text-on-surface-variant font-label-lg text-label-lg hover:border-outline transition-colors peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container peer-checked:neon-glow-magenta">
+                                        Produtor
+                                    </div>
+</label>
+</div>
+</div>
+<!-- Action Area -->
+<div class="pt-4 border-t border-surface-variant/30 flex justify-end items-center gap-4">
+<button class="font-label-lg text-label-lg text-outline hover:text-on-surface transition-colors px-4 py-2" type="button">Cancelar</button>
+<button class="bg-secondary-container text-on-secondary-container font-label-lg text-label-lg font-bold px-8 py-3.5 rounded-lg flex items-center gap-2 hover:bg-secondary-fixed transition-colors neon-glow-magenta transform hover:-translate-y-0.5 active:translate-y-0 duration-200" type="submit">
+                                Enviar Convite
+                                <span class="material-symbols-outlined text-xl">send</span>
+</button>
+</div>
+</form>
+</div>
+</section>
+<!-- Pending Invites Module (Right) -->
+<section class="xl:col-span-5 bg-surface-container-low rounded-2xl border border-surface-variant/20 flex flex-col h-full max-h-[600px]">
+<div class="p-6 border-b border-surface-variant/30 flex justify-between items-center bg-[#0A0A0A]/50 rounded-t-2xl">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-outline">schedule</span>
+                        Sinais Pendentes
+                    </h3>
+<span class="bg-surface-bright text-on-surface-variant font-label-sm text-label-sm px-2.5 py-1 rounded-full">3 Ativos</span>
+</div>
+<div class="flex-grow overflow-y-auto p-4 space-y-3 custom-scrollbar">
+<!-- Invite Item 1 -->
+<div class="bg-[#131313] rounded-xl p-4 flex items-center gap-4 group hover:bg-[#1A1A1A] transition-colors border border-transparent hover:border-surface-variant/50">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-lg shrink-0">
+                            M
+                        </div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">marcus@frequency.net</h4>
+<span class="text-label-sm font-label-sm text-outline-variant shrink-0">2h atrás</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">Guitarra</span>
+<span class="text-label-sm font-label-sm text-secondary flex items-center gap-1 opacity-80">
+<span class="material-symbols-outlined text-[14px]">hourglass_empty</span>
+                                    Aguardando
+                                </span>
+</div>
+</div>
+<div class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 shrink-0">
+<button class="w-8 h-8 rounded-full bg-surface-bright flex items-center justify-center hover:bg-secondary-container hover:text-on-secondary-container text-on-surface transition-colors" title="Reenviar">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+</div>
+</div>
+<!-- Invite Item 2 -->
+<div class="bg-[#131313] rounded-xl p-4 flex items-center gap-4 group hover:bg-[#1A1A1A] transition-colors border border-transparent hover:border-surface-variant/50">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-lg shrink-0">
+                            S
+                        </div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">sarah.keys@studio.co</h4>
+<span class="text-label-sm font-label-sm text-outline-variant shrink-0">1d atrás</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">Teclados</span>
+<span class="text-label-sm font-label-sm text-secondary flex items-center gap-1 opacity-80">
+<span class="material-symbols-outlined text-[14px]">hourglass_empty</span>
+                                    Aguardando
+                                </span>
+</div>
+</div>
+<div class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 shrink-0">
+<button class="w-8 h-8 rounded-full bg-surface-bright flex items-center justify-center hover:bg-secondary-container hover:text-on-secondary-container text-on-surface transition-colors" title="Reenviar">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+</div>
+</div>
+<!-- Invite Item 3 -->
+<div class="bg-[#131313] rounded-xl p-4 flex items-center gap-4 group hover:bg-[#1A1A1A] transition-colors border border-transparent hover:border-surface-variant/50">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold text-lg shrink-0">
+                            J
+                        </div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate">j.beatmaker@mix.it</h4>
+<span class="text-label-sm font-label-sm text-outline-variant shrink-0">3d atrás</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">Produtor</span>
+<span class="text-label-sm font-label-sm text-secondary flex items-center gap-1 opacity-80">
+<span class="material-symbols-outlined text-[14px]">hourglass_empty</span>
+                                    Aguardando
+                                </span>
+</div>
+</div>
+<div class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 shrink-0">
+<button class="w-8 h-8 rounded-full bg-surface-bright flex items-center justify-center hover:bg-secondary-container hover:text-on-secondary-container text-on-surface transition-colors" title="Reenviar">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

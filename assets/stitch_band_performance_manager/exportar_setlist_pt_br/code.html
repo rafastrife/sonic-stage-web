@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Exportar Setlist</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #353534; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #859399; 
+        }
+        /* Aspect ratio container for A4 preview */
+        .a4-preview {
+            aspect-ratio: 1 / 1.414;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-highest": "#353534",
+                        "surface": "#131313",
+                        "on-primary-fixed": "#001f28",
+                        "on-tertiary-fixed-variant": "#624000",
+                        "on-secondary-container": "#590026",
+                        "on-secondary-fixed": "#3f0019",
+                        "on-secondary-fixed-variant": "#8f0041",
+                        "background": "#131313",
+                        "on-primary-container": "#00566a",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-container": "#6b4700",
+                        "surface-container-high": "#2a2a2a",
+                        "outline": "#859399",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary": "#66002c",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-bright": "#3a3939",
+                        "secondary-fixed-dim": "#ffb1c3",
+                        "secondary-container": "#ff4b89",
+                        "tertiary-fixed": "#ffddb1",
+                        "surface-dim": "#131313",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353534",
+                        "tertiary": "#ffd59c",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffba49",
+                        "primary": "#a4e6ff",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#ffb1c3",
+                        "on-primary-fixed-variant": "#004e60",
+                        "outline-variant": "#3c494e",
+                        "on-primary": "#003543",
+                        "primary-fixed-dim": "#4cd6ff",
+                        "inverse-primary": "#00677f",
+                        "surface-tint": "#4cd6ff",
+                        "tertiary-container": "#feb127",
+                        "secondary-fixed": "#ffd9e0",
+                        "on-surface-variant": "#bbc9cf",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed": "#291800",
+                        "on-background": "#e5e2e1",
+                        "primary-container": "#00d1ff",
+                        "primary-fixed": "#b7eaff",
+                        "on-tertiary": "#442b00",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "max-width": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "label-sm": ["Montserrat"],
+                        "label-lg": ["Montserrat"],
+                        "body-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display-lg": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md antialiased overflow-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Task Header (Overrides Standard Nav for Focus) -->
+<header class="flex items-center justify-between px-margin-desktop py-6 border-b border-surface-container-highest bg-background z-20">
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant hover:text-primary group">
+<span class="material-symbols-outlined transition-transform group-hover:-translate-x-1" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-headline-md font-headline-md text-on-surface tracking-tight">Exportar Setlist</h1>
+</div>
+<div class="flex items-center gap-base">
+<span class="px-3 py-1 rounded bg-surface-container-high text-label-sm font-label-sm text-on-surface-variant">Ao Vivo no Neon Void</span>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+<!-- Subtle Background Glow -->
+<div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-secondary-container/5 rounded-full blur-[100px]"></div>
+</div>
+<!-- Left Panel: Options -->
+<aside class="w-full lg:w-[360px] bg-surface flex flex-col border-r border-surface-container-highest z-10 flex-shrink-0 h-full">
+<div class="p-gutter flex-1 overflow-y-auto flex flex-col gap-8">
+<!-- Section: Layout -->
+<section class="flex flex-col gap-4">
+<h2 class="text-label-lg font-label-lg text-primary uppercase tracking-wider">Layout do Documento</h2>
+<div class="grid grid-cols-2 gap-4">
+<label class="relative flex flex-col items-center justify-center p-4 rounded-xl border border-primary bg-primary/10 cursor-pointer hover:bg-primary/20 transition-colors">
+<input checked="" class="sr-only" name="layout" type="radio"/>
+<span class="material-symbols-outlined text-primary mb-2 text-headline-md" data-icon="view_list">view_list</span>
+<span class="text-label-sm font-label-sm text-primary">Padrão</span>
+</label>
+<label class="relative flex flex-col items-center justify-center p-4 rounded-xl border border-outline-variant bg-surface-container-low cursor-pointer hover:border-on-surface-variant transition-colors opacity-60">
+<input class="sr-only" name="layout" type="radio"/>
+<span class="material-symbols-outlined text-on-surface-variant mb-2 text-headline-md" data-icon="grid_view">grid_view</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Grade Compacta</span>
+</label>
+</div>
+</section>
+<!-- Section: Content Toggles -->
+<section class="flex flex-col gap-4">
+<h2 class="text-label-lg font-label-lg text-primary uppercase tracking-wider">Incluir Colunas</h2>
+<div class="flex flex-col gap-3">
+<label class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-outline-variant">
+<span class="text-body-md font-body-md text-on-surface">Afinação</span>
+<div class="relative inline-block w-10 h-5">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest rounded-full peer peer-checked:bg-primary peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+</div>
+</label>
+<label class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-outline-variant">
+<span class="text-body-md font-body-md text-on-surface">Nota Inicial</span>
+<div class="relative inline-block w-10 h-5">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest rounded-full peer peer-checked:bg-primary peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+</div>
+</label>
+<label class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-outline-variant">
+<span class="text-body-md font-body-md text-on-surface">BPM / Tempo</span>
+<div class="relative inline-block w-10 h-5">
+<input class="peer sr-only" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest rounded-full peer peer-checked:bg-primary peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+</div>
+</label>
+<label class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-outline-variant">
+<span class="text-body-md font-body-md text-on-surface">Durações</span>
+<div class="relative inline-block w-10 h-5">
+<input class="peer sr-only" type="checkbox"/>
+<div class="w-10 h-5 bg-surface-container-highest rounded-full peer peer-checked:bg-primary peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+</div>
+</label>
+</div>
+</section>
+<!-- Section: Theme -->
+<section class="flex flex-col gap-4">
+<h2 class="text-label-lg font-label-lg text-primary uppercase tracking-wider">Tema de Impressão</h2>
+<div class="flex gap-2">
+<button class="flex-1 py-2 px-4 rounded border border-primary bg-primary/10 text-primary text-label-sm font-label-sm">Palco Escuro</button>
+<button class="flex-1 py-2 px-4 rounded border border-outline-variant text-on-surface-variant hover:text-on-surface hover:border-on-surface transition-colors text-label-sm font-label-sm">Economia de Tinta</button>
+</div>
+</section>
+</div>
+<!-- Action Area (Bottom Left) -->
+<div class="p-gutter bg-surface-container border-t border-surface-container-highest flex flex-col gap-4">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-on-primary py-4 px-6 rounded text-label-lg font-label-lg hover:shadow-[0_0_20px_rgba(164,230,255,0.3)] transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="picture_as_pdf">picture_as_pdf</span>
+                    Imprimir / PDF
+                </button>
+<button class="w-full flex items-center justify-center gap-2 bg-transparent border border-primary text-primary py-3 px-6 rounded text-label-lg font-label-lg hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Opções Avançadas
+                </button>
+</div>
+</aside>
+<!-- Right Panel: Canvas / Preview -->
+<section class="flex-1 bg-surface-container-lowest flex items-center justify-center p-8 lg:p-12 overflow-y-auto z-10">
+<!-- The "Paper" Container -->
+<div class="a4-preview w-full max-w-[800px] bg-[#050505] rounded-xl border border-surface-container-highest shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_rgba(164,230,255,0.05)] flex flex-col overflow-hidden relative">
+<!-- Decorative Top Edge (Neon Branding) -->
+<div class="h-2 w-full bg-gradient-to-r from-primary via-secondary-container to-secondary"></div>
+<!-- Print Content Area -->
+<div class="p-12 flex-1 flex flex-col">
+<!-- Header -->
+<div class="flex justify-between items-end mb-12 border-b border-surface-container-high pb-6 relative">
+<div class="absolute -left-12 top-0 bottom-6 w-1 bg-primary"></div>
+<div>
+<h2 class="text-display-lg font-display-lg text-on-surface tracking-tighter uppercase leading-none mb-2">Ao Vivo no<br/><span class="text-secondary-container drop-shadow-[0_0_10px_rgba(255,75,137,0.4)]">Neon Void</span></h2>
+<p class="text-headline-md font-headline-md text-on-surface-variant">Setlist Oficial do Sonic Stage</p>
+</div>
+<div class="text-right">
+<p class="text-headline-md font-headline-md text-primary">24 OUT</p>
+<p class="text-body-lg font-body-lg text-on-surface-variant">2024</p>
+</div>
+</div>
+<!-- Table -->
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b-2 border-surface-container-high">
+<th class="py-4 px-2 text-label-lg font-label-lg text-on-surface-variant uppercase w-16">#</th>
+<th class="py-4 px-4 text-label-lg font-label-lg text-on-surface-variant uppercase">Título</th>
+<th class="py-4 px-4 text-label-lg font-label-lg text-on-surface-variant uppercase w-32">Afinação</th>
+<th class="py-4 px-4 text-label-lg font-label-lg text-on-surface-variant uppercase w-32 text-right">Nota Inicial</th>
+</tr>
+</thead>
+<tbody class="text-headline-lg font-headline-lg text-on-surface">
+<tr class="border-b border-surface-container-low hover:bg-surface/50 transition-colors">
+<td class="py-6 px-2 text-primary">01</td>
+<td class="py-6 px-4">Cybernetic Dawn</td>
+<td class="py-6 px-4 text-body-lg font-body-lg text-on-surface-variant">Drop D</td>
+<td class="py-6 px-4 text-right text-secondary-container font-bold">E</td>
+</tr>
+<tr class="border-b border-surface-container-low hover:bg-surface/50 transition-colors">
+<td class="py-6 px-2 text-primary">02</td>
+<td class="py-6 px-4">Neon Pulse</td>
+<td class="py-6 px-4 text-body-lg font-body-lg text-on-surface-variant">Standard</td>
+<td class="py-6 px-4 text-right text-secondary-container font-bold">A</td>
+</tr>
+<tr class="border-b border-surface-container-low hover:bg-surface/50 transition-colors">
+<td class="py-6 px-2 text-primary">03</td>
+<td class="py-6 px-4">Void Walker</td>
+<td class="py-6 px-4 text-body-lg font-body-lg text-on-surface-variant">D Standard</td>
+<td class="py-6 px-4 text-right text-secondary-container font-bold">D</td>
+</tr>
+<tr class="border-b border-surface-container-low hover:bg-surface/50 transition-colors">
+<td class="py-6 px-2 text-primary">04</td>
+<td class="py-6 px-4">Synthetic Soul</td>
+<td class="py-6 px-4 text-body-lg font-body-lg text-on-surface-variant">Drop D</td>
+<td class="py-6 px-4 text-right text-secondary-container font-bold">G</td>
+</tr>
+<tr class="border-b border-surface-container-low hover:bg-surface/50 transition-colors">
+<td class="py-6 px-2 text-primary">05</td>
+<td class="py-6 px-4 flex items-center gap-3">
+                                    Override
+                                    <span class="px-2 py-1 rounded bg-secondary-container/20 text-secondary text-label-sm font-label-sm uppercase tracking-widest border border-secondary-container/30">Estreia</span>
+</td>
+<td class="py-6 px-4 text-body-lg font-body-lg text-on-surface-variant">Standard</td>
+<td class="py-6 px-4 text-right text-secondary-container font-bold">E</td>
+</tr>
+<tr class="border-b border-surface-container-low hover:bg-surface/50 transition-colors">
+<td class="py-6 px-2 text-primary">06</td>
+<td class="py-6 px-4 text-on-surface-variant italic">Bis: The Grid</td>
+<td class="py-6 px-4 text-body-lg font-body-lg text-on-surface-variant">Drop C</td>
+<td class="py-6 px-4 text-right text-secondary-container font-bold">C</td>
+</tr>
+</tbody>
+</table>
+<!-- Footer -->
+<div class="mt-auto pt-8 border-t border-surface-container-highest flex justify-between items-center opacity-60">
+<p class="text-label-sm font-label-sm text-on-surface-variant">Gerado pelo Sonic Stage Pro</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Página 1 de 1</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

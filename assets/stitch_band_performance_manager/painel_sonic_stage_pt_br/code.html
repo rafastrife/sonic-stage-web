@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Painel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-highest": "#353534",
+                        "surface": "#131313",
+                        "on-primary-fixed": "#001f28",
+                        "on-tertiary-fixed-variant": "#624000",
+                        "on-secondary-container": "#590026",
+                        "on-secondary-fixed": "#3f0019",
+                        "on-secondary-fixed-variant": "#8f0041",
+                        "background": "#131313",
+                        "on-primary-container": "#00566a",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-container": "#6b4700",
+                        "surface-container-high": "#2a2a2a",
+                        "outline": "#859399",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary": "#66002c",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-bright": "#3a3939",
+                        "secondary-fixed-dim": "#ffb1c3",
+                        "secondary-container": "#ff4b89",
+                        "tertiary-fixed": "#ffddb1",
+                        "surface-dim": "#131313",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353534",
+                        "tertiary": "#ffd59c",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffba49",
+                        "primary": "#a4e6ff",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#ffb1c3",
+                        "on-primary-fixed-variant": "#004e60",
+                        "outline-variant": "#3c494e",
+                        "on-primary": "#003543",
+                        "primary-fixed-dim": "#4cd6ff",
+                        "inverse-primary": "#00677f",
+                        "surface-tint": "#4cd6ff",
+                        "tertiary-container": "#feb127",
+                        "secondary-fixed": "#ffd9e0",
+                        "on-surface-variant": "#bbc9cf",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed": "#291800",
+                        "on-background": "#e5e2e1",
+                        "primary-container": "#00d1ff",
+                        "primary-fixed": "#b7eaff",
+                        "on-tertiary": "#442b00",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "max-width": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "label-sm": ["Montserrat"],
+                        "label-lg": ["Montserrat"],
+                        "body-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display-lg": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glow-primary {
+            box-shadow: 0 0 15px rgba(164, 230, 255, 0.3);
+        }
+        .glow-secondary {
+            box-shadow: 0 0 15px rgba(255, 75, 137, 0.3);
+        }
+        .bg-layer-1 {
+            background-color: #0A0A0A;
+        }
+        .bg-layer-2 {
+            background-color: #1A1A1A;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (from JSON) -->
+<nav class="hidden md:flex flex-col fixed left-0 top-0 h-full w-64 bg-surface-container dark:bg-surface-container shadow-sm p-base z-50">
+<!-- Header -->
+<div class="mb-10 px-4 pt-6">
+<h1 class="text-headline-md font-headline-md font-black text-primary dark:text-primary tracking-tighter">Sonic Stage</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">Vibe Check HQ</p>
+</div>
+<!-- Navigation Links -->
+<ul class="flex flex-col gap-2 flex-grow">
+<!-- Active Tab: Dashboard -->
+<li>
+<a class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-full px-4 py-3 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-label-lg font-label-lg">Painel</span>
+</a>
+</li>
+<!-- Inactive Tabs -->
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-label-lg font-label-lg">Agenda</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined">library_music</span>
+<span class="text-label-lg font-label-lg">Repertório</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-label-lg font-label-lg">Membros</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-label-lg font-label-lg">Finanças</span>
+</a>
+</li>
+</ul>
+<!-- CTA -->
+<div class="mt-auto px-4 pb-6">
+<button class="w-full py-3 rounded-full font-label-lg text-label-lg text-secondary border border-transparent hover:border-secondary hover:bg-secondary/10 transition-colors glow-secondary">
+                Entrar ao Vivo
+            </button>
+</div>
+</nav>
+<!-- TopNavBar (Mobile only fallback for the sidebar in this layout context) -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-mobile py-4 bg-background dark:bg-background fixed top-0 z-40 border-b border-surface-container-highest">
+<h1 class="text-headline-md font-headline-md font-extrabold text-primary dark:text-primary tracking-tighter">Sonic Stage</h1>
+<div class="flex gap-4 text-primary dark:text-primary">
+<button aria-label="notifications" class="hover:text-primary transition-colors duration-200 scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button aria-label="menu" class="hover:text-primary transition-colors duration-200 scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow md:ml-64 pt-20 md:pt-margin-desktop px-margin-mobile md:px-margin-desktop pb-margin-desktop min-h-screen">
+<div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Hero Card: Next Event -->
+<div class="col-span-1 md:col-span-12 lg:col-span-8 bg-layer-1 rounded-xl overflow-hidden relative min-h-[400px] flex flex-col justify-end p-8 border border-surface-container-highest group">
+<!-- Background Image -->
+<div class="absolute inset-0 z-0">
+<img alt="Next Event Stage" class="w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-700" data-alt="A highly immersive view from the back of a darkened stadium stage looking out toward a massive crowd illuminated by vibrant neon magenta and electric blue laser lights. The atmosphere is intense, energetic, and futuristic, perfectly capturing the neon-futurism aesthetic. The lighting creates a sense of depth and scale, contrasting deep black shadows with glowing, high-contrast highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBa_PQcYBuMI-xfMY4z1ecSWM3PJhhnIbhLPQzGrwLszdOJyfJKcriLA45DBnzGGzbaOuOf6cIECQyssPQRepBxlbLdoPEaJyDMzVjcslf0wyjv-vuipWqcfjOs0Bp-c2ih6wmN-7zUHpsvyPxwQ5epfCr_R5l7H2PN0KzbeKUTRSVn_1QFv8Ey_XWr34NIZNbg2mU3JVfnmcWLSidgMLH4yWG0FmNlRtcmN7iw7fsjtaIHikrtkk95u0gcb7DfD1Lh4Jk-2SkLwVA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+</div>
+<!-- Content -->
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 rounded bg-secondary-container/20 text-secondary text-label-sm font-label-sm uppercase tracking-wider backdrop-blur-sm border border-secondary/30">
+                            Próximo Evento
+                        </span>
+<span class="text-on-surface-variant text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Arena Alpha
+                        </span>
+</div>
+<h2 class="text-display-lg font-display-lg text-on-background mb-2">Neon Nights Tour</h2>
+<p class="text-headline-md font-headline-md text-primary mb-6">Sexta, 21:00 EST</p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-on-primary font-label-lg text-label-lg px-8 py-3 rounded-full hover:bg-primary-fixed transition-colors glow-primary">
+                            Ver Cronograma
+                        </button>
+<button class="bg-transparent border border-primary text-primary font-label-lg text-label-lg px-8 py-3 rounded-full hover:bg-primary/10 transition-colors">
+                            Gerenciar Lista de Convidados
+                        </button>
+</div>
+</div>
+</div>
+<!-- Stats Side Column -->
+<div class="col-span-1 md:col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- Stat Card 1: Repertoire -->
+<div class="bg-layer-1 rounded-xl p-6 border border-surface-container-highest flex items-center justify-between hover:border-primary/50 transition-colors cursor-pointer">
+<div>
+<p class="text-label-lg font-label-lg text-on-surface-variant mb-1 uppercase tracking-wider">Repertório Total</p>
+<h3 class="text-display-lg font-display-lg text-primary">42</h3>
+<p class="text-label-sm font-label-sm text-surface-tint mt-1">+3 adicionadas este mês</p>
+</div>
+<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[32px]">library_music</span>
+</div>
+</div>
+<!-- Stat Card 2: Rehearsals -->
+<div class="bg-layer-1 rounded-xl p-6 border border-surface-container-highest flex items-center justify-between hover:border-secondary/50 transition-colors cursor-pointer">
+<div>
+<p class="text-label-lg font-label-lg text-on-surface-variant mb-1 uppercase tracking-wider">Ensaios Esta Semana</p>
+<h3 class="text-display-lg font-display-lg text-secondary">2</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">Próximo: Amanhã, 14:00</p>
+</div>
+<div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[32px]">mic</span>
+</div>
+</div>
+<!-- Mini Visualizer Placeholder -->
+<div class="bg-layer-1 rounded-xl p-6 border border-surface-container-highest flex-grow flex flex-col justify-end relative overflow-hidden">
+<p class="text-label-sm font-label-sm text-on-surface-variant absolute top-6 left-6 z-10 uppercase tracking-wider">Vibe Principal Atual</p>
+<!-- Simulated Audio Visualizer (CSS only) -->
+<div class="flex items-end justify-between h-24 w-full gap-1 mt-8 opacity-70">
+<div class="w-full bg-gradient-to-t from-primary to-secondary rounded-t-sm h-[30%]"></div>
+<div class="w-full bg-gradient-to-t from-primary to-secondary rounded-t-sm h-[60%]"></div>
+<div class="w-full bg-gradient-to-t from-primary to-secondary rounded-t-sm h-[40%]"></div>
+<div class="w-full bg-gradient-to-t from-primary to-secondary rounded-t-sm h-[80%]"></div>
+<div class="w-full bg-gradient-to-t from-primary to-secondary rounded-t-sm h-[50%]"></div>
+<div class="w-full bg-gradient-to-t from-primary to-secondary rounded-t-sm h-[90%]"></div>
+<div class="w-full bg-gradient-to-t from-primary to-secondary rounded-t-sm h-[40%]"></div>
+<div class="w-full bg-gradient-to-t from-primary to-secondary rounded-t-sm h-[70%]"></div>
+</div>
+</div>
+</div>
+<!-- Recent Setlists -->
+<div class="col-span-1 md:col-span-12 mt-8">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-headline-lg font-headline-lg text-on-background">Setlists Recentes</h3>
+<a class="text-primary text-label-lg font-label-lg hover:underline flex items-center gap-1" href="#">
+                        Ver Todos <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Setlist Item 1 -->
+<div class="bg-layer-1 rounded-xl border border-surface-container-highest p-6 hover:bg-layer-2 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">queue_music</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Última vez: 12 Out</span>
+</div>
+<h4 class="text-headline-md font-headline-md text-on-background mb-2 group-hover:text-primary transition-colors">Festival Mainstage</h4>
+<p class="text-body-md font-body-md text-on-surface-variant">14 Faixas • 1h 15m</p>
+</div>
+<!-- Setlist Item 2 -->
+<div class="bg-layer-1 rounded-xl border border-surface-container-highest p-6 hover:bg-layer-2 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">queue_music</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Última vez: 05 Out</span>
+</div>
+<h4 class="text-headline-md font-headline-md text-on-background mb-2 group-hover:text-primary transition-colors">Club Acoustic</h4>
+<p class="text-body-md font-body-md text-on-surface-variant">8 Faixas • 45m</p>
+</div>
+<!-- Setlist Item 3 -->
+<div class="bg-layer-1 rounded-xl border border-surface-container-highest p-6 hover:bg-layer-2 transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">queue_music</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Rascunho</span>
+</div>
+<h4 class="text-headline-md font-headline-md text-on-background mb-2 group-hover:text-primary transition-colors">Especial de Ano Novo (Em progresso)</h4>
+<p class="text-body-md font-body-md text-on-surface-variant">22 Faixas • 2h 00m</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

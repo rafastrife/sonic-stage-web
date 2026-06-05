@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Novo Evento</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-highest": "#353534",
+                        "surface": "#131313",
+                        "on-primary-fixed": "#001f28",
+                        "on-tertiary-fixed-variant": "#624000",
+                        "on-secondary-container": "#590026",
+                        "on-secondary-fixed": "#3f0019",
+                        "on-secondary-fixed-variant": "#8f0041",
+                        "background": "#131313",
+                        "on-primary-container": "#00566a",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-container": "#6b4700",
+                        "surface-container-high": "#2a2a2a",
+                        "outline": "#859399",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary": "#66002c",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-bright": "#3a3939",
+                        "secondary-fixed-dim": "#ffb1c3",
+                        "secondary-container": "#ff4b89",
+                        "tertiary-fixed": "#ffddb1",
+                        "surface-dim": "#131313",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353534",
+                        "tertiary": "#ffd59c",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffba49",
+                        "primary": "#a4e6ff",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#ffb1c3",
+                        "on-primary-fixed-variant": "#004e60",
+                        "outline-variant": "#3c494e",
+                        "on-primary": "#003543",
+                        "primary-fixed-dim": "#4cd6ff",
+                        "inverse-primary": "#00677f",
+                        "surface-tint": "#4cd6ff",
+                        "tertiary-container": "#feb127",
+                        "secondary-fixed": "#ffd9e0",
+                        "on-surface-variant": "#bbc9cf",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed": "#291800",
+                        "on-background": "#e5e2e1",
+                        "primary-container": "#00d1ff",
+                        "primary-fixed": "#b7eaff",
+                        "on-tertiary": "#442b00",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "max-width": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "label-sm": ["Montserrat"],
+                        "label-lg": ["Montserrat"],
+                        "body-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "label-lg": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #000000; color: #e5e2e1; }
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .neon-glow { text-shadow: 0 0 10px rgba(164, 230, 255, 0.5); }
+        .magenta-glow { box-shadow: 0 0 15px rgba(255, 75, 137, 0.3); }
+        .blue-glow { box-shadow: 0 0 15px rgba(164, 230, 255, 0.2); }
+        
+        /* Custom Input Styling */
+        input[type="text"], input[type="date"], input[type="time"] {
+            background-color: #050505;
+            border: 1px solid #1A1A1A;
+            color: #e5e2e1;
+            transition: all 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="date"]:focus, input[type="time"]:focus {
+            border-color: #a4e6ff;
+            box-shadow: 0 0 10px rgba(164, 230, 255, 0.2);
+            outline: none;
+        }
+        
+        /* Custom Toggle Switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #ff4b89;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #ff4b89;
+        }
+        
+        /* Checkbox styling */
+        .custom-checkbox:checked {
+            background-color: #a4e6ff;
+            border-color: #a4e6ff;
+        }
+    </style>
+</head>
+<body class="font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col md:flex-row">
+<!-- Desktop SideNav -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full flex-col p-base bg-surface-container dark:bg-surface-container shadow-sm w-64 z-50">
+<div class="mb-8 px-4 pt-4">
+<h1 class="text-headline-md font-headline-md font-black text-primary dark:text-primary tracking-tighter">Sonic Stage</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">QG de Controle de Vibe</p>
+</div>
+<div class="flex-1 space-y-2">
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="text-label-lg font-label-lg">Painel</span>
+</a>
+<a class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-full px-4 py-3 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="text-label-lg font-label-lg">Agenda</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">library_music</span>
+<span class="text-label-lg font-label-lg">Repertório</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">groups</span>
+<span class="text-label-lg font-label-lg">Membros</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">payments</span>
+<span class="text-label-lg font-label-lg">Finanças</span>
+</a>
+</div>
+<div class="mt-auto px-4 pb-4">
+<button class="w-full py-3 px-4 flex items-center justify-center gap-2 bg-transparent text-secondary border border-secondary rounded-full hover:bg-secondary hover:text-on-secondary transition-colors duration-300 magenta-glow">
+<span class="material-symbols-outlined">sensors</span>
+<span class="text-label-lg font-label-lg uppercase tracking-wider">Entrar ao Vivo</span>
+</button>
+</div>
+</nav>
+<!-- Mobile TopNav (Destination context implies standard shell isn't strictly necessary for form, but instructions say keep if primary intent aligns. This is a "New Event" creation, which is task-focused. Suppressing Navigation Shells to prioritize Canvas.) -->
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-margin-desktop bg-black min-h-screen relative">
+<!-- Ambient Background Glow -->
+<div class="absolute top-0 left-1/4 w-96 h-96 bg-primary opacity-5 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary-container opacity-5 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="max-w-4xl mx-auto relative z-10">
+<!-- Header Section -->
+<header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span class="text-label-sm font-label-sm uppercase tracking-wider">Voltar para Agenda</span>
+</a>
+</div>
+<h2 class="text-display-lg font-display-lg text-white mb-2 tracking-tight">Criar Evento</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Prepare o palco. Defina a vibe. Confirme.</p>
+</div>
+<!-- Event Type Toggle -->
+<div class="glass-panel p-2 rounded-full inline-flex items-center">
+<label class="flex items-center cursor-pointer">
+<div class="relative">
+<input class="sr-only" id="eventTypeToggle" type="checkbox"/>
+<div class="block bg-surface-container-high w-32 h-10 rounded-full"></div>
+<div class="dot absolute left-1 top-1 bg-surface w-14 h-8 rounded-full transition-transform duration-300 ease-in-out shadow-sm flex items-center justify-center"></div>
+<div class="absolute inset-0 flex justify-between items-center px-4 pointer-events-none">
+<span class="text-label-sm font-label-sm z-10 transition-colors duration-300" id="labelRehearsal" style="color: #a4e6ff;">Ensaio</span>
+<span class="text-label-sm font-label-sm z-10 transition-colors duration-300 text-on-surface-variant" id="labelShow">Show</span>
+</div>
+</div>
+</label>
+</div>
+</header>
+<form class="space-y-8">
+<!-- Bento Layout for Form Sections -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Core Details -->
+<div class="lg:col-span-7 space-y-gutter">
+<!-- Event Details Card -->
+<div class="glass-panel rounded-xl p-6 md:p-8 relative overflow-hidden group">
+<!-- Subtle border glow on hover -->
+<div class="absolute inset-0 border-2 border-primary opacity-0 group-hover:opacity-10 rounded-xl transition-opacity duration-500 pointer-events-none"></div>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">info</span>
+<h3 class="text-headline-md font-headline-md text-white">Detalhes do Evento</h3>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Título do Evento</label>
+<input class="w-full rounded-lg px-4 py-3 text-body-lg font-body-lg focus:ring-1 focus:ring-primary focus:border-primary placeholder-outline-variant" placeholder="ex. Ensaio Pré-Turnê Neon Nights" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Data</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline-variant">calendar_month</span>
+<input class="w-full rounded-lg pl-10 pr-4 py-3 text-body-md font-body-md focus:ring-1 focus:ring-primary focus:border-primary appearance-none" type="date"/>
+</div>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Hora</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline-variant">schedule</span>
+<input class="w-full rounded-lg pl-10 pr-4 py-3 text-body-md font-body-md focus:ring-1 focus:ring-primary focus:border-primary appearance-none" type="time"/>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Local</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline-variant">location_on</span>
+<input class="w-full rounded-lg pl-10 pr-4 py-3 text-body-md font-body-md focus:ring-1 focus:ring-primary focus:border-primary placeholder-outline-variant" placeholder="Estúdio A, Complexo Principal" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Visualizer Graphic Element (Atmospheric) -->
+<div class="h-24 glass-panel rounded-xl flex items-end justify-around px-4 pb-2 opacity-50">
+<!-- CSS simulated visualizer -->
+<div class="w-2 bg-primary rounded-t-sm h-1/4 animate-pulse"></div>
+<div class="w-2 bg-primary rounded-t-sm h-3/4 animate-pulse" style="animation-delay: 0.1s"></div>
+<div class="w-2 bg-gradient-to-t from-primary to-secondary rounded-t-sm h-1/2 animate-pulse" style="animation-delay: 0.2s"></div>
+<div class="w-2 bg-gradient-to-t from-primary to-secondary rounded-t-sm h-full animate-pulse" style="animation-delay: 0.3s"></div>
+<div class="w-2 bg-secondary rounded-t-sm h-2/3 animate-pulse" style="animation-delay: 0.4s"></div>
+<div class="w-2 bg-gradient-to-t from-primary to-secondary rounded-t-sm h-1/3 animate-pulse" style="animation-delay: 0.5s"></div>
+<div class="w-2 bg-primary rounded-t-sm h-1/2 animate-pulse" style="animation-delay: 0.6s"></div>
+</div>
+</div>
+<!-- Right Column: Script & Goals -->
+<div class="lg:col-span-5 space-y-gutter">
+<div class="glass-panel rounded-xl p-6 md:p-8 h-full flex flex-col relative" id="scriptSection">
+<!-- Top accent line -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-50"></div>
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">format_list_bulleted</span>
+<h3 class="text-headline-md font-headline-md text-white" id="scriptTitle">Roteiro de Ensaio</h3>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm px-2 py-1 rounded">Objetivos</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant mb-6">Defina os objetivos específicos desta sessão para manter a equipe alinhada.</p>
+<!-- Checklist Items -->
+<div class="space-y-3 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+<label class="flex items-start gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-surface-container-high">
+<div class="relative flex items-center pt-1">
+<input class="custom-checkbox w-5 h-5 rounded border-outline-variant bg-transparent text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+</div>
+<div class="flex-1">
+<p class="text-body-md font-body-md text-white leading-tight">Tocar o setlist completo sem parar</p>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-surface-container-high">
+<div class="relative flex items-center pt-1">
+<input class="custom-checkbox w-5 h-5 rounded border-outline-variant bg-transparent text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+</div>
+<div class="flex-1">
+<p class="text-body-md font-body-md text-white leading-tight">Testar novos efeitos de iluminação para a Faixa 3</p>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container transition-colors cursor-pointer border border-transparent hover:border-surface-container-high">
+<div class="relative flex items-center pt-1">
+<input class="custom-checkbox w-5 h-5 rounded border-outline-variant bg-transparent text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+</div>
+<div class="flex-1">
+<p class="text-body-md font-body-md text-white leading-tight">Passagem de som dos microfones do vocalista convidado</p>
+</div>
+</label>
+<!-- Add New Goal Input -->
+<div class="mt-4 pt-4 border-t border-surface-container-high">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline-variant">add</span>
+<input class="w-full bg-transparent border-none text-body-md font-body-md focus:ring-0 px-0 placeholder-outline-variant" placeholder="Adicionar novo objetivo..." type="text"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col sm:flex-row items-center justify-end gap-4 mt-12 pt-6 border-t border-surface-container-high">
+<button class="w-full sm:w-auto px-6 py-3 rounded-full text-label-lg font-label-lg text-on-surface hover:bg-surface-container transition-colors" type="button">
+                        Cancelar
+                    </button>
+<button class="w-full sm:w-auto px-8 py-3 rounded-full bg-primary text-black font-label-lg text-label-lg hover:bg-primary-fixed-dim transition-colors blue-glow flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                        Confirmar
+                    </button>
+</div>
+</form>
+</div>
+</main>
+<script>
+        // Micro-interaction for toggle switch
+        const toggle = document.getElementById('eventTypeToggle');
+        const dot = document.querySelector('.dot');
+        const labelRehearsal = document.getElementById('labelRehearsal');
+        const labelShow = document.getElementById('labelShow');
+        const scriptTitle = document.getElementById('scriptTitle');
+        const scriptSection = document.getElementById('scriptSection');
+
+        toggle.addEventListener('change', function() {
+            if(this.checked) {
+                // Show State
+                dot.style.transform = 'translateX(68px)';
+                labelShow.style.color = '#ff4b89'; // secondary color
+                labelRehearsal.style.color = '#bbc9cf'; // on-surface-variant
+                
+                scriptTitle.innerText = "Roteiro do Show";
+                
+                // Change accent color contextually
+                scriptSection.querySelector('.bg-gradient-to-r').classList.remove('from-primary');
+                scriptSection.querySelector('.bg-gradient-to-r').classList.add('from-secondary');
+                scriptSection.querySelector('.material-symbols-outlined').classList.remove('text-primary');
+                scriptSection.querySelector('.material-symbols-outlined').classList.add('text-secondary');
+            } else {
+                // Rehearsal State
+                dot.style.transform = 'translateX(0)';
+                labelRehearsal.style.color = '#a4e6ff'; // primary color
+                labelShow.style.color = '#bbc9cf'; // on-surface-variant
+                
+                scriptTitle.innerText = "Roteiro de Ensaio";
+                
+                // Revert accent color contextually
+                scriptSection.querySelector('.bg-gradient-to-r').classList.add('from-primary');
+                scriptSection.querySelector('.bg-gradient-to-r').classList.remove('from-secondary');
+                scriptSection.querySelector('.material-symbols-outlined').classList.add('text-primary');
+                scriptSection.querySelector('.material-symbols-outlined').classList.remove('text-secondary');
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Agenda</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#859399",
+                      "tertiary": "#ffd59c",
+                      "secondary-fixed": "#ffd9e0",
+                      "tertiary-fixed": "#ffddb1",
+                      "on-error-container": "#ffdad6",
+                      "on-background": "#e5e2e1",
+                      "background": "#131313",
+                      "on-primary-fixed-variant": "#004e60",
+                      "surface-container-highest": "#353534",
+                      "on-tertiary-container": "#6b4700",
+                      "on-secondary-container": "#590026",
+                      "error": "#ffb4ab",
+                      "on-secondary-fixed-variant": "#8f0041",
+                      "on-tertiary-fixed": "#291800",
+                      "surface-container-high": "#2a2a2a",
+                      "tertiary-fixed-dim": "#ffba49",
+                      "surface-tint": "#4cd6ff",
+                      "surface-container-low": "#1c1b1b",
+                      "primary-container": "#00d1ff",
+                      "outline-variant": "#3c494e",
+                      "on-tertiary-fixed-variant": "#624000",
+                      "on-tertiary": "#442b00",
+                      "secondary-container": "#ff4b89",
+                      "on-error": "#690005",
+                      "surface-variant": "#353534",
+                      "error-container": "#93000a",
+                      "primary-fixed-dim": "#4cd6ff",
+                      "secondary-fixed-dim": "#ffb1c3",
+                      "on-secondary-fixed": "#3f0019",
+                      "surface-bright": "#3a3939",
+                      "on-secondary": "#66002c",
+                      "surface": "#131313",
+                      "primary": "#a4e6ff",
+                      "surface-dim": "#131313",
+                      "surface-container-lowest": "#0e0e0e",
+                      "primary-fixed": "#b7eaff",
+                      "on-surface-variant": "#bbc9cf",
+                      "on-primary": "#003543",
+                      "on-surface": "#e5e2e1",
+                      "inverse-surface": "#e5e2e1",
+                      "inverse-on-surface": "#313030",
+                      "surface-container": "#201f1f",
+                      "on-primary-container": "#00566a",
+                      "tertiary-container": "#feb127",
+                      "inverse-primary": "#00677f",
+                      "on-primary-fixed": "#001f28",
+                      "secondary": "#ffb1c3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-desktop": "48px",
+                      "gutter": "24px",
+                      "max-width": "1440px",
+                      "margin-mobile": "16px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Montserrat"
+                      ],
+                      "headline-md": [
+                              "Montserrat"
+                      ],
+                      "label-sm": [
+                              "Montserrat"
+                      ],
+                      "body-md": [
+                              "Montserrat"
+                      ],
+                      "headline-lg-mobile": [
+                              "Montserrat"
+                      ],
+                      "body-lg": [
+                              "Montserrat"
+                      ],
+                      "label-lg": [
+                              "Montserrat"
+                      ],
+                      "display-lg": [
+                              "Montserrat"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "56px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col pb-24 md:hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background flex justify-between items-center px-margin-mobile h-16 shadow-none">
+<div class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary bg-surface-container-high">
+<img alt="Foto de perfil do usuário" class="w-full h-full object-cover" data-alt="A close up portrait of a young adult, neon punk style, brightly lit in a dark environment. Electric blue and vivid magenta reflections on the skin. Futuristic atmosphere, high contrast, cinematic mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBG_tYztKEtuHAq_dUd8FJmNUXsNu2NJWC_V_GErATnMCeubdriVR5B0y-7PV4BDM3tCEI-cvtIC6RROGHUEApCC4VEkFTFsrU3CDzJrvU0-PN6rZku5JntuB9w4E1-U7AejsWYG19Fi36aWJcT6y6UNBdV-THIw0CS9lNpgErAafik56fDOI18lDnpDBKQGSGQZuc9iCqGEeuUsuLa4R9vk6mkTdSaEZqbp6f9rm-TfSymgSUgGzf9JC2QbwBgz7J06M3SL1Yg40I"/>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-extrabold text-primary tracking-tighter">Sonic Stage</h1>
+</div>
+<button aria-label="Notificações" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high text-on-surface hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="absolute top-3 right-3 w-2.5 h-2.5 bg-secondary-container rounded-full border border-background"></span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-16 px-margin-mobile flex flex-col gap-6">
+<!-- Header / Month Selector -->
+<section class="flex items-center justify-between mt-4">
+<h2 class="font-headline-md text-headline-md text-on-surface">Outubro 2023</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="p-2 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</section>
+<!-- Compact Calendar Grid -->
+<section class="bg-[#0A0A0A] rounded-xl p-4 border border-surface-container-high shadow-lg">
+<div class="grid grid-cols-7 gap-1 text-center mb-2 font-label-sm text-label-sm text-outline">
+<div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
+</div>
+<div class="grid grid-cols-7 gap-2 text-center font-body-md text-body-md">
+<!-- Row 1 -->
+<div class="p-2 text-outline-variant">24</div>
+<div class="p-2 text-outline-variant">25</div>
+<div class="p-2 text-outline-variant">26</div>
+<div class="p-2 text-outline-variant">27</div>
+<div class="p-2 text-outline-variant">28</div>
+<div class="p-2 text-outline-variant">29</div>
+<div class="p-2 text-outline-variant">30</div>
+<!-- Row 2 -->
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">1</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors relative">
+                    2 <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-secondary rounded-full"></span>
+</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">3</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">4</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors relative">
+                    5 <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full"></span>
+</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">6</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">7</div>
+<!-- Row 3 -->
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">8</div>
+<div class="p-2 bg-primary text-on-primary rounded-full font-bold shadow-[0_0_15px_rgba(164,230,255,0.3)] cursor-pointer">9</div> <!-- Current Day -->
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">10</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">11</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors relative">
+                    12 <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-secondary rounded-full"></span>
+</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">13</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors relative">
+                     14 <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full"></span>
+</div>
+<!-- Row 4 -->
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">15</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">16</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">17</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">18</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">19</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors relative">
+                    20 <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-secondary rounded-full"></span>
+</div>
+<div class="p-2 hover:bg-surface-container rounded-full cursor-pointer transition-colors">21</div>
+</div>
+</section>
+<!-- Próximos 7 Dias -->
+<section class="mt-2 flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Próximos 7 Dias</h3>
+<!-- Event Card: Ensaio -->
+<div class="bg-[#0A0A0A] rounded-xl p-4 border border-surface-container-high flex gap-4 items-center group hover:bg-[#1A1A1A] transition-colors cursor-pointer">
+<div class="flex flex-col items-center justify-center w-14 h-14 bg-surface-container-highest rounded-lg border-l-2 border-primary">
+<span class="font-label-sm text-label-sm text-outline uppercase">Out</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">12</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-container text-on-primary-container uppercase tracking-wider">Ensaio</span>
+<span class="font-label-sm text-label-sm text-outline flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 19:00 - 22:00</span>
+</div>
+<h4 class="font-body-lg text-body-lg text-on-surface font-semibold">Ensaio Geral - Setlist A</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-[14px]">location_on</span> Estúdio Neon Sound</p>
+</div>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container text-on-surface group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+<!-- Event Card: Show -->
+<div class="bg-[#0A0A0A] rounded-xl p-4 border border-surface-container-high flex gap-4 items-center group hover:bg-[#1A1A1A] transition-colors cursor-pointer relative overflow-hidden">
+<!-- Neon Glow Accent for Show -->
+<div class="absolute -right-10 -top-10 w-24 h-24 bg-secondary opacity-10 rounded-full blur-xl"></div>
+<div class="flex flex-col items-center justify-center w-14 h-14 bg-surface-container-highest rounded-lg border-l-2 border-secondary">
+<span class="font-label-sm text-label-sm text-outline uppercase">Out</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">14</span>
+</div>
+<div class="flex-1 z-10">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-on-secondary-container uppercase tracking-wider shadow-[0_0_8px_rgba(255,75,137,0.4)]">Show</span>
+<span class="font-label-sm text-label-sm text-outline flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 23:00 - 01:00</span>
+</div>
+<h4 class="font-body-lg text-body-lg text-on-surface font-semibold text-secondary-fixed">Festival Cyberpunk 2023</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-[14px]">location_on</span> Arena Metropolis</p>
+</div>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-container text-on-surface group-hover:bg-secondary group-hover:text-on-secondary transition-colors z-10">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+<!-- Action Button -->
+<button class="mt-2 py-3 px-4 w-full rounded-full bg-transparent border border-primary text-primary font-label-lg text-label-lg uppercase tracking-wider hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined">add</span> Adicionar Evento
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center pt-2 pb-4 px-2 bg-surface-container-lowest shadow-[0px_-4px_20px_rgba(0,0,0,0.5)] z-50 rounded-t-full">
+<a class="flex flex-col items-center justify-center text-outline hover:text-tertiary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-label-sm text-label-sm">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary font-bold hover:text-tertiary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="font-label-sm text-label-sm">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline hover:text-tertiary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">library_music</span>
+<span class="font-label-sm text-label-sm">Músicas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline hover:text-tertiary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">groups</span>
+<span class="font-label-sm text-label-sm">Banda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline hover:text-tertiary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">payments</span>
+<span class="font-label-sm text-label-sm">Finanças</span>
+</a>
+</nav>
+</body></html>

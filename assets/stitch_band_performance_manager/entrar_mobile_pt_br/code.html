@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#859399",
+                    "tertiary": "#ffd59c",
+                    "secondary-fixed": "#ffd9e0",
+                    "tertiary-fixed": "#ffddb1",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e5e2e1",
+                    "background": "#131313",
+                    "on-primary-fixed-variant": "#004e60",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary-container": "#6b4700",
+                    "on-secondary-container": "#590026",
+                    "error": "#ffb4ab",
+                    "on-secondary-fixed-variant": "#8f0041",
+                    "on-tertiary-fixed": "#291800",
+                    "surface-container-high": "#2a2a2a",
+                    "tertiary-fixed-dim": "#ffba49",
+                    "surface-tint": "#4cd6ff",
+                    "surface-container-low": "#1c1b1b",
+                    "primary-container": "#00d1ff",
+                    "outline-variant": "#3c494e",
+                    "on-tertiary-fixed-variant": "#624000",
+                    "on-tertiary": "#442b00",
+                    "secondary-container": "#ff4b89",
+                    "on-error": "#690005",
+                    "surface-variant": "#353534",
+                    "error-container": "#93000a",
+                    "primary-fixed-dim": "#4cd6ff",
+                    "secondary-fixed-dim": "#ffb1c3",
+                    "on-secondary-fixed": "#3f0019",
+                    "surface-bright": "#3a3939",
+                    "on-secondary": "#66002c",
+                    "surface": "#131313",
+                    "primary": "#a4e6ff",
+                    "surface-dim": "#131313",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed": "#b7eaff",
+                    "on-surface-variant": "#bbc9cf",
+                    "on-primary": "#003543",
+                    "on-surface": "#e5e2e1",
+                    "inverse-surface": "#e5e2e1",
+                    "inverse-on-surface": "#313030",
+                    "surface-container": "#201f1f",
+                    "on-primary-container": "#00566a",
+                    "tertiary-container": "#feb127",
+                    "inverse-primary": "#00677f",
+                    "on-primary-fixed": "#001f28",
+                    "secondary": "#ffb1c3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "48px",
+                    "gutter": "24px",
+                    "max-width": "1440px",
+                    "margin-mobile": "16px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "Montserrat"
+                    ],
+                    "headline-md": [
+                            "Montserrat"
+                    ],
+                    "label-sm": [
+                            "Montserrat"
+                    ],
+                    "body-md": [
+                            "Montserrat"
+                    ],
+                    "headline-lg-mobile": [
+                            "Montserrat"
+                    ],
+                    "body-lg": [
+                            "Montserrat"
+                    ],
+                    "label-lg": [
+                            "Montserrat"
+                    ],
+                    "display-lg": [
+                            "Montserrat"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-lg": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "56px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "800"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(164, 230, 255, 0.3); /* primary color glow */
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 25px rgba(164, 230, 255, 0.5);
+        }
+        .input-glow:focus {
+            box-shadow: 0 0 10px rgba(164, 230, 255, 0.2);
+            border-color: #a4e6ff; /* primary */
+        }
+        
+        /* Ambient Background */
+        .ambient-bg {
+            background: radial-gradient(circle at 50% 0%, rgba(0, 209, 255, 0.05) 0%, rgba(19, 19, 19, 1) 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col items-center justify-center ambient-bg p-margin-mobile">
+<!-- Suppressed Shell components (TopAppBar, BottomNavBar) because this is a Login (Transactional) screen. -->
+<main class="w-full max-w-sm mx-auto flex flex-col items-center z-10 relative">
+<!-- Subtle background decorative elements -->
+<div class="absolute -top-32 -left-32 w-64 h-64 bg-primary-container rounded-full mix-blend-screen filter blur-[100px] opacity-20 pointer-events-none"></div>
+<div class="absolute -bottom-32 -right-32 w-64 h-64 bg-secondary-container rounded-full mix-blend-screen filter blur-[100px] opacity-10 pointer-events-none"></div>
+<!-- Logo / Header -->
+<div class="text-center mb-12">
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter mb-2">Sonic Stage</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Acesso aos bastidores.</p>
+</div>
+<!-- Login Form Card -->
+<div class="w-full bg-[#0A0A0A] rounded-xl p-8 shadow-2xl border border-surface-container-high relative overflow-hidden">
+<!-- Card subtle highlight -->
+<div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary-container/30 to-transparent"></div>
+<form action="#" class="space-y-6" method="POST">
+<!-- Email Field -->
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2" for="email">Email</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant text-[20px]" style="font-variation-settings: 'FILL' 0;">mail</span>
+</span>
+<input class="block w-full pl-10 pr-3 py-3 bg-[#050505] border border-[#1A1A1A] rounded-lg text-on-surface font-body-md text-body-md focus:outline-none input-glow transition-all duration-300 placeholder-outline-variant" id="email" name="email" placeholder="seu@email.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant" for="password">Senha</label>
+<a class="font-label-sm text-label-sm text-primary hover:text-primary-fixed transition-colors" href="#">Esqueceu?</a>
+</div>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant text-[20px]" style="font-variation-settings: 'FILL' 0;">lock</span>
+</span>
+<input class="block w-full pl-10 pr-3 py-3 bg-[#050505] border border-[#1A1A1A] rounded-lg text-on-surface font-body-md text-body-md focus:outline-none input-glow transition-all duration-300 placeholder-outline-variant" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-lg shadow-sm font-label-lg text-label-lg text-black bg-primary glow-effect hover:bg-primary-fixed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background transition-all duration-300 active:scale-95" type="submit">
+                    Entrar no Palco
+                    <span class="material-symbols-outlined ml-2 text-[20px]" style="font-variation-settings: 'FILL' 1;">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Create Account Link -->
+<div class="mt-8 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Novo por aqui? 
+                <a class="font-label-lg text-label-lg text-secondary hover:text-secondary-fixed transition-colors ml-1" href="#">Criar Conta</a>
+</p>
+</div>
+</main>
+<script>
+        // Simple ambient subtle movement effect for the background blobs
+        document.addEventListener('DOMContentLoaded', () => {
+            const blobs = document.querySelectorAll('.mix-blend-screen');
+            let time = 0;
+            
+            function animate() {
+                time += 0.01;
+                blobs[0].style.transform = `translate(${Math.sin(time) * 10}px, ${Math.cos(time) * 10}px)`;
+                blobs[1].style.transform = `translate(${Math.cos(time) * 15}px, ${Math.sin(time) * 15}px)`;
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        });
+    </script>
+</body></html>

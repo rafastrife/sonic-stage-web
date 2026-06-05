@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Repertório</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-highest": "#353534",
+                        "surface": "#131313",
+                        "on-primary-fixed": "#001f28",
+                        "on-tertiary-fixed-variant": "#624000",
+                        "on-secondary-container": "#590026",
+                        "on-secondary-fixed": "#3f0019",
+                        "on-secondary-fixed-variant": "#8f0041",
+                        "background": "#131313",
+                        "on-primary-container": "#00566a",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-container": "#6b4700",
+                        "surface-container-high": "#2a2a2a",
+                        "outline": "#859399",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary": "#66002c",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-bright": "#3a3939",
+                        "secondary-fixed-dim": "#ffb1c3",
+                        "secondary-container": "#ff4b89",
+                        "tertiary-fixed": "#ffddb1",
+                        "surface-dim": "#131313",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353534",
+                        "tertiary": "#ffd59c",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffba49",
+                        "primary": "#a4e6ff",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#ffb1c3",
+                        "on-primary-fixed-variant": "#004e60",
+                        "outline-variant": "#3c494e",
+                        "on-primary": "#003543",
+                        "primary-fixed-dim": "#4cd6ff",
+                        "inverse-primary": "#00677f",
+                        "surface-tint": "#4cd6ff",
+                        "tertiary-container": "#feb127",
+                        "secondary-fixed": "#ffd9e0",
+                        "on-surface-variant": "#bbc9cf",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed": "#291800",
+                        "on-background": "#e5e2e1",
+                        "primary-container": "#00d1ff",
+                        "primary-fixed": "#b7eaff",
+                        "on-tertiary": "#442b00",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "max-width": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "label-sm": ["Montserrat"],
+                        "label-lg": ["Montserrat"],
+                        "body-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "label-lg": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(164, 230, 255, 0.3);
+        }
+        .neon-glow-magenta {
+            box-shadow: 0 0 15px rgba(255, 177, 195, 0.3);
+        }
+        .audio-bar {
+            background: linear-gradient(to top, #a4e6ff, #ffb1c3);
+            border-radius: 2px;
+            animation: pulse-audio 1s infinite alternate ease-in-out;
+        }
+        @keyframes pulse-audio {
+            0% { height: 10px; }
+            100% { height: 30px; }
+        }
+    </style>
+</head>
+<body class="bg-[#000000] text-on-background antialiased flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface-container dark:bg-surface-container fixed left-0 top-0 h-full flex-col p-base shadow-sm w-64 z-50">
+<div class="mb-8 p-4">
+<h1 class="text-headline-md font-headline-md font-black text-primary dark:text-primary">Sonic Stage</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant">QG de Vibe Check</p>
+</div>
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-lg font-label-lg">Painel</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-label-lg font-label-lg">Agenda</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-full px-4 py-3 active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">library_music</span>
+<span class="text-label-lg font-label-lg">Repertório</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-label-lg font-label-lg">Membros</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant px-4 py-3 hover:text-primary hover:bg-surface-bright transition-all duration-300 rounded-full" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-label-lg font-label-lg">Finanças</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto p-4">
+<button class="w-full text-secondary font-label-lg text-label-lg hover:text-primary transition-colors py-3 flex justify-center items-center gap-2">
+<span class="material-symbols-outlined">sensors</span> Entrar ao Vivo
+            </button>
+</div>
+</nav>
+<!-- TopNavBar (Mobile) -->
+<nav class="md:hidden bg-background dark:bg-background docked full-width top-0 flex justify-between items-center w-full px-margin-mobile py-4 z-50 fixed border-b border-surface-container">
+<h1 class="text-headline-md font-headline-md font-extrabold text-primary dark:text-primary tracking-tighter">Sonic Stage</h1>
+<div class="flex gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200"><span class="material-symbols-outlined">settings</span></button>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 ml-0 md:ml-64 mt-[72px] md:mt-0 p-margin-mobile md:p-margin-desktop min-h-screen">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+<div>
+<h2 class="text-headline-lg font-headline-lg md:font-display-lg md:text-display-lg text-on-background mb-2">Repertório</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Gerencie seu arsenal sonoro e monte o setlist perfeito.</p>
+</div>
+<div class="flex gap-4 w-full md:w-auto">
+<button class="flex-1 md:flex-none border border-primary text-primary px-6 py-3 rounded text-label-lg font-label-lg hover:bg-primary hover:text-on-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">tune</span> Filtros
+                </button>
+<button class="flex-1 md:flex-none bg-primary text-on-primary px-6 py-3 rounded text-label-lg font-label-lg neon-glow hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">queue_music</span> Criar Setlist
+                </button>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Repertoire Stats Sidebar (Bento Item) -->
+<aside class="col-span-1 lg:col-span-3 flex flex-col gap-gutter">
+<!-- Stat Card 1 -->
+<div class="bg-[#0A0A0A] p-6 rounded-xl border border-surface-container relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary opacity-5 rounded-full blur-2xl group-hover:opacity-20 transition-opacity"></div>
+<p class="text-label-sm font-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Total de Músicas</p>
+<p class="text-display-lg font-display-lg text-primary">42</p>
+<div class="mt-4 flex items-end gap-1 h-8">
+<div class="audio-bar w-1" style="animation-delay: 0.1s"></div>
+<div class="audio-bar w-1" style="animation-delay: 0.3s"></div>
+<div class="audio-bar w-1" style="animation-delay: 0.2s"></div>
+<div class="audio-bar w-1" style="animation-delay: 0.5s"></div>
+<div class="audio-bar w-1" style="animation-delay: 0.4s"></div>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-[#0A0A0A] p-6 rounded-xl border border-surface-container relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary opacity-5 rounded-full blur-2xl group-hover:opacity-20 transition-opacity"></div>
+<p class="text-label-sm font-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Setlists Prontos</p>
+<p class="text-display-lg font-display-lg text-secondary">8</p>
+<button class="mt-4 text-secondary font-label-sm text-label-sm hover:text-secondary-fixed-dim flex items-center gap-1">
+                        Ver Todos <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Quick Add Card -->
+<div class="bg-[#1A1A1A] p-6 rounded-xl border border-outline-variant flex flex-col items-center justify-center text-center py-12 hover:border-primary transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary mb-4 transition-colors">library_add</span>
+<p class="text-label-lg font-label-lg text-on-background">Adicionar Nova Faixa</p>
+</div>
+</aside>
+<!-- Main Table Section (Bento Item) -->
+<section class="col-span-1 lg:col-span-9 bg-[#0A0A0A] rounded-xl border border-surface-container overflow-hidden flex flex-col">
+<div class="p-6 border-b border-surface-container flex justify-between items-center bg-[#0e0e0e]">
+<h3 class="text-headline-md font-headline-md text-on-background">Catálogo Ativo</h3>
+<!-- Search Input -->
+<div class="relative w-64 hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-[#050505] border border-[#1A1A1A] text-on-background rounded pl-10 pr-4 py-2 text-body-md focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Pesquisar repertório..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-surface-container bg-[#0e0e0e] text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+<th class="p-4 font-medium">Título</th>
+<th class="p-4 font-medium">Afinação</th>
+<th class="p-4 font-medium">Inst. Inicial</th>
+<th class="p-4 font-medium text-right">BPM</th>
+<th class="p-4 font-medium text-center">Ação</th>
+</tr>
+</thead>
+<tbody class="text-body-md font-body-md">
+<!-- Row 1 -->
+<tr class="border-b border-surface-container hover:bg-[#1A1A1A] transition-colors group">
+<td class="p-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-[#131313] border border-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-opacity-50">album</span>
+</div>
+<div>
+<p class="text-on-background font-medium group-hover:text-primary transition-colors">Neon Synapse</p>
+<div class="flex gap-2 mt-1">
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-high text-on-surface">Synthwave</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-secondary bg-opacity-20 text-secondary">Pronto p/ Ao Vivo</span>
+</div>
+</div>
+</td>
+<td class="p-4 text-on-surface-variant">Standard</td>
+<td class="p-4 text-on-surface-variant">Moog Sub37</td>
+<td class="p-4 text-right font-mono text-primary">124</td>
+<td class="p-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">play_circle</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-container hover:bg-[#1A1A1A] transition-colors group">
+<td class="p-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-[#131313] border border-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-opacity-50">album</span>
+</div>
+<div>
+<p class="text-on-background font-medium group-hover:text-primary transition-colors">Zero Gravity Drop</p>
+<div class="flex gap-2 mt-1">
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-high text-on-surface">Bass</span>
+</div>
+</div>
+</td>
+<td class="p-4 text-on-surface-variant">Drop D</td>
+<td class="p-4 text-on-surface-variant">Bass 5-String</td>
+<td class="p-4 text-right font-mono text-primary">140</td>
+<td class="p-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">play_circle</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-surface-container hover:bg-[#1A1A1A] transition-colors group">
+<td class="p-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-[#131313] border border-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-opacity-50">album</span>
+</div>
+<div>
+<p class="text-on-background font-medium group-hover:text-primary transition-colors">Cybernetic Pulse</p>
+<div class="flex gap-2 mt-1">
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-high text-on-surface">Techno</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-secondary bg-opacity-20 text-secondary">Novo</span>
+</div>
+</div>
+</td>
+<td class="p-4 text-on-surface-variant">Eb Standard</td>
+<td class="p-4 text-on-surface-variant">Drum Pad</td>
+<td class="p-4 text-right font-mono text-primary">132</td>
+<td class="p-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">play_circle</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-surface-container hover:bg-[#1A1A1A] transition-colors group">
+<td class="p-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-[#131313] border border-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-opacity-50">album</span>
+</div>
+<div>
+<p class="text-on-background font-medium group-hover:text-primary transition-colors">Atmosphere Protocol</p>
+<div class="flex gap-2 mt-1">
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-high text-on-surface">Ambient</span>
+</div>
+</div>
+</td>
+<td class="p-4 text-on-surface-variant">Standard</td>
+<td class="p-4 text-on-surface-variant">Prophet Rev2</td>
+<td class="p-4 text-right font-mono text-primary">95</td>
+<td class="p-4 text-center">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">play_circle</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-surface-container bg-[#0e0e0e] flex justify-center">
+<button class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors">Carregar Mais Faixas...</button>
+</div>
+</section>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Criar minha Banda</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#004e60",
+                    "outline-variant": "#3c494e",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-background": "#e5e2e1",
+                    "surface-dim": "#131313",
+                    "on-secondary-container": "#590026",
+                    "on-secondary-fixed-variant": "#8f0041",
+                    "surface-container-high": "#2a2a2a",
+                    "error": "#ffb4ab",
+                    "on-error": "#690005",
+                    "surface-container": "#201f1f",
+                    "on-secondary-fixed": "#3f0019",
+                    "surface-variant": "#353534",
+                    "tertiary": "#ffd59c",
+                    "surface": "#131313",
+                    "on-tertiary-container": "#6b4700",
+                    "primary-fixed": "#b7eaff",
+                    "outline": "#859399",
+                    "secondary-container": "#ff4b89",
+                    "background": "#131313",
+                    "primary-fixed-dim": "#4cd6ff",
+                    "error-container": "#93000a",
+                    "surface-tint": "#4cd6ff",
+                    "primary": "#a4e6ff",
+                    "inverse-primary": "#00677f",
+                    "tertiary-fixed-dim": "#ffba49",
+                    "on-primary-container": "#00566a",
+                    "on-tertiary-fixed-variant": "#624000",
+                    "secondary-fixed-dim": "#ffb1c3",
+                    "tertiary-container": "#feb127",
+                    "tertiary-fixed": "#ffddb1",
+                    "primary-container": "#00d1ff",
+                    "on-tertiary-fixed": "#291800",
+                    "on-primary": "#003543",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary": "#442b00",
+                    "inverse-on-surface": "#313030",
+                    "on-error-container": "#ffdad6",
+                    "on-surface": "#e5e2e1",
+                    "secondary": "#ffb1c3",
+                    "inverse-surface": "#e5e2e1",
+                    "on-secondary": "#66002c",
+                    "surface-bright": "#3a3939",
+                    "on-surface-variant": "#bbc9cf",
+                    "surface-container-low": "#1c1b1b",
+                    "on-primary-fixed": "#001f28",
+                    "secondary-fixed": "#ffd9e0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "max-width": "1440px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Montserrat"],
+                    "label-sm": ["Montserrat"],
+                    "headline-lg": ["Montserrat"],
+                    "label-lg": ["Montserrat"],
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "body-md": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                    "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                    "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                    "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                    "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                    "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                    "display-lg": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                    "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Custom glow utilities */
+        .glow-primary {
+            box-shadow: 0 0 15px rgba(164, 230, 255, 0.25);
+        }
+        .glow-secondary {
+            box-shadow: 0 0 15px rgba(255, 75, 137, 0.25);
+        }
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3c494e;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #859399;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen selection:bg-primary selection:text-on-primary antialiased">
+<!-- Main Layout: Split Screen Onboarding -->
+<div class="flex flex-col lg:flex-row min-h-screen w-full overflow-hidden">
+<!-- Left Side: Atmospheric Branding (Hidden on smaller screens) -->
+<div class="hidden lg:flex lg:w-5/12 relative bg-surface-container-lowest flex-col justify-end p-margin-desktop">
+<!-- Atmospheric Background Image -->
+<div class="absolute inset-0 w-full h-full bg-center bg-cover bg-no-repeat opacity-60" data-alt="A dramatic, atmospheric wide shot of an empty concert stage before the show begins. Deep shadows are punctuated by piercing, neon electric blue and vivid magenta stage lights cutting through light fog. The mood is expectant, high-energy, and futuristic. The aesthetic strictly follows a dark-mode neon-futurism style with deep blacks and high-contrast glowing accents." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC4u0EbZ203k6n15F2W4WoI-qbaJwPnOtHYyz3Jz9U11iLpfNPpBuI5QgGC0WUG9s8NY60-D8wE0gM8sQnmFw-aoWO9P4iYtc0FygQJgO4pekfpL8dnOJnMBgufOtnbkGbjV-x3JSz_3LhW0OjSjmed14fc09SYkIQR4FUnfoRnQlr7DBsw8PuN9y24TIHS6iOBYzaAgmRU58T_D7FM2xdIPefsKe2ikwcjwVJbij0rfSlDqsxCWkVZ70U509AxLNj6GZyL5vTs1vY');">
+</div>
+<!-- Gradient Overlay for text readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
+<!-- Branding Content -->
+<div class="relative z-10 max-w-md">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+<span class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tighter">Sonic Stage</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-4 leading-tight">Reivindique Seu Som.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">O palco está pronto. Estabeleça sua identidade, defina seu gênero e prepare-se para se conectar com seu público em uma dimensão totalmente nova.</p>
+</div>
+</div>
+<!-- Right Side: Registration Form Canvas -->
+<div class="flex-1 flex flex-col justify-center px-margin-mobile lg:px-margin-desktop py-12 lg:py-0 overflow-y-auto bg-background relative">
+<!-- Mobile Header (Visible only on small screens) -->
+<div class="flex items-center gap-2 mb-10 lg:hidden justify-center">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+<span class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tighter">Sonic Stage</span>
+</div>
+<!-- Form Container -->
+<div class="w-full max-w-[520px] mx-auto">
+<div class="mb-8 text-center lg:text-left">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Crie o Perfil da sua Banda</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">É assim que fãs e casas de show verão você. Vamos começar com o básico.</p>
+</div>
+<form class="space-y-6">
+<!-- Upload Area -->
+<div class="space-y-2">
+<label class="font-label-lg text-label-lg text-on-surface block">Logo da Banda / Foto de Capa</label>
+<div class="relative w-full border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer bg-surface-container-low hover:border-primary hover:bg-surface-container transition-all group overflow-hidden">
+<input accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" type="file"/>
+<span class="material-symbols-outlined text-[48px] text-outline group-hover:text-primary transition-colors mb-3" style="font-variation-settings: 'FILL' 0;">add_photo_alternate</span>
+<span class="font-label-lg text-label-lg text-on-surface mb-1 text-center group-hover:text-primary transition-colors">Clique para enviar ou arraste e solte</span>
+<span class="font-label-sm text-label-sm text-outline text-center">SVG, PNG, JPG ou GIF (máx. 5MB)</span>
+</div>
+</div>
+<!-- Band Name -->
+<div class="space-y-2">
+<label class="font-label-lg text-label-lg text-on-surface block" for="band_name">Nome da Banda <span class="text-secondary-container">*</span></label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">mic_external_on</span>
+</div>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-xl pl-12 pr-4 py-3 font-body-md text-body-md text-on-surface placeholder:text-outline-variant focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none focus:bg-surface-dim transition-all shadow-sm focus:glow-primary" id="band_name" placeholder="ex., Os Novos Baianos" required="" type="text"/>
+</div>
+</div>
+<!-- Genre -->
+<div class="space-y-2">
+<label class="font-label-lg text-label-lg text-on-surface block" for="genre">Gênero Principal</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">album</span>
+</div>
+<!-- Using a standard select for robust functionality, styled to match -->
+<select class="w-full bg-surface-container-low border border-outline-variant rounded-xl pl-12 pr-10 py-3 font-body-md text-body-md text-on-surface appearance-none focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none focus:bg-surface-dim transition-all shadow-sm focus:glow-primary cursor-pointer" id="genre">
+<option class="text-outline-variant" disabled="" selected="" value="">Selecione seu som</option>
+<option value="rock">Rock / Alternativo</option>
+<option value="electronic">Eletrônica / Synthwave</option>
+<option value="hiphop">Hip Hop / Rap</option>
+<option value="pop">Pop / Indie Pop</option>
+<option value="metal">Metal / Hardcore</option>
+<option value="jazz">Jazz / Blues</option>
+<option value="other">Outro</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Bio -->
+<div class="space-y-2">
+<label class="font-label-lg text-label-lg text-on-surface block flex justify-between" for="bio">
+<span>Biografia Curta</span>
+<span class="text-outline-variant font-label-sm text-label-sm font-normal">Máx 500 caract.</span>
+</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant rounded-xl p-4 font-body-md text-body-md text-on-surface placeholder:text-outline-variant focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none focus:bg-surface-dim transition-all shadow-sm focus:glow-primary resize-none" id="bio" placeholder="Diga ao mundo sobre o que você é..." rows="4"></textarea>
+</div>
+<!-- Action Area -->
+<div class="pt-6">
+<button class="w-full relative group bg-primary text-on-primary font-label-lg text-label-lg rounded-xl py-4 overflow-hidden transition-transform active:scale-[0.98]" type="button">
+<!-- Hover effect layer -->
+<div class="absolute inset-0 bg-white/0 group-hover:bg-white/20 transition-colors duration-300"></div>
+<!-- Button Content -->
+<div class="relative z-10 flex items-center justify-center gap-2">
+<span>Criar minha Banda</span>
+<span class="material-symbols-outlined text-[20px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</div>
+<!-- Core Glow -->
+<div class="absolute inset-0 opacity-0 group-hover:opacity-100 glow-primary transition-opacity duration-300 pointer-events-none rounded-xl"></div>
+</button>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-center mt-6">
+                            Você pode adicionar mais detalhes e membros depois através do seu painel.
+                        </p>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- Script for subtle interactive effects -->
+<script>
+        // Simple script to handle file input visual feedback
+        const fileInput = document.querySelector('input[type="file"]');
+        const dropZone = fileInput.parentElement;
+
+        fileInput.addEventListener('change', (e) => {
+            if(e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                const textSpan = dropZone.querySelector('span.text-center.group-hover\\:text-primary');
+                const iconSpan = dropZone.querySelector('span.material-symbols-outlined');
+                
+                textSpan.textContent = `Selecionado: ${fileName}`;
+                textSpan.classList.add('text-primary');
+                iconSpan.textContent = 'check_circle';
+                iconSpan.classList.add('text-primary');
+                dropZone.classList.add('border-primary', 'bg-surface-container');
+            }
+        });
+
+        // Drag and drop visual cues
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-primary', 'bg-surface-container');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                if(!fileInput.files.length) {
+                    dropZone.classList.remove('border-primary', 'bg-surface-container');
+                }
+            }, false);
+        });
+    </script>
+</body></html>

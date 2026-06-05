@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Exportar Setlist - Sonic Stage</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#859399",
+                        "tertiary": "#ffd59c",
+                        "secondary-fixed": "#ffd9e0",
+                        "tertiary-fixed": "#ffddb1",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e1",
+                        "background": "#131313",
+                        "on-primary-fixed-variant": "#004e60",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary-container": "#6b4700",
+                        "on-secondary-container": "#590026",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#8f0041",
+                        "on-tertiary-fixed": "#291800",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-fixed-dim": "#ffba49",
+                        "surface-tint": "#4cd6ff",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-container": "#00d1ff",
+                        "outline-variant": "#3c494e",
+                        "on-tertiary-fixed-variant": "#624000",
+                        "on-tertiary": "#442b00",
+                        "secondary-container": "#ff4b89",
+                        "on-error": "#690005",
+                        "surface-variant": "#353534",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#4cd6ff",
+                        "secondary-fixed-dim": "#ffb1c3",
+                        "on-secondary-fixed": "#3f0019",
+                        "surface-bright": "#3a3939",
+                        "on-secondary": "#66002c",
+                        "surface": "#131313",
+                        "primary": "#a4e6ff",
+                        "surface-dim": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed": "#b7eaff",
+                        "on-surface-variant": "#bbc9cf",
+                        "on-primary": "#003543",
+                        "on-surface": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "inverse-on-surface": "#313030",
+                        "surface-container": "#201f1f",
+                        "on-primary-container": "#00566a",
+                        "tertiary-container": "#feb127",
+                        "inverse-primary": "#00677f",
+                        "on-primary-fixed": "#001f28",
+                        "secondary": "#ffb1c3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "48px",
+                        "gutter": "24px",
+                        "max-width": "1440px",
+                        "margin-mobile": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "label-sm": ["Montserrat"],
+                        "body-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Montserrat"],
+                        "label-lg": ["Montserrat"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-lg": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+        }
+        /* Custom Switch Styling */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #a4e6ff;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #a4e6ff;
+        }
+        .toggle-checkbox:checked + .toggle-label:after {
+            transform: translateX(100%);
+            border-color: white;
+        }
+        .toggle-label {
+            width: 48px;
+            height: 24px;
+            background-color: #353534;
+            border-radius: 9999px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle-label:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        
+        /* Subtle Glow for Primary Button */
+        .glow-button {
+            box-shadow: 0 0 15px rgba(164, 230, 255, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen flex flex-col antialiased selection:bg-primary selection:text-on-primary">
+<!-- Top App Bar (Simplified for transactional page) -->
+<header class="fixed top-0 w-full z-50 bg-background flex justify-between items-center px-margin-mobile h-16 w-full border-b border-surface-container">
+<div class="flex items-center gap-4">
+<button class="text-on-surface hover:text-primary transition-colors active:scale-95 flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile text-on-surface">Exportar Setlist</h1>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors active:scale-95 flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-16 px-margin-mobile py-6 flex flex-col gap-6 pb-32 max-w-md mx-auto w-full">
+<!-- Header / Context -->
+<div class="flex flex-col gap-2">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tighter">Ao Vivo no Neon Void</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Configure os dados que serão exibidos no PDF.</p>
+</div>
+<!-- Toggles Section (Glassmorphism Card) -->
+<section class="bg-[#0A0A0A] rounded-xl p-4 border border-surface-container flex flex-col gap-4">
+<h3 class="font-label-lg text-label-lg text-outline uppercase tracking-widest mb-2">Colunas Ativas</h3>
+<!-- Toggle 1 -->
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">tune</span>
+<span class="font-body-md text-body-md text-on-surface">Afinação</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0 z-10" id="toggle_afinacao" name="toggle_afinacao" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer" for="toggle_afinacao"></label>
+</div>
+</div>
+<hr class="border-surface-container"/>
+<!-- Toggle 2 -->
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">music_note</span>
+<span class="font-body-md text-body-md text-on-surface">Nota Inicial</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0 z-10" id="toggle_nota" name="toggle_nota" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer" for="toggle_nota"></label>
+</div>
+</div>
+<hr class="border-surface-container"/>
+<!-- Toggle 3 -->
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">speed</span>
+<span class="font-body-md text-body-md text-on-surface">BPM</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer opacity-0 z-10" id="toggle_bpm" name="toggle_bpm" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer" for="toggle_bpm"></label>
+</div>
+</div>
+</section>
+<!-- Preview Section -->
+<section class="flex flex-col gap-4">
+<h3 class="font-label-lg text-label-lg text-outline uppercase tracking-widest">Preview</h3>
+<div class="bg-surface-container-low rounded-xl p-6 border border-surface-container relative overflow-hidden">
+<!-- Abstract Decorative Element to simulate "Paper" in dark mode -->
+<div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-surface-container to-transparent opacity-50 rounded-bl-full pointer-events-none"></div>
+<h4 class="font-headline-md text-headline-md-mobile text-center mb-6 border-b border-surface-container pb-4">Ao Vivo no Neon Void</h4>
+<ul class="flex flex-col gap-3">
+<li class="flex justify-between items-center bg-[#050505] p-3 rounded border border-[#1A1A1A]">
+<span class="font-body-md text-body-md text-on-surface">1. Cybernetic Pulse</span>
+<div class="flex gap-4 font-label-sm text-label-sm text-tertiary">
+<span>Drop D</span>
+<span>Em</span>
+</div>
+</li>
+<li class="flex justify-between items-center bg-[#050505] p-3 rounded border border-[#1A1A1A]">
+<span class="font-body-md text-body-md text-on-surface">2. Neon Skyline</span>
+<div class="flex gap-4 font-label-sm text-label-sm text-tertiary">
+<span>E Std</span>
+<span>A</span>
+</div>
+</li>
+<li class="flex justify-between items-center bg-[#050505] p-3 rounded border border-[#1A1A1A]">
+<span class="font-body-md text-body-md text-on-surface">3. Void Walker</span>
+<div class="flex gap-4 font-label-sm text-label-sm text-tertiary">
+<span>Drop C</span>
+<span>Cm</span>
+</div>
+</li>
+</ul>
+</div>
+</section>
+</main>
+<!-- Bottom Action Area -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest p-margin-mobile border-t border-surface-container-highest shadow-[0px_-4px_20px_rgba(0,0,0,0.8)] z-50">
+<div class="max-w-md mx-auto w-full">
+<button class="w-full bg-primary hover:bg-primary-fixed transition-colors text-on-primary font-label-lg text-label-lg py-4 rounded-xl flex justify-center items-center gap-2 glow-button active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+                Imprimir / PDF
+            </button>
+</div>
+</div>
+</body></html>

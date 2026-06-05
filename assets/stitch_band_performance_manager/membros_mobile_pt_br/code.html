@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sonic Stage - Membros e Convites</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#859399",
+                        "tertiary": "#ffd59c",
+                        "secondary-fixed": "#ffd9e0",
+                        "tertiary-fixed": "#ffddb1",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e1",
+                        "background": "#131313",
+                        "on-primary-fixed-variant": "#004e60",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary-container": "#6b4700",
+                        "on-secondary-container": "#590026",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#8f0041",
+                        "on-tertiary-fixed": "#291800",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-fixed-dim": "#ffba49",
+                        "surface-tint": "#4cd6ff",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-container": "#00d1ff",
+                        "outline-variant": "#3c494e",
+                        "on-tertiary-fixed-variant": "#624000",
+                        "on-tertiary": "#442b00",
+                        "secondary-container": "#ff4b89",
+                        "on-error": "#690005",
+                        "surface-variant": "#353534",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#4cd6ff",
+                        "secondary-fixed-dim": "#ffb1c3",
+                        "on-secondary-fixed": "#3f0019",
+                        "surface-bright": "#3a3939",
+                        "on-secondary": "#66002c",
+                        "surface": "#131313",
+                        "primary": "#a4e6ff",
+                        "surface-dim": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed": "#b7eaff",
+                        "on-surface-variant": "#bbc9cf",
+                        "on-primary": "#003543",
+                        "on-surface": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "inverse-on-surface": "#313030",
+                        "surface-container": "#201f1f",
+                        "on-primary-container": "#00566a",
+                        "tertiary-container": "#feb127",
+                        "inverse-primary": "#00677f",
+                        "on-primary-fixed": "#001f28",
+                        "secondary": "#ffb1c3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "48px",
+                        "gutter": "24px",
+                        "max-width": "1440px",
+                        "margin-mobile": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "label-sm": ["Montserrat"],
+                        "body-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Montserrat"],
+                        "label-lg": ["Montserrat"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(164, 230, 255, 0.2);
+        }
+        
+        .glow-effect-secondary {
+            box-shadow: 0 0 15px rgba(255, 177, 195, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background dark:bg-background text-on-background min-h-screen pb-24 font-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background dark:bg-background h-16 flex justify-between items-center px-margin-mobile">
+<div class="flex items-center gap-3">
+<img alt="Foto de perfil do usuário" class="w-8 h-8 rounded-full border border-surface-container-high object-cover" data-alt="A cinematic, high-contrast headshot of a musician with dramatic studio lighting. The lighting should have neon cyan and magenta rim light, set against a deep black background, matching the Neon-Futurism aesthetic of the Sonic Stage platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbKpjJeMX5dCpA9t_bRkRtQenY5QI6RHcp5dhN6w_7RUouM85Ws7ePITROPTC30PfqNa7yBvdxMZOl5Of8TgfwC0cJRDv_p8MSg0C_M4Siv7zTvq4mvFUs3Gtp03fiwWaC55lmf7w8d4nhOizU4yiORSCKnE5Tgb6VnBW59ZUXS8Jjjw-6UTtc8KW09-93Uftu56nQ-uEbQpay8ka-4DSB9thn62QJykiN0CoKW9KO9JOkVgaFgHKrGX52VaQM1k1pejhWvQgAmbA"/>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-extrabold text-primary dark:text-primary tracking-tighter">Sonic Stage</h1>
+</div>
+<button class="text-primary dark:text-primary hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="pt-20 px-margin-mobile flex flex-col gap-8 pb-8">
+<!-- Header Section -->
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Membros e Convites</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Gerencie a equipe e envie novos convites para acesso ao backstage.</p>
+</div>
+<!-- Novo Convite Section (Bento-style Card) -->
+<section class="bg-surface-container-high rounded-xl p-6 relative overflow-hidden group">
+<!-- Subtle atmospheric gradient -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+<h3 class="font-label-lg text-label-lg text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">person_add</span>
+                Novo Convite
+            </h3>
+<div class="flex flex-col gap-4 relative z-10">
+<!-- Input Field -->
+<div class="relative">
+<input class="w-full bg-[#050505] border border-[#1A1A1A] rounded-lg px-4 py-3 font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-outline-variant" placeholder="E-mail do integrante" type="email"/>
+<span class="material-symbols-outlined absolute right-3 top-3.5 text-outline-variant">mail</span>
+</div>
+<!-- Role Chips -->
+<div class="flex flex-wrap gap-2 mt-2">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="role" type="radio"/>
+<div class="px-3 py-1.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm peer-checked:bg-primary peer-checked:text-on-primary transition-colors border border-transparent peer-checked:border-primary">Músico</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio"/>
+<div class="px-3 py-1.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm peer-checked:bg-primary peer-checked:text-on-primary transition-colors border border-transparent peer-checked:border-primary">Produção</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio"/>
+<div class="px-3 py-1.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm peer-checked:bg-primary peer-checked:text-on-primary transition-colors border border-transparent peer-checked:border-primary">Técnico</div>
+</label>
+</div>
+<!-- Action Button -->
+<button class="w-full mt-4 bg-primary text-on-primary font-label-lg text-label-lg py-3 rounded-lg hover:opacity-90 active:scale-95 transition-all glow-effect flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">send</span>
+                    Enviar Convite
+                </button>
+</div>
+</section>
+<!-- Sinais Pendentes Section (List) -->
+<section class="flex flex-col gap-4">
+<h3 class="font-label-lg text-label-lg text-on-surface border-b border-surface-container-high pb-2">Sinais Pendentes</h3>
+<!-- List Item 1 -->
+<div class="bg-[#0A0A0A] rounded-lg p-4 flex items-center justify-between border border-surface-container-highest">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-outline">
+<span class="material-symbols-outlined">alternate_email</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">lucas.guitar@email.com</p>
+<p class="font-label-sm text-label-sm text-outline-variant">Enviado há 2 dias</p>
+</div>
+</div>
+<div class="px-2 py-1 rounded bg-secondary/10 text-secondary font-label-sm text-label-sm border border-secondary/20">
+                    Pendente
+                </div>
+</div>
+<!-- List Item 2 -->
+<div class="bg-[#0A0A0A] rounded-lg p-4 flex items-center justify-between border border-surface-container-highest">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-outline">
+<span class="material-symbols-outlined">alternate_email</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">ana.prod@email.com</p>
+<p class="font-label-sm text-label-sm text-outline-variant">Enviado há 5 dias</p>
+</div>
+</div>
+<button class="text-primary font-label-sm text-label-sm hover:underline">Reenviar</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center pt-2 pb-4 px-2 z-50 rounded-t-full bg-surface-container-lowest dark:bg-surface-container-lowest shadow-[0px_-4px_20px_rgba(0,0,0,0.5)] md:hidden">
+<!-- Tab 1 -->
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline hover:text-tertiary-fixed transition-colors active:scale-90 duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-label-sm text-label-sm">Início</span>
+</a>
+<!-- Tab 2 -->
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline hover:text-tertiary-fixed transition-colors active:scale-90 duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1">calendar_month</span>
+<span class="font-label-sm text-label-sm">Agenda</span>
+</a>
+<!-- Tab 3 -->
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline hover:text-tertiary-fixed transition-colors active:scale-90 duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1">library_music</span>
+<span class="font-label-sm text-label-sm">Músicas</span>
+</a>
+<!-- Tab 4 (Active based on context - Banda/Team) -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary font-bold hover:text-tertiary-fixed transition-colors active:scale-90 duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label-sm text-label-sm">Banda</span>
+</a>
+<!-- Tab 5 -->
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline hover:text-tertiary-fixed transition-colors active:scale-90 duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1">payments</span>
+<span class="font-label-sm text-label-sm">Finanças</span>
+</a>
+</nav>
+</body></html>
