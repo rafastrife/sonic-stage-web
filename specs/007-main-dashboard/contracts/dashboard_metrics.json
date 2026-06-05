@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Dashboard Metrics Contract",
+  "description": "API response for /api/bands/<id>/dashboard/",
+  "type": "object",
+  "properties": {
+    "next_event": {
+      "type": ["object", "null"],
+      "properties": {
+        "id": { "type": "integer" },
+        "title": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "location": { "type": "string" }
+      },
+      "required": ["id", "title", "date", "location"]
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "total_repertoire": { "type": "integer" },
+        "repertoire_added_this_month": { "type": "integer" },
+        "rehearsals_this_week": { "type": "integer" },
+        "next_rehearsal_date": { "type": ["string", "null"], "format": "date-time" },
+        "vibe_data": {
+          "type": "array",
+          "items": { "type": "integer" }
+        }
+      },
+      "required": ["total_repertoire", "repertoire_added_this_month", "rehearsals_this_week", "vibe_data"]
+    },
+    "recent_setlists": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "total_tracks": { "type": "integer" },
+          "duration_seconds": { "type": "integer" },
+          "status": { "type": "string" }
+        },
+        "required": ["id", "name", "updated_at", "total_tracks", "duration_seconds", "status"]
+      }
+    }
+  },
+  "required": ["next_event", "metrics", "recent_setlists"]
+}
