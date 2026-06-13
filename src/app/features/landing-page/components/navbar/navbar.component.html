@@ -17,15 +17,15 @@
 
     <!-- Desktop Links -->
     <div class="hidden md:flex items-center gap-8">
-      <button (click)="scrollTo('features')" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+      <app-button (click)="scrollTo('features')" variant="ghost" size="sm" customClass="font-medium text-gray-300">
         Funcionalidades
-      </button>
-      <button (click)="scrollTo('faq')" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+      </app-button>
+      <app-button (click)="scrollTo('faq')" variant="ghost" size="sm" customClass="font-medium text-gray-300">
         FAQ
-      </button>
-      <button (click)="scrollTo('waitlist')" class="px-5 py-2 bg-[#00d1ff] bg-opacity-20 hover:bg-opacity-30 text-[#00d1ff] border border-[#00d1ff] font-bold rounded-md transition-colors text-sm">
+      </app-button>
+      <app-button (click)="scrollTo('waitlist')" variant="outline" size="sm" customClass="text-[#00d1ff] border-[#00d1ff] hover:bg-[#00d1ff] hover:bg-opacity-20">
         Aviso de Lançamento
-      </button>
+      </app-button>
     </div>
 
     <!-- Mobile Menu Button (mocked for visual) -->
