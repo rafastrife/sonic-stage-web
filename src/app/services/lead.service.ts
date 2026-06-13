@@ -10,26 +10,17 @@ import { LeadPayload, LeadResponse } from '../models/lead.model';
 export class LeadService {
   private http = inject(HttpClient);
   // Using a mock endpoint or real endpoint depending on the environment
-  private apiUrl = '/api/leads/waitlist';
+  private apiUrl = 'http://localhost:8000/api/leads/waitlist/';
 
   /**
    * Registra um lead na lista de espera.
-   * Por enquanto, se a API não existir, simula um delay para demonstração.
    */
   registerLead(payload: LeadPayload): Observable<LeadResponse> {
-    // Note: To actually call the backend, uncomment the below code once the backend is ready
-    // return this.http.post<LeadResponse>(this.apiUrl, payload);
-    
-    // Mock implementation for the Landing Page Launch demonstration
-    return new Observable<LeadResponse>(observer => {
-      setTimeout(() => {
-        if (payload.email && payload.email.includes('@')) {
-          observer.next({ success: true, message: 'Você foi adicionado à lista de espera com sucesso!' });
-        } else {
-          observer.next({ success: false, errors: { email: ['Informe um e-mail válido.'] } });
-        }
-        observer.complete();
-      }, 1000);
-    });
+    return this.http.post<LeadResponse>(this.apiUrl, payload).pipe(
+      catchError(error => {
+        const errorMessage = error.error?.errors?.email?.[0] || 'Ocorreu um erro ao registrar. Tente novamente.';
+        return of({ success: false, errors: { email: [errorMessage] } } as LeadResponse);
+      })
+    );
   }
 }
