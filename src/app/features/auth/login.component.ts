@@ -39,7 +39,7 @@ import { LogoComponent } from '../../shared/components/logo.component';
           <div>
             <div class="flex items-center justify-between mb-2">
               <label class="block text-xs font-bold text-neutral-400 uppercase tracking-wider">Senha</label>
-              <a href="#" class="text-xs text-neon-cyan hover:text-white transition-colors">Esqueci a Senha</a>
+              <a routerLink="/forgot-password" class="text-xs text-neon-cyan hover:text-white transition-colors">Esqueci a Senha</a>
             </div>
             <div class="relative">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">

@@ -41,4 +41,16 @@ export class AuthStore {
     this._user.set(null);
     this.router.navigate(['/login']);
   }
+
+  requestPasswordReset(data: { email: string }) {
+    return this.http.post('/api/auth/password-reset/', data);
+  }
+
+  confirmPasswordReset(data: any) {
+    return this.http.post('/api/auth/password-reset/confirm/', data).pipe(
+      tap(() => {
+        this.router.navigate(['/login']);
+      })
+    );
+  }
 }
