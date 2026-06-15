@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
@@ -8,7 +9,13 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent {
+  private router = inject(Router);
+
   scrollTo(elementId: string) {
     document.getElementById(elementId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 }
