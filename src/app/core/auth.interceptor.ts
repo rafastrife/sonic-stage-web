@@ -10,8 +10,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   let modifiedReq = req;
   
-  // Prepend backend URL
-  if (req.url.startsWith('/api/')) {
+  // Prepend backend URL only if running locally
+  if (req.url.startsWith('/api/') && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
     modifiedReq = req.clone({ url: `http://localhost:8000${req.url}` });
   }
 
