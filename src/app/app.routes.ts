@@ -13,6 +13,7 @@ export const routes: Routes = [
       { path: 'members', loadComponent: () => import('./features/members/members.component').then(m => m.MembersComponent) },
       { path: 'repertoire', loadComponent: () => import('./features/repertoire/repertoire.component').then(m => m.RepertoireComponent) },
       { path: 'agenda', loadComponent: () => import('./features/agenda/agenda.component').then(m => m.AgendaComponent) },
+      { path: 'profile', loadComponent: () => import('./features/profile/settings.component').then(m => m.SettingsComponent) },
     ]
   },
   { path: '', loadChildren: () => import('./features/landing-page/landing-page.routes').then(m => m.LANDING_PAGE_ROUTES) }

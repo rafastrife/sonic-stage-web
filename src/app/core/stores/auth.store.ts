@@ -17,6 +17,14 @@ export class AuthStore {
   readonly user = computed(() => this._user());
 
   // Actions
+  setSession(access: string, user?: any) {
+    localStorage.setItem('access_token', access);
+    this._accessToken.set(access);
+    if (user) {
+      this._user.set(user);
+    }
+  }
+
   login(credentials: any) {
     return this.http.post<{access: string, refresh: string}>('/api/auth/login/', credentials).pipe(
       tap(response => {

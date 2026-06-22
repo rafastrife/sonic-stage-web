@@ -4,10 +4,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthStore } from '../../core/stores/auth.store';
 import { RouterModule } from '@angular/router';
 import { LogoComponent } from '../../shared/components/logo.component';
+import { GoogleButtonComponent } from './components/google-button/google-button.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, LogoComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, LogoComponent, GoogleButtonComponent],
   template: `
     <div class="min-h-screen flex items-center justify-center bg-dark-bg p-4 relative overflow-hidden">
       <!-- Ambient Glow Effects -->
@@ -18,6 +19,13 @@ import { LogoComponent } from '../../shared/components/logo.component';
         <div class="text-center mb-10 flex flex-col items-center">
           <app-logo class="w-56 mb-2"></app-logo>
           <p class="text-neon-cyan text-xs font-bold tracking-widest mt-2 uppercase">Vibe Check HQ</p>
+        </div>
+
+        <app-google-button buttonText="signin_with"></app-google-button>
+        <div class="flex items-center my-6">
+          <div class="flex-grow border-t border-white/10"></div>
+          <span class="mx-4 text-xs text-neutral-500 uppercase tracking-widest">ou</span>
+          <div class="flex-grow border-t border-white/10"></div>
         </div>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">

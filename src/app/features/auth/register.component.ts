@@ -4,10 +4,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthStore } from '../../core/stores/auth.store';
 import { RouterModule, Router } from '@angular/router';
 import { LogoComponent } from '../../shared/components/logo.component';
+import { GoogleButtonComponent } from './components/google-button/google-button.component';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, LogoComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, LogoComponent, GoogleButtonComponent],
   template: `
     <div class="min-h-screen flex bg-[#0a0a0a] text-white">
       
@@ -45,6 +46,13 @@ import { LogoComponent } from '../../shared/components/logo.component';
           <div class="mb-8">
             <h2 class="text-3xl font-bold mb-2">Entrar no Palco</h2>
             <p class="text-neutral-400">Registre sua conta para acessar o palco.</p>
+          </div>
+
+          <app-google-button buttonText="signup_with"></app-google-button>
+          <div class="flex items-center my-6">
+            <div class="flex-grow border-t border-white/10"></div>
+            <span class="mx-4 text-xs text-neutral-500 uppercase tracking-widest">ou com e-mail</span>
+            <div class="flex-grow border-t border-white/10"></div>
           </div>
 
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5">
