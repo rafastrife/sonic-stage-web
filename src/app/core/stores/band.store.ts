@@ -35,7 +35,16 @@ export class BandStore {
   readonly isLoading = computed(() => this._isLoading());
 
   constructor() {
-    this.loadUserBands();
+    // If there's already a token in storage (e.g., after a browser refresh),
+    // load bands immediately. Otherwise, wait for the auth:session-ready event
+    // that AuthStore dispatches after a successful login — this avoids the
+    // race condition where loadUserBands() fires before the token is set.
+    if (localStorage.getItem('access_token')) {
+      this.loadUserBands();
+    }
+    window.addEventListener('auth:session-ready', () => {
+      this.loadUserBands();
+    });
   }
 
   // Actions

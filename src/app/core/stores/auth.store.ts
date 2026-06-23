@@ -17,11 +17,22 @@ export class AuthStore {
   readonly user = computed(() => this._user());
 
   // Actions
-  setSession(access: string, user?: any) {
+  setSession(access: string, user?: any, reloadBands = true) {
     localStorage.setItem('access_token', access);
     this._accessToken.set(access);
     if (user) {
       this._user.set(user);
+    }
+    // Trigger band loading AFTER the token is committed to localStorage,
+    // avoiding the race condition where BandStore constructor fires before
+    // the token is available and gets a 401.
+    if (reloadBands) {
+      import('./band.store').then(m => {
+        const { BandStore } = m;
+        // BandStore is a singleton — inject() cannot be used outside injection context,
+        // so we use a CustomEvent to signal the store to reload.
+        window.dispatchEvent(new CustomEvent('auth:session-ready'));
+      });
     }
   }
 
@@ -30,6 +41,7 @@ export class AuthStore {
       tap(response => {
         localStorage.setItem('access_token', response.access);
         this._accessToken.set(response.access);
+        window.dispatchEvent(new CustomEvent('auth:session-ready'));
         this.router.navigate(['/dashboard']);
       })
     );

@@ -13,7 +13,8 @@ export class GoogleAuthService {
   googleLogin(idToken: string) {
     return this.http.post<{access: string, refresh: string, user: any}>('/api/auth/google/', { id_token: idToken }).pipe(
       tap(response => {
-        this.authStore.setSession(response.access, response.user);
+        this.authStore.setSession(response.access, response.user, false);
+        window.dispatchEvent(new CustomEvent('auth:session-ready'));
         this.router.navigate(['/dashboard']);
       })
     );
