@@ -42,13 +42,15 @@ import { AuthStore } from '../core/stores/auth.store';
       <nav class="flex-grow px-4">
         <div class="text-xs font-bold tracking-widest uppercase text-neutral-600 mb-3 px-4">Menu</div>
         
-        <a routerLink="/dashboard" routerLinkActive="bg-neutral-900 text-cyan-400" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-900 hover:text-white transition-colors mb-1">
+        <!-- Dashboard — habilitado -->
+        <a routerLink="/dashboard" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="bg-neutral-900 text-cyan-400" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-900 hover:text-white transition-colors mb-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
           </svg>
           Dashboard
         </a>
         
+        <!-- Repertório — habilitado -->
         <a routerLink="/dashboard/repertoire" routerLinkActive="bg-neutral-900 text-cyan-400" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-900 hover:text-white transition-colors mb-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
@@ -56,19 +58,35 @@ import { AuthStore } from '../core/stores/auth.store';
           Repertório
         </a>
         
-        <a routerLink="/dashboard/agenda" routerLinkActive="bg-neutral-900 text-cyan-400" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-900 hover:text-white transition-colors mb-1">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          Agenda
-        </a>
+        <!-- Agenda — bloqueado -->
+        <div
+          class="flex items-center justify-between px-4 py-3 rounded-xl mb-1 opacity-40 cursor-not-allowed select-none"
+          title="Em breve">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Agenda
+          </div>
+          <span class="text-[10px] font-bold uppercase tracking-wider bg-neutral-800 text-neutral-500 px-2 py-0.5 rounded-full">
+            Em breve
+          </span>
+        </div>
         
-        <a routerLink="/dashboard/members" routerLinkActive="bg-neutral-900 text-cyan-400" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-900 hover:text-white transition-colors mb-1">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-          Membros
-        </a>
+        <!-- Membros — bloqueado -->
+        <div
+          class="flex items-center justify-between px-4 py-3 rounded-xl mb-1 opacity-40 cursor-not-allowed select-none"
+          title="Em breve">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            Membros
+          </div>
+          <span class="text-[10px] font-bold uppercase tracking-wider bg-neutral-800 text-neutral-500 px-2 py-0.5 rounded-full">
+            Em breve
+          </span>
+        </div>
       </nav>
 
       <!-- Bottom Actions -->
@@ -109,7 +127,6 @@ export class SidebarComponent {
   }
 
   openCreateBandModal() {
-    // To be implemented in US3
     const event = new CustomEvent('open-create-band-modal');
     window.dispatchEvent(event);
   }
