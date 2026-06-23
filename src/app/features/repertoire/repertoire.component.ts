@@ -15,7 +15,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
           <h1 class="text-3xl font-bold text-white">Repertório</h1>
           <p class="text-neutral-400 mt-1">Gerencie as músicas e crie setlists.</p>
         </div>
-        <button (click)="exportToPDF()" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-rose-500/20 transition-all flex items-center gap-2">
+        <button (click)="isExportModalOpen = true" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-rose-500/20 transition-all flex items-center gap-2">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path></svg>
           Exportar PDF
         </button>
@@ -72,6 +72,36 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
           </div>
         </div>
       </div>
+
+      <!-- Export Modal -->
+      <div *ngIf="isExportModalOpen" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+          <h3 class="text-xl font-bold text-white mb-2">Exportar Repertório</h3>
+          <p class="text-sm text-neutral-400 mb-6">Escolha o tema visual do PDF gerado.</p>
+          
+          <div class="space-y-3">
+            <button (click)="exportToPDF('dark')" class="w-full flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:border-indigo-500 hover:bg-indigo-500/10 transition-all text-left">
+              <div>
+                <div class="text-white font-medium">Tema Escuro</div>
+                <div class="text-xs text-neutral-500">Ideal para palcos (baixo reflexo)</div>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-neutral-950 border border-neutral-800"></div>
+            </button>
+            
+            <button (click)="exportToPDF('light')" class="w-full flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:border-pink-500 hover:bg-pink-500/10 transition-all text-left">
+              <div>
+                <div class="text-white font-medium">Tema Claro</div>
+                <div class="text-xs text-neutral-500">Ideal para impressão em papel</div>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-white border border-neutral-200"></div>
+            </button>
+          </div>
+
+          <div class="mt-6 flex justify-end">
+            <button (click)="isExportModalOpen = false" class="text-neutral-400 hover:text-white px-4 py-2 font-medium transition-colors">Cancelar</button>
+          </div>
+        </div>
+      </div>
     </div>
   `
 })
@@ -83,6 +113,7 @@ export class RepertoireComponent {
   songs = signal<any[]>([]);
   setlists = signal<any[]>([]);
   isAddingSong = false;
+  isExportModalOpen = false;
 
   songForm = this.fb.nonNullable.group({
     title: ['', Validators.required],
@@ -119,20 +150,18 @@ export class RepertoireComponent {
     }
   }
 
-  exportToPDF() {
+  exportToPDF(theme: 'dark' | 'light') {
     const band = this.bandStore.activeBand();
     if (!band) return;
 
-    // TODO: Ideally provide a theme selection modal here.
-    // For now, defaulting to dark theme to show the new layout.
-    const theme = 'dark';
+    this.isExportModalOpen = false;
     const url = `/api/bands/${band.id}/generate_repertoire_pdf/?theme=${theme}`;
     
     this.http.get(url, { responseType: 'blob' }).subscribe((blob) => {
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.download = `repertorio-${band.name.toLowerCase().replace(/\s+/g, '-')}.pdf`;
+      link.download = `repertorio-${band.name.toLowerCase().replace(/\s+/g, '-')}-${theme}.pdf`;
       link.click();
       window.URL.revokeObjectURL(downloadUrl);
     });
