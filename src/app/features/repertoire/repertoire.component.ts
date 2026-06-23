@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BandStore } from '../../core/stores/band.store';
@@ -77,7 +77,7 @@ import autoTable from 'jspdf-autotable';
     </div>
   `
 })
-export class RepertoireComponent implements OnInit {
+export class RepertoireComponent {
   bandStore = inject(BandStore);
   http = inject(HttpClient);
   fb = inject(FormBuilder);
@@ -93,15 +93,21 @@ export class RepertoireComponent implements OnInit {
     status: ['ACTIVE']
   });
 
-  ngOnInit() {
-    this.loadData();
+  constructor() {
+    effect(() => {
+      const band = this.bandStore.activeBand();
+      if (band) {
+        this.loadData(band.id);
+      } else {
+        this.songs.set([]);
+        this.setlists.set([]);
+      }
+    });
   }
 
-  loadData() {
-    const band = this.bandStore.activeBand();
-    if (!band) return;
-    this.http.get<any[]>(`/api/bands/${band.id}/songs/`).subscribe(data => this.songs.set(data));
-    this.http.get<any[]>(`/api/bands/${band.id}/setlists/`).subscribe(data => this.setlists.set(data));
+  loadData(bandId: number) {
+    this.http.get<any[]>(`/api/bands/${bandId}/songs/`).subscribe(data => this.songs.set(data));
+    this.http.get<any[]>(`/api/bands/${bandId}/setlists/`).subscribe(data => this.setlists.set(data));
   }
 
   addSong() {
@@ -110,7 +116,7 @@ export class RepertoireComponent implements OnInit {
       this.http.post(`/api/bands/${band.id}/songs/`, this.songForm.getRawValue()).subscribe(() => {
         this.isAddingSong = false;
         this.songForm.reset({status: 'ACTIVE'});
-        this.loadData();
+        this.loadData(band.id);
       });
     }
   }
