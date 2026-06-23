@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BandStore } from '../../core/stores/band.store';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-repertoire',
@@ -125,80 +123,10 @@ export class RepertoireComponent {
     const band = this.bandStore.activeBand();
     if (!band) return;
 
-    const doc = new jsPDF();
-    const pageWidth = doc.internal.pageSize.getWidth();
-
-    // Title
-    doc.setFontSize(22);
-    doc.setTextColor(40, 40, 40);
-    doc.text(`Repertório - ${band.name}`, pageWidth / 2, 20, { align: 'center' });
-
-    // Songs Section
-    doc.setFontSize(16);
-    doc.text('Todas as Músicas', 14, 35);
-
-    const songsData = this.songs().map((s, index) => [
-      (index + 1).toString(),
-      s.title,
-      s.genre || '-',
-      s.tuning || '-',
-      s.status
-    ]);
-
-    autoTable(doc, {
-      startY: 40,
-      head: [['#', 'Título', 'Gênero', 'Afinação', 'Status']],
-      body: songsData,
-      theme: 'striped',
-      headStyles: { fillColor: [79, 70, 229] }, // Indigo 600
-    });
-
-    let finalY = (doc as any).lastAutoTable.finalY + 15;
-
-    // Setlists Section
-    const setlists = this.setlists();
-    if (setlists && setlists.length > 0) {
-      doc.setFontSize(16);
-      doc.setTextColor(40, 40, 40);
-      doc.text('Setlists', 14, finalY);
-      finalY += 10;
-
-      setlists.forEach((setlist) => {
-        if (finalY > doc.internal.pageSize.getHeight() - 30) {
-          doc.addPage();
-          finalY = 20;
-        }
-
-        doc.setFontSize(14);
-        doc.setTextColor(79, 70, 229); // Indigo 600
-        doc.text(setlist.name, 14, finalY);
-        finalY += 6;
-
-        const setlistSongs = setlist.songs?.map((rel: any, i: number) => [
-          (i + 1).toString(),
-          rel.song.title,
-          rel.song.tuning || '-'
-        ]) || [];
-
-        if (setlistSongs.length > 0) {
-          autoTable(doc, {
-            startY: finalY,
-            head: [['Ordem', 'Música', 'Afinação']],
-            body: setlistSongs,
-            theme: 'grid',
-            headStyles: { fillColor: [236, 72, 153] }, // Pink 500
-            margin: { left: 14, right: 14 }
-          });
-          finalY = (doc as any).lastAutoTable.finalY + 15;
-        } else {
-          doc.setFontSize(10);
-          doc.setTextColor(100, 100, 100);
-          doc.text('Nenhuma música neste setlist.', 14, finalY);
-          finalY += 10;
-        }
-      });
-    }
-
-    doc.save(`repertorio-${band.name.toLowerCase().replace(/\\s+/g, '-')}.pdf`);
+    // TODO: Ideally provide a theme selection modal here.
+    // For now, defaulting to dark theme to show the new layout.
+    const theme = 'dark';
+    const url = `/api/bands/${band.id}/generate_repertoire_pdf/?theme=${theme}`;
+    window.open(url, '_blank');
   }
 }
