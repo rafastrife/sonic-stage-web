@@ -127,6 +127,14 @@ export class RepertoireComponent {
     // For now, defaulting to dark theme to show the new layout.
     const theme = 'dark';
     const url = `/api/bands/${band.id}/generate_repertoire_pdf/?theme=${theme}`;
-    window.open(url, '_blank');
+    
+    this.http.get(url, { responseType: 'blob' }).subscribe((blob) => {
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = `repertorio-${band.name.toLowerCase().replace(/\s+/g, '-')}.pdf`;
+      link.click();
+      window.URL.revokeObjectURL(downloadUrl);
+    });
   }
 }
