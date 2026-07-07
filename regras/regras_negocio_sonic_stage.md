@@ -213,21 +213,23 @@ As telas indicam opções como:
 
 | ID | Regra |
 |---|---|
-| RN-REP-001 | O repertório deve exibir catálogo de músicas da banda ativa. |
-| RN-REP-002 | Cada faixa pode possuir título, categoria/gênero, status, afinação, instrumento inicial e BPM. |
-| RN-REP-003 | O sistema deve permitir busca por título. |
-| RN-REP-004 | O sistema deve disponibilizar filtros para facilitar a gestão do catálogo. |
-| RN-REP-005 | O sistema deve permitir adicionar nova faixa ao repertório. |
-| RN-REP-006 | O sistema deve permitir carregar mais faixas quando houver paginação ou lista extensa. |
-| RN-REP-007 | O sistema pode exibir ação rápida de reprodução/preview da faixa. |
+| RN-REP-001 | O repertório deve exibir catálogo de músicas da banda ativa, independente de qualquer setlist específico. |
+| RN-REP-002 | Cada faixa pode possuir título (obrigatório), artista/banda, categoria/gênero, tom, afinação, BPM e tags livres. |
+| RN-REP-003 | O sistema deve permitir busca por título e por artista. |
+| RN-REP-004 | O sistema deve disponibilizar filtros por status e por gênero para facilitar a gestão do catálogo. |
+| RN-REP-005 | O sistema deve permitir adicionar nova faixa ao catálogo informando apenas o título; os demais campos são opcionais. |
+| RN-REP-006 | O sistema deve permitir editar e remover faixas existentes do catálogo. Ao remover uma faixa referenciada por um ou mais setlists, o sistema deve avisar quais setlists serão afetados antes de confirmar a exclusão. |
+| RN-REP-007 | O sistema deve permitir reordenar manualmente as faixas do catálogo, persistindo a ordem definida. |
+| RN-REP-008 | Uma mesma faixa (mesmo título/artista) pode ser reutilizada em múltiplos setlists sem duplicação de cadastro. |
 
 ## 10.2 Status de faixa
 
 | ID | Regra |
 |---|---|
-| RN-REP-008 | Uma faixa pode possuir status operacional, como "Pronto p/ Ao Vivo", "Novo" ou equivalente. |
-| RN-REP-009 | Faixas marcadas como prontas para ao vivo podem ser priorizadas na montagem de setlists. |
-| RN-REP-010 | Status de faixa deve ser visível para apoiar decisão de inclusão em eventos. |
+| RN-REP-009 | Uma faixa possui um status de prontidão, com os valores: "Ativa", "Em ensaio" ou "Sugestão". |
+| RN-REP-010 | Uma faixa recém-cadastrada sem status definido assume "Ativa" por padrão. |
+| RN-REP-011 | O status de uma faixa pode ser alterado livremente por qualquer membro da banda, sem fluxo de aprovação obrigatório. |
+| RN-REP-012 | Status de faixa deve ser visível na listagem para apoiar decisão de inclusão em setlists. |
 
 ## 10.3 Setlists
 
@@ -339,7 +341,7 @@ As telas indicam funções como:
 | Convite | e-mail, banda, função, status, token, enviado em, reenviado em, expira em. |
 | Evento | título, tipo, data, hora início, hora fim, local, status, banda. |
 | Roteiro de Ensaio | evento, itens ordenados, descrição, duração estimada. |
-| Música | título, categoria/gênero, afinação, nota/instrumento inicial, BPM, duração, status. |
+| Música | título (obrigatório), artista/banda, categoria/gênero, tom, afinação, BPM, duração, tags, status, ordem no catálogo. |
 | Setlist | nome, banda, músicas ordenadas, duração total, status, última utilização. |
 | Exportação | setlist, layout, colunas, tema, data de geração, usuário gerador. |
 
@@ -364,7 +366,7 @@ As telas indicam funções como:
 | Objeto | Status identificados ou sugeridos |
 |---|---|
 | Convite | Pendente, reenviado, aceito, expirado, cancelado. |
-| Música | Novo, pronto para ao vivo, em revisão, arquivado. |
+| Música | Ativa, em ensaio, sugestão. |
 | Setlist | Rascunho, pronto, utilizado, arquivado. |
 | Evento | Agendado, ao vivo, concluído, cancelado. |
 | Usuário | Ativo, pendente de verificação, bloqueado, inativo. |
