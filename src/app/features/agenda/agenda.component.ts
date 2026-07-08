@@ -1,23 +1,62 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BandStore } from '../../core/stores/band.store';
 
-interface Event {
-  id?: string;
+interface AppEvent {
+  id?: number;
+  band: number;
+  band_name?: string;
   title: string;
-  type: string;
-  date: string;
+  date: string; // yyyy-MM-dd
+  start_time: string | null;
+  end_time: string | null;
   location: string;
-  status?: string;
+  setlist: number | null;
+  setlist_name?: string | null;
+  status: 'CONFIRMED' | 'PENDING' | 'CANCELED';
+  notes: string | null;
+}
+
+interface SetlistOption {
+  id: number;
+  name: string;
 }
 
 interface CalendarDay {
   date: Date;
   isCurrentMonth: boolean;
   isToday: boolean;
-  events: Event[];
+  events: AppEvent[];
+}
+
+interface MonthGroup {
+  label: string;
+  events: AppEvent[];
+}
+
+type ViewMode = 'lista' | 'calendario';
+type TimeFilter = 'all' | 'upcoming' | 'past';
+
+const BAND_TAG_PALETTE = [
+  { bg: 'bg-pink-500/15', border: 'border-pink-500/40', text: 'text-pink-300' },
+  { bg: 'bg-cyan-500/15', border: 'border-cyan-500/40', text: 'text-cyan-300' },
+  { bg: 'bg-violet-500/15', border: 'border-violet-500/40', text: 'text-violet-300' },
+  { bg: 'bg-emerald-500/15', border: 'border-emerald-500/40', text: 'text-emerald-300' },
+  { bg: 'bg-amber-500/15', border: 'border-amber-500/40', text: 'text-amber-300' },
+];
+
+function parseDateOnly(value: string): Date {
+  const [y, m, d] = value.split('-').map(Number);
+  return new Date(y, (m || 1) - 1, d || 1);
+}
+
+function toDateOnlyString(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
 }
 
 @Component({
@@ -25,162 +64,225 @@ interface CalendarDay {
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div class="flex flex-col xl:flex-row gap-8 p-8 max-w-7xl mx-auto text-white min-h-screen bg-[#121212]">
-      <!-- Main Calendar Area (Left) -->
-      <div class="flex-1">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
-          <div class="flex items-center gap-6">
-            <div class="flex gap-2">
-              <button (click)="previousMonth()" class="text-neutral-400 hover:text-white hover:bg-neutral-800 p-2 rounded-full transition-colors border border-neutral-800 bg-neutral-900 shadow-sm">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-              </button>
-              <button (click)="nextMonth()" class="text-neutral-400 hover:text-white hover:bg-neutral-800 p-2 rounded-full transition-colors border border-neutral-800 bg-neutral-900 shadow-sm">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-              </button>
-            </div>
-            <div>
-              <h1 class="text-5xl font-black tracking-tight mb-2">{{ currentMonthName() }} {{ currentYear() }}</h1>
-              <p class="text-neutral-400 font-medium text-lg flex items-center gap-2">
-                <span class="text-cyan-400 text-xs">●</span> 
-                {{ summary().shows }} Shows Agendados • {{ summary().ensaios }} Ensaios
-              </p>
+    <div class="p-8 max-w-7xl mx-auto text-white min-h-screen bg-[#121212]">
+
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div>
+          <h1 class="text-4xl font-black tracking-tight mb-1">Agenda</h1>
+          <p class="text-neutral-400 font-medium">Acompanhe os shows e eventos de todas as suas bandas.</p>
+        </div>
+        <button (click)="openForm()" class="bg-violet-500 hover:bg-violet-400 text-white px-6 py-3 rounded-full font-bold text-sm transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(139,92,246,0.4)]">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          Novo Evento
+        </button>
+      </div>
+
+      <!-- View toggle -->
+      <div class="flex flex-wrap items-center gap-4 mb-6">
+        <div class="flex bg-neutral-900 border border-neutral-800 rounded-full p-1">
+          <button (click)="viewMode.set('lista')" [class]="pillClasses(viewMode() === 'lista')">Lista</button>
+          <button (click)="viewMode.set('calendario')" [class]="pillClasses(viewMode() === 'calendario')">Calendário</button>
+        </div>
+
+        <div class="relative">
+          <select
+            class="bg-neutral-900 border border-neutral-800 text-white rounded-full pl-4 pr-9 py-2.5 appearance-none cursor-pointer focus:outline-none focus:border-cyan-400 transition-colors text-sm font-medium"
+            [value]="bandFilter()"
+            (change)="onBandFilterChange($event)">
+            <option value="all">Todas as Bandas</option>
+            <option *ngFor="let band of bandStore.userBands()" [value]="band.id">{{ band.name }}</option>
+          </select>
+        </div>
+
+        <div class="flex bg-neutral-900 border border-neutral-800 rounded-full p-1">
+          <button (click)="setTimeFilter('all')" [class]="pillClasses(timeFilter() === 'all')">Todos</button>
+          <button (click)="setTimeFilter('upcoming')" [class]="pillClasses(timeFilter() === 'upcoming')">Próximos</button>
+          <button (click)="setTimeFilter('past')" [class]="pillClasses(timeFilter() === 'past')">Passados</button>
+        </div>
+      </div>
+
+      <!-- Lista view -->
+      <div *ngIf="viewMode() === 'lista'" class="space-y-8">
+        <div *ngFor="let group of monthGroups()">
+          <div class="flex items-center justify-between border-b border-neutral-800 pb-2 mb-4">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-neutral-300">{{ group.label }}</h2>
+            <span class="text-xs text-neutral-500">{{ group.events.length }} evento{{ group.events.length === 1 ? '' : 's' }}</span>
+          </div>
+
+          <div class="space-y-4">
+            <div *ngFor="let ev of group.events" class="bg-[#1a1a1a] border border-neutral-800 rounded-2xl p-5 flex items-start gap-5">
+              <div class="flex flex-col items-center w-14 flex-shrink-0">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-cyan-400">{{ monthAbbrev(ev.date) }}</span>
+                <span class="text-3xl font-black leading-none">{{ dayNumber(ev.date) }}</span>
+                <span class="text-[11px] uppercase text-neutral-500">{{ weekdayAbbrev(ev.date) }}</span>
+              </div>
+
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <h3 class="text-lg font-bold text-white">{{ ev.title }}</h3>
+                </div>
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-neutral-400 mb-3">
+                  <span *ngIf="ev.location" class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    {{ ev.location }}
+                  </span>
+                  <span *ngIf="timeRange(ev)" class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    {{ timeRange(ev) }}
+                  </span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span [class]="bandTagClasses(ev.band)">{{ ev.band_name }}</span>
+                  <span *ngIf="ev.setlist_name" class="flex items-center gap-1.5 bg-neutral-800 border border-neutral-700 text-neutral-300 text-xs font-medium px-3 py-1 rounded-full">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    {{ ev.setlist_name }}
+                  </span>
+                  <span *ngIf="!ev.setlist_name" class="text-xs text-neutral-600 italic">Sem setlist vinculada</span>
+                </div>
+              </div>
+
+              <span [class]="statusClasses(ev.status)">{{ statusLabel(ev.status) }}</span>
             </div>
           </div>
-          <div class="flex flex-wrap gap-4 items-center">
-            <div class="flex bg-neutral-900 border border-neutral-800 rounded-full p-1">
-              <button class="px-6 py-2 rounded-full bg-neutral-800 text-white font-medium text-sm transition-colors">Mês</button>
-              <button class="px-6 py-2 rounded-full text-neutral-400 hover:text-white font-medium text-sm transition-colors">Semana</button>
-            </div>
-            <button (click)="isAddingEvent = !isAddingEvent" class="bg-cyan-300 hover:bg-cyan-200 text-neutral-900 px-6 py-2 rounded-full font-bold text-sm transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(103,232,249,0.4)]">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-              Novo Evento
+        </div>
+
+        <div *ngIf="monthGroups().length === 0" class="text-center py-16 bg-[#1a1a1a] rounded-2xl border border-neutral-800">
+          <p class="text-neutral-500 font-medium">Nenhum evento encontrado para os filtros selecionados.</p>
+        </div>
+      </div>
+
+      <!-- Calendário view -->
+      <div *ngIf="viewMode() === 'calendario'" class="bg-[#1a1a1a] border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl select-none">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-neutral-800">
+          <div class="flex items-center gap-4">
+            <button (click)="previousMonth()" class="text-neutral-400 hover:text-white hover:bg-neutral-800 p-2 rounded-full transition-colors border border-neutral-800 bg-neutral-900">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <h2 class="text-xl font-bold">{{ currentMonthName() }} {{ currentYear() }}</h2>
+            <button (click)="nextMonth()" class="text-neutral-400 hover:text-white hover:bg-neutral-800 p-2 rounded-full transition-colors border border-neutral-800 bg-neutral-900">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
           </div>
+          <button (click)="goToToday()" class="bg-neutral-800 hover:bg-neutral-700 text-white text-sm font-medium px-4 py-2 rounded-full transition-colors">Hoje</button>
         </div>
 
-        <!-- Add Event Form -->
-        <div *ngIf="isAddingEvent" class="bg-neutral-900/80 border border-neutral-800 rounded-2xl p-6 mb-6 backdrop-blur-xl animate-fade-in">
-          <h3 class="text-xl font-bold mb-4 text-white">Criar Novo Evento</h3>
-          <form [formGroup]="eventForm" (ngSubmit)="addEvent()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="col-span-1 md:col-span-2">
-              <label class="block text-sm font-medium text-neutral-400 mb-2">Título do Evento</label>
-              <input type="text" formControlName="title" class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-cyan-400 transition-colors">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-neutral-400 mb-2">Tipo</label>
-              <select formControlName="type" class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-cyan-400 transition-colors">
-                <option value="SHOW">Show</option>
-                <option value="ENSAIO">Ensaio</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-neutral-400 mb-2">Data e Hora</label>
-              <input type="datetime-local" formControlName="date" class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-cyan-400 transition-colors" [value]="eventForm.get('date')?.value | date:'yyyy-MM-ddTHH:mm'">
-            </div>
-            <div class="col-span-1 md:col-span-2">
-              <label class="block text-sm font-medium text-neutral-400 mb-2">Local</label>
-              <input type="text" formControlName="location" class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-cyan-400 transition-colors">
-            </div>
-            <div class="col-span-1 md:col-span-2 flex justify-end mt-2">
-              <button type="button" (click)="isAddingEvent = false" class="px-6 py-3 rounded-xl font-medium text-neutral-400 hover:text-white transition-colors mr-2">Cancelar</button>
-              <button type="submit" [disabled]="eventForm.invalid" class="bg-cyan-300 text-neutral-900 hover:bg-cyan-200 px-6 py-3 rounded-xl font-bold transition-colors disabled:opacity-50">
-                Salvar Evento
-              </button>
-            </div>
-          </form>
-        </div>
-        
-        <!-- Calendar Grid -->
-        <div class="bg-[#1a1a1a] border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl select-none">
-          <!-- Weekdays Header -->
-          <div class="grid grid-cols-7 border-b border-neutral-800 bg-[#222]">
-            <div *ngFor="let day of ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']" class="py-4 text-center text-xs font-bold text-neutral-500 tracking-widest uppercase">
-              {{ day }}
-            </div>
+        <div class="grid grid-cols-7 border-b border-neutral-800 bg-[#181818]">
+          <div *ngFor="let day of ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']" class="py-3 text-center text-xs font-bold text-neutral-500 tracking-widest uppercase">
+            {{ day }}
           </div>
-          <!-- Days Grid -->
-          <div class="grid grid-cols-7 bg-neutral-800 gap-[1px] border-b border-neutral-800">
-             <div *ngFor="let day of calendarDays()" 
-                  (dblclick)="scheduleEventOn(day.date)"
-                  class="bg-[#1a1a1a] min-h-[140px] p-2 transition-colors hover:bg-[#222] cursor-pointer"
-                  [ngClass]="{'opacity-50': !day.isCurrentMonth}">
-               
-               <!-- Day Number -->
-               <div class="flex justify-center items-center w-8 h-8 rounded-full mb-2 font-medium"
-                    [ngClass]="{
-                      'bg-cyan-300 text-neutral-900 font-bold': day.isToday,
-                      'text-white': !day.isToday && day.isCurrentMonth,
-                      'text-neutral-600': !day.isCurrentMonth
-                    }">
-                 {{ day.date | date:'d' }}
-               </div>
-
-               <!-- Event Chips -->
-               <div class="space-y-1.5 pointer-events-none">
-                 <div *ngFor="let ev of day.events" class="w-full">
-                   
-                   <!-- Ensaio/Viagem Style -->
-                   <div *ngIf="ev.type !== 'SHOW'" class="bg-neutral-800 rounded px-2 py-1 text-[11px] flex items-center gap-1.5 truncate text-neutral-300 font-medium">
-                     <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 flex-shrink-0"></span>
-                     <span class="truncate">{{ ev.title }}</span>
-                   </div>
-
-                   <!-- Show Style -->
-                   <div *ngIf="ev.type === 'SHOW'" class="border border-pink-500/50 bg-pink-500/10 rounded p-1.5 text-[10px] text-pink-300 flex flex-col gap-0.5">
-                     <div class="flex items-center gap-1 font-bold text-[11px]">
-                       <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
-                       <span class="truncate">{{ ev.title }}</span>
-                     </div>
-                     <span class="truncate opacity-80">{{ ev.date | date:'HH:mm' }} • {{ ev.location }}</span>
-                   </div>
-
-                 </div>
-               </div>
-
-             </div>
+        </div>
+        <div class="grid grid-cols-7 bg-neutral-800 gap-[1px]">
+          <div *ngFor="let day of calendarDays()"
+               (dblclick)="onDayDoubleClick(day.date)"
+               class="bg-[#1a1a1a] min-h-[110px] p-2 transition-colors hover:bg-[#222] cursor-pointer"
+               [ngClass]="{'opacity-40': !day.isCurrentMonth}">
+            <div class="flex justify-center items-center w-7 h-7 rounded-full mb-2 text-sm font-medium"
+                 [ngClass]="{
+                   'bg-cyan-300 text-neutral-900 font-bold': day.isToday,
+                   'text-white': !day.isToday && day.isCurrentMonth,
+                   'text-neutral-600': !day.isCurrentMonth
+                 }">
+              {{ day.date.getDate() }}
+            </div>
+            <div class="space-y-1 pointer-events-none">
+              <div *ngFor="let ev of day.events" [class]="calendarChipClasses(ev.status)">
+                {{ ev.title }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Right Sidebar: Upcoming 7 Days -->
-      <div class="w-full xl:w-80 flex-shrink-0 mt-8 xl:mt-0">
-        <div class="flex items-center gap-3 mb-6">
-           <svg class="w-6 h-6 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-           <h2 class="text-2xl font-bold leading-tight">Próximos<br/>7 Dias</h2>
-           <a href="#" class="ml-auto text-xs font-bold text-pink-400 hover:text-pink-300 tracking-widest uppercase transition-colors">Ver Tudo</a>
-        </div>
+      <!-- Novo Evento Modal -->
+      <div *ngIf="isFormOpen()" class="fixed inset-0 bg-black/70 flex items-start justify-center z-50 overflow-y-auto py-10 px-4">
+        <div class="bg-[#181818] border border-neutral-800 rounded-2xl p-6 w-full max-w-lg">
+          <div class="flex items-start justify-between mb-4">
+            <div>
+              <h3 class="text-xl font-bold text-white">Novo Evento</h3>
+              <p class="text-sm text-neutral-500">Adicione um show ou evento à agenda</p>
+            </div>
+            <button (click)="closeForm()" class="text-neutral-500 hover:text-white transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
 
-        <div class="space-y-4">
-           
-           <div *ngFor="let ev of upcomingEvents()" 
-                class="rounded-2xl p-5 relative overflow-hidden group transition-all"
-                [ngClass]="{
-                  'bg-[#1a1a1a] border-l-4 border-l-cyan-400 border border-[#222]': ev.type !== 'SHOW',
-                  'bg-[#1a1a1a] border border-pink-500/30 shadow-[0_0_20px_rgba(236,72,153,0.1)]': ev.type === 'SHOW'
-                }">
-             
-             <!-- Decorative Icons based on type -->
-             <svg *ngIf="ev.type !== 'SHOW'" class="absolute -right-4 -bottom-4 w-24 h-24 text-neutral-800 opacity-30 transform group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+          <form [formGroup]="eventForm" (ngSubmit)="submitForm()" class="space-y-4">
+            <div>
+              <label class="block text-sm font-bold text-neutral-300 mb-1.5">Nome do evento *</label>
+              <input type="text" formControlName="title" placeholder="Ex: Show no Bar do Rock"
+                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+              <p *ngIf="submitted() && eventForm.get('title')?.invalid" class="text-xs text-red-400 mt-1">Informe o nome do evento.</p>
+            </div>
 
-             <div class="flex items-center gap-2 mb-2">
-               <span class="text-xs font-bold tracking-wider uppercase text-neutral-400">
-                 {{ getRelativeDayName(ev.date) }} • {{ ev.date | date:'HH:mm' }}
-               </span>
-               <span *ngIf="ev.status === 'LIVE' || ev.type === 'SHOW'" class="bg-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Ao Vivo</span>
-             </div>
-             
-             <h3 class="text-xl font-bold text-white mb-3" [ngClass]="{'text-pink-100': ev.type === 'SHOW'}">{{ ev.title }}</h3>
-             
-             <div class="flex items-start gap-2 text-neutral-400 text-sm font-medium">
-               <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-               <span class="leading-snug">{{ ev.location }}</span>
-             </div>
-           </div>
+            <div>
+              <label class="block text-sm font-bold text-neutral-300 mb-1.5">Banda *</label>
+              <select formControlName="band" (change)="onFormBandChange()"
+                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+                <option [ngValue]="null">Selecionar banda</option>
+                <option *ngFor="let band of bandStore.userBands()" [ngValue]="band.id">{{ band.name }}</option>
+              </select>
+              <p *ngIf="submitted() && eventForm.get('band')?.invalid" class="text-xs text-red-400 mt-1">Selecione uma banda.</p>
+            </div>
 
-           <div *ngIf="upcomingEvents().length === 0" class="text-center py-10 bg-[#1a1a1a] rounded-2xl border border-neutral-800">
-             <p class="text-neutral-500 font-medium">Nenhum evento nos próximos 7 dias.</p>
-           </div>
-           
+            <div>
+              <label class="block text-sm font-bold text-neutral-300 mb-1.5">Setlist vinculada</label>
+              <select formControlName="setlist"
+                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+                <option [ngValue]="null">Nenhuma (opcional)</option>
+                <option *ngFor="let sl of formSetlists()" [ngValue]="sl.id">{{ sl.name }}</option>
+              </select>
+              <p class="text-xs text-neutral-600 mt-1">A setlist ficará associada a este evento</p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+              <div class="col-span-1">
+                <label class="block text-sm font-bold text-neutral-300 mb-1.5">Data *</label>
+                <input type="date" formControlName="date"
+                  class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-3 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+              </div>
+              <div class="col-span-1">
+                <label class="block text-sm font-bold text-neutral-300 mb-1.5">Horário início</label>
+                <input type="time" formControlName="start_time"
+                  class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-3 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+              </div>
+              <div class="col-span-1">
+                <label class="block text-sm font-bold text-neutral-300 mb-1.5">Horário fim</label>
+                <input type="time" formControlName="end_time"
+                  class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-3 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+              </div>
+            </div>
+            <p *ngIf="submitted() && eventForm.get('date')?.invalid" class="text-xs text-red-400 -mt-2">Informe a data do evento.</p>
+
+            <div>
+              <label class="block text-sm font-bold text-neutral-300 mb-1.5">Local</label>
+              <input type="text" formControlName="location" placeholder="Ex: Bar do Rock, São Paulo"
+                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-neutral-300 mb-2">Status</label>
+              <div class="grid grid-cols-3 gap-3">
+                <button type="button" (click)="setStatus('CONFIRMED')"
+                  [class]="statusButtonClasses('CONFIRMED')">Confirmado</button>
+                <button type="button" (click)="setStatus('PENDING')"
+                  [class]="statusButtonClasses('PENDING')">Pendente</button>
+                <button type="button" (click)="setStatus('CANCELED')"
+                  [class]="statusButtonClasses('CANCELED')">Cancelado</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-neutral-300 mb-1.5">Observações</label>
+              <textarea formControlName="notes" rows="3" placeholder="Informações adicionais sobre o evento..."
+                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors resize-none"></textarea>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-2">
+              <button type="button" (click)="closeForm()" class="px-6 py-3 rounded-xl font-medium text-neutral-400 hover:text-white transition-colors">Cancelar</button>
+              <button type="submit" class="bg-violet-500 hover:bg-violet-400 text-white px-6 py-3 rounded-xl font-bold transition-colors">Salvar Evento</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -190,27 +292,45 @@ export class AgendaComponent implements OnInit {
   bandStore = inject(BandStore);
   http = inject(HttpClient);
   fb = inject(FormBuilder);
-  
-  events = signal<Event[]>([]);
-  isAddingEvent = false;
-  
+
+  events = signal<AppEvent[]>([]);
+  viewMode = signal<ViewMode>('lista');
+  bandFilter = signal<number | 'all'>('all');
+  timeFilter = signal<TimeFilter>('all');
   currentDate = signal(new Date());
+
+  isFormOpen = signal(false);
+  submitted = signal(false);
+  formSetlists = signal<SetlistOption[]>([]);
 
   eventForm = this.fb.nonNullable.group({
     title: ['', Validators.required],
-    type: ['SHOW', Validators.required],
+    band: this.fb.control<number | null>(null, Validators.required),
+    setlist: this.fb.control<number | null>(null),
     date: ['', Validators.required],
-    location: ['', Validators.required],
-    status: ['SCHEDULED']
+    start_time: [''],
+    end_time: [''],
+    location: [''],
+    status: ['CONFIRMED'],
+    notes: ['']
   });
 
-  // Computed signals
-  summary = computed(() => {
-    const evs = this.events();
-    return {
-      shows: evs.filter(e => e.type === 'SHOW').length,
-      ensaios: evs.filter(e => e.type === 'ENSAIO').length
-    };
+  monthGroups = computed<MonthGroup[]>(() => {
+    const groups: MonthGroup[] = [];
+    const byKey = new Map<string, MonthGroup>();
+    for (const ev of this.events()) {
+      const d = parseDateOnly(ev.date);
+      const key = `${d.getFullYear()}-${d.getMonth()}`;
+      let group = byKey.get(key);
+      if (!group) {
+        const label = d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }).replace(/^\w/, c => c.toUpperCase());
+        group = { label, events: [] };
+        byKey.set(key, group);
+        groups.push(group);
+      }
+      group.events.push(ev);
+    }
+    return groups;
   });
 
   calendarDays = computed(() => {
@@ -219,37 +339,32 @@ export class AgendaComponent implements OnInit {
     const month = date.getMonth();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    
-    // Find the previous Sunday
+
     const startDate = new Date(firstDay);
     startDate.setDate(firstDay.getDate() - firstDay.getDay());
-    
-    // Find the next Saturday
+
     const endDate = new Date(lastDay);
     if (lastDay.getDay() !== 6) {
       endDate.setDate(lastDay.getDate() + (6 - lastDay.getDay()));
     }
-    
-    // Always show 6 weeks (42 days) for consistent grid height
+
     const days: CalendarDay[] = [];
     const current = new Date(startDate);
     const today = new Date();
-    
     const evs = this.events();
-    
+
     for (let i = 0; i < 42; i++) {
       if (current > endDate && i % 7 === 0) break;
-      
+
       const isCurrentMonth = current.getMonth() === month;
-      const isToday = current.getDate() === today.getDate() && 
-                      current.getMonth() === today.getMonth() && 
+      const isToday = current.getDate() === today.getDate() &&
+                      current.getMonth() === today.getMonth() &&
                       current.getFullYear() === today.getFullYear();
-                      
-      // Find events for this day
+
       const dayEvents = evs.filter(e => {
-        const eDate = new Date(e.date);
-        return eDate.getDate() === current.getDate() && 
-               eDate.getMonth() === current.getMonth() && 
+        const eDate = parseDateOnly(e.date);
+        return eDate.getDate() === current.getDate() &&
+               eDate.getMonth() === current.getMonth() &&
                eDate.getFullYear() === current.getFullYear();
       });
 
@@ -259,29 +374,84 @@ export class AgendaComponent implements OnInit {
         isToday,
         events: dayEvents
       });
-      
+
       current.setDate(current.getDate() + 1);
     }
-    
-    return days;
-  });
 
-  upcomingEvents = computed(() => {
-    const now = new Date();
-    const nextWeek = new Date(now);
-    nextWeek.setDate(now.getDate() + 7);
-    
-    return this.events()
-      .filter(e => {
-        const eDate = new Date(e.date);
-        return eDate >= now && eDate <= nextWeek;
-      })
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .slice(0, 5); // Limit to 5 upcoming
+    return days;
   });
 
   ngOnInit() {
     this.loadEvents();
+  }
+
+  pillClasses(active: boolean): string {
+    return active
+      ? 'px-5 py-2 rounded-full bg-violet-500 text-white font-medium text-sm transition-colors'
+      : 'px-5 py-2 rounded-full text-neutral-400 hover:text-white font-medium text-sm transition-colors';
+  }
+
+  bandTagClasses(bandId: number): string {
+    const idx = this.bandStore.userBands().findIndex(b => b.id === bandId);
+    const palette = BAND_TAG_PALETTE[(idx >= 0 ? idx : 0) % BAND_TAG_PALETTE.length];
+    return `text-xs font-bold px-3 py-1 rounded-full border ${palette.bg} ${palette.border} ${palette.text}`;
+  }
+
+  statusLabel(status: string): string {
+    if (status === 'PENDING') return 'Pendente';
+    if (status === 'CANCELED') return 'Cancelado';
+    return 'Confirmado';
+  }
+
+  statusClasses(status: string): string {
+    const base = 'text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full flex items-center gap-1.5 flex-shrink-0';
+    if (status === 'PENDING') return `${base} bg-amber-500/15 text-amber-300`;
+    if (status === 'CANCELED') return `${base} bg-red-500/15 text-red-300`;
+    return `${base} bg-emerald-500/15 text-emerald-300`;
+  }
+
+  calendarChipClasses(status: string): string {
+    const base = 'rounded px-2 py-1 text-[10px] font-medium truncate';
+    if (status === 'PENDING') return `${base} bg-amber-500/20 text-amber-300`;
+    if (status === 'CANCELED') return `${base} bg-red-500/20 text-red-300 line-through`;
+    return `${base} bg-emerald-500/20 text-emerald-300`;
+  }
+
+  statusButtonClasses(status: string): string {
+    const selected = this.eventForm.get('status')?.value === status;
+    return selected
+      ? 'py-2.5 rounded-lg border-2 border-emerald-400 text-emerald-300 font-bold text-sm transition-colors'
+      : 'py-2.5 rounded-lg border border-neutral-800 bg-[#0e0e0e] text-neutral-400 hover:border-neutral-600 font-bold text-sm transition-colors';
+  }
+
+  setStatus(status: string) {
+    this.eventForm.patchValue({ status });
+  }
+
+  dayNumber(dateStr: string): number {
+    return parseDateOnly(dateStr).getDate();
+  }
+
+  monthAbbrev(dateStr: string): string {
+    return parseDateOnly(dateStr).toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '').toUpperCase();
+  }
+
+  weekdayAbbrev(dateStr: string): string {
+    return parseDateOnly(dateStr).toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '').toUpperCase();
+  }
+
+  timeRange(ev: AppEvent): string {
+    if (ev.start_time && ev.end_time) return `${ev.start_time.slice(0, 5)} - ${ev.end_time.slice(0, 5)}`;
+    if (ev.start_time) return ev.start_time.slice(0, 5);
+    return '';
+  }
+
+  currentMonthName() {
+    return this.currentDate().toLocaleDateString('pt-BR', { month: 'long' }).replace(/^\w/, c => c.toUpperCase());
+  }
+
+  currentYear() {
+    return this.currentDate().getFullYear();
   }
 
   previousMonth() {
@@ -296,100 +466,104 @@ export class AgendaComponent implements OnInit {
     this.currentDate.set(d);
   }
 
-  scheduleEventOn(date: Date) {
-    this.isAddingEvent = true;
-    
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    
-    const dateString = `${year}-${month}-${day}T19:00`;
-    
-    this.eventForm.patchValue({
-      date: dateString
-    });
-    
-    // Scroll to top so user sees the form
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  goToToday() {
+    this.currentDate.set(new Date());
   }
 
-  currentMonthName() {
-    return this.currentDate().toLocaleDateString('pt-BR', { month: 'long' }).replace(/^\w/, c => c.toUpperCase());
-  }
-  
-  currentYear() {
-    return this.currentDate().getFullYear();
+  onBandFilterChange(event: any) {
+    const value = event.target.value;
+    this.bandFilter.set(value === 'all' ? 'all' : Number(value));
+    this.loadEvents();
   }
 
-  getRelativeDayName(dateString: string): string {
-    const date = new Date(dateString);
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-    
-    if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
-      return 'Hoje';
-    } else if (date.getDate() === tomorrow.getDate() && date.getMonth() === tomorrow.getMonth() && date.getFullYear() === tomorrow.getFullYear()) {
-      return 'Amanhã';
-    } else {
-      return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '');
-    }
+  setTimeFilter(filter: TimeFilter) {
+    this.timeFilter.set(filter);
+    this.loadEvents();
   }
 
   loadEvents() {
-    const bandId = this.bandStore.activeBandId();
+    let params = new HttpParams();
+    const band = this.bandFilter();
+    if (band !== 'all') params = params.set('band', band);
+    if (this.timeFilter() !== 'all') params = params.set('timeframe', this.timeFilter());
+
+    this.http.get<AppEvent[]>('/api/events/', { params }).subscribe({
+      next: (data) => this.events.set(data),
+      error: () => this.events.set([])
+    });
+  }
+
+  onDayDoubleClick(date: Date) {
+    const prefillBand = this.bandFilter() !== 'all' ? this.bandFilter() as number : null;
+    this.openForm(date, prefillBand);
+  }
+
+  openForm(prefillDate?: Date, prefillBand?: number | null) {
+    this.submitted.set(false);
+    this.eventForm.reset({
+      title: '',
+      band: prefillBand ?? null,
+      setlist: null,
+      date: prefillDate ? toDateOnlyString(prefillDate) : '',
+      start_time: '',
+      end_time: '',
+      location: '',
+      status: 'CONFIRMED',
+      notes: ''
+    });
+    this.formSetlists.set([]);
+    if (prefillBand) {
+      this.loadSetlistsForBand(prefillBand);
+    }
+    this.isFormOpen.set(true);
+  }
+
+  closeForm() {
+    this.isFormOpen.set(false);
+  }
+
+  onFormBandChange() {
+    const bandId = this.eventForm.get('band')?.value;
+    this.eventForm.patchValue({ setlist: null });
+    this.formSetlists.set([]);
     if (bandId) {
-      this.http.get<Event[]>(`/api/bands/${bandId}/events/`).subscribe({
-        next: (data) => {
-          if (data && data.length > 0) {
-            this.events.set(data);
-          } else {
-            this.seedMockData();
-          }
-        },
-        error: () => this.seedMockData()
-      });
-    } else {
-      this.seedMockData();
+      this.loadSetlistsForBand(bandId);
     }
   }
 
-  seedMockData() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    
-    const mockEvents: Event[] = [
-      { id: '1', title: 'Ensaio (Estúdio A)', type: 'ENSAIO', date: new Date(year, month, now.getDate(), 14, 0).toISOString(), location: 'Espaço de Ensaio no Centro' },
-      { id: '2', title: 'Show no Pôr do Sol', type: 'SHOW', date: new Date(year, month, now.getDate() + 1, 20, 0).toISOString(), location: 'The Roxy, West Hollywood', status: 'LIVE' },
-      { id: '3', title: 'Ensaio Técnico', type: 'ENSAIO', date: new Date(year, month, now.getDate() + 3, 10, 0).toISOString(), location: 'Montagem do Palco Principal' },
-      { id: '4', title: 'Ensaio B', type: 'ENSAIO', date: new Date(year, month, now.getDate() - 2, 18, 0).toISOString(), location: 'Estúdio B' },
-      { id: '5', title: 'Sessão de Estúdio', type: 'SHOW', date: new Date(year, month, now.getDate() + 8, 14, 0).toISOString(), location: 'Estúdio Principal' }
-    ];
-    this.events.set(mockEvents);
+  private loadSetlistsForBand(bandId: number) {
+    this.http.get<SetlistOption[]>(`/api/bands/${bandId}/setlists/`).subscribe({
+      next: (data) => this.formSetlists.set(data),
+      error: () => this.formSetlists.set([])
+    });
   }
 
-  addEvent() {
-    const bandId = this.bandStore.activeBandId();
-    if (this.eventForm.valid && bandId) {
-      this.http.post(`/api/bands/${bandId}/events/`, this.eventForm.getRawValue()).subscribe(() => {
-        this.isAddingEvent = false;
-        this.eventForm.reset({type: 'SHOW', status: 'SCHEDULED'});
+  submitForm() {
+    this.submitted.set(true);
+    if (this.eventForm.invalid) return;
+
+    const raw = this.eventForm.getRawValue();
+    const bandId = raw.band as number;
+
+    const payload = {
+      title: raw.title,
+      date: raw.date,
+      start_time: raw.start_time || null,
+      end_time: raw.end_time || null,
+      location: raw.location || '',
+      setlist: raw.setlist || null,
+      status: raw.status,
+      notes: raw.notes || null
+    };
+
+    this.http.post(`/api/bands/${bandId}/events/`, payload).subscribe({
+      next: () => {
+        this.isFormOpen.set(false);
         this.loadEvents();
         if (typeof (this.bandStore as any).refreshDashboard === 'function') {
           (this.bandStore as any).refreshDashboard();
         }
-      });
-    } else if (this.eventForm.valid) {
-      // Optimistic update for local dev without bandId
-      const newEv = this.eventForm.getRawValue() as Event;
-      newEv.id = Math.random().toString();
-      this.events.set([...this.events(), newEv]);
-      this.isAddingEvent = false;
-      this.eventForm.reset({type: 'SHOW', status: 'SCHEDULED'});
-      if (typeof (this.bandStore as any).refreshDashboard === 'function') {
-        (this.bandStore as any).refreshDashboard();
       }
-    }
+    });
   }
 }

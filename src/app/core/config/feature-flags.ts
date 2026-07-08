@@ -8,10 +8,10 @@ export const ENABLED_ROUTES: string[] = [
   '/dashboard',
   '/dashboard/repertoire',
   '/dashboard/members',
+  '/dashboard/agenda',
 ];
 
 export const LOCKED_ROUTES: string[] = [
-  '/dashboard/agenda',
   '/dashboard/profile',
 ];
 

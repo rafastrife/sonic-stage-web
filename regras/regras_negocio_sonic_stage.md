@@ -170,9 +170,9 @@ As telas indicam opções como:
 | ID | Regra |
 |---|---|
 | RN-AGE-001 | A agenda deve apresentar eventos organizados por calendário mensal. |
-| RN-AGE-002 | A agenda web deve permitir alternância entre visualização de mês e semana. |
+| RN-AGE-002 | A agenda web deve permitir alternância entre visualização em Lista e em Calendário (mês), com navegação entre meses e atalho para o mês atual. A alternância adicional entre mês e semana fica adiada para uma versão futura (decisão de produto da feature 026). |
 | RN-AGE-003 | A agenda deve listar os próximos eventos em uma seção de curto prazo, como "Próximos 7 Dias". |
-| RN-AGE-004 | Cada evento da agenda deve apresentar tipo, data/hora, título e local quando disponíveis. |
+| RN-AGE-004 | Cada evento da agenda deve apresentar data, horário (início/fim quando informados), título e local quando disponíveis. O campo "tipo" (Ensaio/Show) deixa de ser exibido nesta versão — ver RN-EVE-002. |
 | RN-AGE-005 | Eventos podem ser classificados como ensaio, show, viagem ou atividade técnica. |
 | RN-AGE-006 | Eventos com apresentação ao vivo podem exibir destaque visual como "AO VIVO". |
 | RN-AGE-007 | A agenda deve disponibilizar ação para criação de novo evento. |
@@ -190,8 +190,8 @@ As telas indicam opções como:
 
 | ID | Regra |
 |---|---|
-| RN-EVE-001 | O sistema deve permitir criar pelo menos dois tipos principais de evento: Ensaio e Show. |
-| RN-EVE-002 | O formulário de evento deve coletar título, data, hora e local. |
+| RN-EVE-001 | O sistema deve permitir criar pelo menos dois tipos principais de evento: Ensaio e Show. A partir da feature 026, esse tipo é definido automaticamente pelo sistema (padrão "Show") em vez de coletado no formulário — ver RN-EVE-002. |
+| RN-EVE-002 | O formulário de evento deve coletar nome do evento, banda e data (obrigatórios), além de setlist vinculada, horário de início, horário de fim, local, status e observações (opcionais). O tipo (Ensaio/Show) não é mais coletado diretamente no formulário nesta versão (decisão de produto da feature 026). |
 | RN-EVE-003 | Eventos do tipo ensaio podem conter roteiro de ensaio e objetivos. |
 | RN-EVE-004 | O usuário deve poder cancelar o cadastro antes da confirmação. |
 | RN-EVE-005 | O evento só deve ser criado após confirmação explícita. |
@@ -339,7 +339,7 @@ As telas indicam funções como:
 | Banda | ID, nome, gênero principal, biografia, imagem/logo, criador, data de criação. |
 | Membro da Banda | usuário, banda, função, permissão, status, data de entrada. |
 | Convite | e-mail (opcional para convite por link), usuário convidado (quando resolvido), banda, função, canal (direto/link), status, token, enviado em, reenviado em. Sem campo de expiração nesta versão (feature 025). |
-| Evento | título, tipo, data, hora início, hora fim, local, status, banda. |
+| Evento | título, tipo (definido automaticamente, não coletado no formulário desde a feature 026), data, hora início, hora fim, local, status, banda, setlist vinculada (opcional), observações. |
 | Roteiro de Ensaio | evento, itens ordenados, descrição, duração estimada. |
 | Música | título (obrigatório), artista/banda, categoria/gênero, tom, afinação, BPM, duração, tags, status, ordem no catálogo. |
 | Setlist | nome, banda, músicas ordenadas, duração total, status, última utilização. |
@@ -368,7 +368,7 @@ As telas indicam funções como:
 | Convite | Pendente, aceito, recusado, cancelado. ("Reenviado" é uma ação sobre um convite pendente, não um status próprio; não há status "expirado" nesta versão — decisão de produto da feature 025.) |
 | Música | Ativa, em ensaio, sugestão. |
 | Setlist | Rascunho, pronto, utilizado, arquivado. |
-| Evento | Agendado, ao vivo, concluído, cancelado. |
+| Evento | Confirmado, Pendente, Cancelado (decisão de produto da feature 026 — substitui a lista anterior "Agendado, ao vivo, concluído, cancelado" para esta versão). |
 | Usuário | Ativo, pendente de verificação, bloqueado, inativo. |
 
 # 18. Regras de consistência entre web e mobile
