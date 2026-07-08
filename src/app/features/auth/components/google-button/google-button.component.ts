@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, inject, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, AfterViewInit, inject, NgZone, ViewChild, ElementRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 import { GoogleAuthService } from '../../../../core/services/google-auth.service';
@@ -21,6 +21,7 @@ export class GoogleButtonComponent implements AfterViewInit {
   @Input() action: 'login' | 'link' = 'login';
 
   private googleAuthService = inject(GoogleAuthService);
+  private ngZone = inject(NgZone);
 
   ngAfterViewInit() {
     this.checkAndInitGoogle();
@@ -52,23 +53,29 @@ export class GoogleButtonComponent implements AfterViewInit {
   }
 
   private handleCredentialResponse(response: any) {
-    if (response.credential) {
-      if (this.action === 'login') {
-        this.googleAuthService.googleLogin(response.credential).subscribe({
-          error: (err) => {
-            console.error('Google login failed', err);
-            alert('Falha ao autenticar com o Google. Tente novamente.');
-          }
-        });
-      } else if (this.action === 'link') {
-        this.googleAuthService.linkGoogleAccount(response.credential).subscribe({
-          next: () => alert('Conta vinculada com sucesso!'),
-          error: (err) => {
-            console.error('Google link failed', err);
-            alert(err.error?.error || 'Falha ao vincular com o Google. Tente novamente.');
-          }
-        });
+    // The Google Identity Services SDK invokes this callback from outside
+    // Angular's zone (its own SDK code, not an Angular-patched event), so
+    // change detection never runs for the session/navigation updates below
+    // unless we explicitly re-enter the zone here.
+    this.ngZone.run(() => {
+      if (response.credential) {
+        if (this.action === 'login') {
+          this.googleAuthService.googleLogin(response.credential).subscribe({
+            error: (err) => {
+              console.error('Google login failed', err);
+              alert('Falha ao autenticar com o Google. Tente novamente.');
+            }
+          });
+        } else if (this.action === 'link') {
+          this.googleAuthService.linkGoogleAccount(response.credential).subscribe({
+            next: () => alert('Conta vinculada com sucesso!'),
+            error: (err) => {
+              console.error('Google link failed', err);
+              alert(err.error?.error || 'Falha ao vincular com o Google. Tente novamente.');
+            }
+          });
+        }
       }
-    }
+    });
   }
 }
