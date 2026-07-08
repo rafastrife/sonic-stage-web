@@ -5,15 +5,16 @@ import { BandStore } from '../../core/stores/band.store';
 import { SongService } from '../../services/song.service';
 import { SetlistService } from '../../services/setlist.service';
 import { Song, SongPayload, SongStatus, SONG_STATUS_LABELS } from '../../models/song.model';
-import { Setlist } from '../../models/setlist.model';
+import { Setlist, SetlistPayload, SetlistStatus, SETLIST_STATUS_LABELS } from '../../models/setlist.model';
 import { SongFormComponent } from './song-form/song-form.component';
+import { SetlistFormComponent } from './setlist-form/setlist-form.component';
 
 type StatusFilter = SongStatus | null;
 
 @Component({
   selector: 'app-repertoire',
   standalone: true,
-  imports: [CommonModule, SongFormComponent],
+  imports: [CommonModule, SongFormComponent, SetlistFormComponent],
   template: `
     <div class="p-8 max-w-6xl mx-auto">
       <div class="flex justify-between items-end mb-8">
@@ -149,34 +150,147 @@ type StatusFilter = SongStatus | null;
         }
       } @else {
         <!-- Setlists tab -->
-        <div class="space-y-4">
-          @for (setlist of setlists(); track setlist.id) {
-            <div class="bg-gradient-to-br from-indigo-500/5 to-purple-500/5 border border-indigo-500/20 rounded-2xl p-5">
-              <h3 class="font-bold text-lg text-white mb-2">{{ setlist.name }}</h3>
-              <p class="text-sm text-indigo-400 mb-4">{{ setlist.songs?.length || 0 }} músicas</p>
-              <div class="space-y-1">
-                @for (rel of setlist.songs; track rel.id; let i = $index) {
-                  <div class="text-sm text-neutral-300 flex items-center gap-2">
-                    <span class="text-neutral-600 font-mono">{{ i + 1 }}.</span>
-                    {{ rel.song.title }}
-                  </div>
-                }
-              </div>
-            </div>
-          }
-
-          @if (setlists().length === 0) {
-            <div class="text-center py-10 border border-dashed border-neutral-800 rounded-2xl">
-              <p class="text-neutral-500">Nenhum setlist montado.</p>
-            </div>
-          }
+        <div class="flex flex-col sm:flex-row gap-3 mb-6">
+          <div class="relative flex-1">
+            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"></path></svg>
+            <input type="text" [value]="setlistSearchTerm()" (input)="setlistSearchTerm.set($any($event.target).value)"
+                   placeholder="Buscar setlists..."
+                   class="w-full bg-neutral-900/60 border border-neutral-800 rounded-xl pl-9 pr-3 py-2.5 text-white outline-none focus:border-indigo-500">
+          </div>
+          <button (click)="openCreateSetlistForm()" [disabled]="!hasActiveBand()"
+                  class="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2.5 rounded-xl font-medium transition-colors flex items-center gap-2 whitespace-nowrap">
+            + Nova Setlist
+          </button>
         </div>
+
+        @if (!hasActiveBand()) {
+          <div class="text-center py-16 border border-dashed border-neutral-800 rounded-2xl">
+            <p class="text-neutral-500">Carregando banda...</p>
+          </div>
+        } @else if (filteredSetlists().length === 0) {
+          <div class="text-center py-16 border border-dashed border-neutral-800 rounded-2xl">
+            <p class="text-neutral-500">
+              @if (setlists().length === 0) {
+                Nenhuma setlist ainda. Clique em "Nova Setlist" para começar.
+              } @else {
+                Nenhuma setlist encontrada para a busca atual.
+              }
+            </p>
+          </div>
+        } @else {
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            @for (setlist of filteredSetlists(); track setlist.id) {
+              <div class="bg-gradient-to-br from-indigo-500/5 to-purple-500/5 border border-indigo-500/20 rounded-2xl p-5">
+                <div class="flex items-start justify-between mb-2">
+                  <div class="min-w-0">
+                    <h3 class="font-bold text-lg text-white truncate">{{ setlist.name }}</h3>
+                    <p class="text-xs text-neutral-500 mt-0.5">Criada em {{ setlist.created_at | date:'d MMM yyyy' }}</p>
+                  </div>
+                  <div class="relative shrink-0">
+                    <div class="flex items-center gap-2">
+                      <span [class]="setlistStatusBadgeClasses(setlist.status)">● {{ setlistStatusLabel(setlist.status) }}</span>
+                      <button (click)="openSetlistMenuId.set(openSetlistMenuId() === setlist.id ? null : setlist.id)"
+                              class="text-neutral-500 hover:text-white px-1" aria-label="Mais ações">⋮</button>
+                    </div>
+                    @if (openSetlistMenuId() === setlist.id) {
+                      <div class="absolute right-0 mt-1 w-40 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl z-10 overflow-hidden">
+                        <button (click)="toggleSetlistStatus(setlist)" class="w-full text-left px-3 py-2 text-sm text-neutral-200 hover:bg-neutral-800">
+                          {{ setlist.status === 'READY' ? 'Marcar como rascunho' : 'Marcar como pronta' }}
+                        </button>
+                        <button (click)="requestDeleteSetlist(setlist)" class="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-neutral-800">Excluir</button>
+                      </div>
+                    }
+                  </div>
+                </div>
+
+                <p class="text-xs text-neutral-500 flex items-center gap-3 mb-4">
+                  <span>♪ {{ setlist.songs.length }} música{{ setlist.songs.length === 1 ? '' : 's' }}</span>
+                  <span>⏱ ~{{ formatSetlistDuration(setlist) }}</span>
+                </p>
+
+                <div class="space-y-1 mb-4">
+                  @for (rel of previewSongs(setlist); track rel.id; let i = $index) {
+                    <div class="text-sm text-neutral-300 flex items-center justify-between gap-2">
+                      <span class="truncate"><span class="text-neutral-600 font-mono mr-2">{{ i + 1 }}</span>{{ rel.song.title }}</span>
+                    </div>
+                  }
+                  @if (setlist.songs.length > 3) {
+                    <p class="text-xs text-neutral-600">+{{ setlist.songs.length - 3 }} música{{ setlist.songs.length - 3 === 1 ? '' : 's' }}</p>
+                  }
+                  @if (setlist.songs.length === 0) {
+                    <p class="text-sm text-neutral-600">Nenhuma música adicionada ainda.</p>
+                  }
+                </div>
+
+                <div class="flex gap-2">
+                  <button (click)="openEditSetlistForm(setlist)" class="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">Editar</button>
+                  <button (click)="requestSetlistExport(setlist)" class="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">Compartilhar</button>
+                </div>
+              </div>
+            }
+          </div>
+        }
       }
     </div>
 
     <!-- Song form modal -->
     @if (isFormOpen()) {
       <app-song-form [song]="editingSong()" (save)="submitForm($event)" (cancel)="closeForm()" />
+    }
+
+    <!-- Setlist form modal -->
+    @if (isSetlistFormOpen()) {
+      <app-setlist-form [setlist]="editingSetlist()" [repertoire]="songs()" (save)="submitSetlistForm($event)" (cancel)="closeSetlistForm()" />
+    }
+
+    <!-- Setlist delete confirmation -->
+    @if (deleteSetlistTarget(); as target) {
+      <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+          <h3 class="text-xl font-bold text-white mb-2">Excluir "{{ target.name }}"?</h3>
+          <p class="text-sm text-neutral-400 mb-6">Esta ação não pode ser desfeita. As músicas do repertório não serão afetadas.</p>
+          <div class="flex justify-end gap-3">
+            <button (click)="cancelDeleteSetlist()" class="text-neutral-400 hover:text-white px-4 py-2 font-medium transition-colors">Cancelar</button>
+            <button (click)="confirmDeleteSetlist()" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-medium transition-colors">Excluir</button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Setlist export modal -->
+    @if (setlistExportTarget(); as target) {
+      <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+          <h3 class="text-xl font-bold text-white mb-2">Exportar "{{ target.name }}"</h3>
+          @if (target.songs.length === 0) {
+            <p class="text-sm text-amber-400 mb-6">Esta setlist não tem músicas. Adicione ao menos uma música antes de exportar.</p>
+            <div class="flex justify-end">
+              <button (click)="setlistExportTarget.set(null)" class="text-neutral-400 hover:text-white px-4 py-2 font-medium transition-colors">Fechar</button>
+            </div>
+          } @else {
+            <p class="text-sm text-neutral-400 mb-6">Escolha o tema visual do PDF gerado.</p>
+            <div class="space-y-3">
+              <button (click)="exportSetlistToPDF('dark')" class="w-full flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:border-indigo-500 hover:bg-indigo-500/10 transition-all text-left">
+                <div>
+                  <div class="text-white font-medium">Tema Escuro</div>
+                  <div class="text-xs text-neutral-500">Ideal para palcos (baixo reflexo)</div>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-neutral-950 border border-neutral-800"></div>
+              </button>
+              <button (click)="exportSetlistToPDF('light')" class="w-full flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:border-pink-500 hover:bg-pink-500/10 transition-all text-left">
+                <div>
+                  <div class="text-white font-medium">Tema Claro</div>
+                  <div class="text-xs text-neutral-500">Ideal para impressão em papel</div>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-white border border-neutral-200"></div>
+              </button>
+            </div>
+            <div class="mt-6 flex justify-end">
+              <button (click)="setlistExportTarget.set(null)" class="text-neutral-400 hover:text-white px-4 py-2 font-medium transition-colors">Cancelar</button>
+            </div>
+          }
+        </div>
+      </div>
     }
 
     <!-- Delete confirmation -->
@@ -258,6 +372,13 @@ export class RepertoireComponent {
 
   private draggedSongId = signal<number | null>(null);
 
+  setlistSearchTerm = signal('');
+  isSetlistFormOpen = signal(false);
+  editingSetlist = signal<Setlist | null>(null);
+  openSetlistMenuId = signal<number | null>(null);
+  deleteSetlistTarget = signal<Setlist | null>(null);
+  setlistExportTarget = signal<Setlist | null>(null);
+
   readonly statusOptions: { value: SongStatus; label: string; chipLabel: string }[] = [
     { value: 'ACTIVE', label: 'Ativa', chipLabel: 'ativas' },
     { value: 'REHEARSAL', label: 'Em ensaio', chipLabel: 'em ensaio' },
@@ -295,6 +416,12 @@ export class RepertoireComponent {
       const matchesGenre = !genre || song.genre === genre;
       return matchesTerm && matchesStatus && matchesGenre;
     });
+  });
+
+  filteredSetlists = computed(() => {
+    const term = this.setlistSearchTerm().trim().toLowerCase();
+    if (!term) return this.setlists();
+    return this.setlists().filter((setlist) => setlist.name.toLowerCase().includes(term));
   });
 
   constructor() {
@@ -464,6 +591,112 @@ export class RepertoireComponent {
       link.download = `repertorio-${band.name.toLowerCase().replace(/\s+/g, '-')}-${theme}.pdf`;
       link.click();
       window.URL.revokeObjectURL(downloadUrl);
+    });
+  }
+
+  setlistStatusLabel(status: SetlistStatus): string {
+    return SETLIST_STATUS_LABELS[status];
+  }
+
+  setlistStatusBadgeClasses(status: SetlistStatus): string {
+    const base = 'text-xs font-medium px-2 py-1 rounded-full';
+    return status === 'READY'
+      ? `${base} bg-green-500/10 text-green-400`
+      : `${base} bg-amber-500/10 text-amber-400`;
+  }
+
+  previewSongs(setlist: Setlist) {
+    return [...setlist.songs].sort((a, b) => a.order_index - b.order_index).slice(0, 3);
+  }
+
+  formatSetlistDuration(setlist: Setlist): string {
+    const totalSeconds = setlist.songs.reduce((sum, rel) => sum + (rel.song.duration_seconds || 0), 0);
+    const m = Math.floor(totalSeconds / 60);
+    const s = Math.round(totalSeconds % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+
+  openCreateSetlistForm(): void {
+    this.editingSetlist.set(null);
+    this.isSetlistFormOpen.set(true);
+  }
+
+  openEditSetlistForm(setlist: Setlist): void {
+    this.openSetlistMenuId.set(null);
+    this.editingSetlist.set(setlist);
+    this.isSetlistFormOpen.set(true);
+  }
+
+  closeSetlistForm(): void {
+    this.isSetlistFormOpen.set(false);
+    this.editingSetlist.set(null);
+  }
+
+  submitSetlistForm(payload: SetlistPayload): void {
+    const band = this.bandStore.activeBand();
+    if (!band) return;
+
+    const editing = this.editingSetlist();
+    const request = editing
+      ? this.setlistService.update(band.id, editing.id, payload)
+      : this.setlistService.create(band.id, { ...payload, status: 'DRAFT' });
+
+    request.subscribe(() => {
+      this.closeSetlistForm();
+      this.loadData(band.id);
+    });
+  }
+
+  toggleSetlistStatus(setlist: Setlist): void {
+    this.openSetlistMenuId.set(null);
+    const band = this.bandStore.activeBand();
+    if (!band) return;
+    const status: SetlistStatus = setlist.status === 'READY' ? 'DRAFT' : 'READY';
+    this.setlistService.update(band.id, setlist.id, { status }).subscribe((updated) => {
+      this.setlists.update((current) => current.map((s) => (s.id === setlist.id ? updated : s)));
+    });
+  }
+
+  requestDeleteSetlist(setlist: Setlist): void {
+    this.openSetlistMenuId.set(null);
+    this.deleteSetlistTarget.set(setlist);
+  }
+
+  cancelDeleteSetlist(): void {
+    this.deleteSetlistTarget.set(null);
+  }
+
+  confirmDeleteSetlist(): void {
+    const band = this.bandStore.activeBand();
+    const setlist = this.deleteSetlistTarget();
+    if (!band || !setlist) return;
+    this.setlistService.delete(band.id, setlist.id).subscribe(() => {
+      this.deleteSetlistTarget.set(null);
+      this.loadData(band.id);
+    });
+  }
+
+  requestSetlistExport(setlist: Setlist): void {
+    this.openSetlistMenuId.set(null);
+    this.setlistExportTarget.set(setlist);
+  }
+
+  exportSetlistToPDF(theme: 'dark' | 'light'): void {
+    const band = this.bandStore.activeBand();
+    const setlist = this.setlistExportTarget();
+    if (!band || !setlist) return;
+
+    this.setlistExportTarget.set(null);
+    this.setlistService.exportPdf(band.id, setlist.id, theme).subscribe({
+      next: (blob) => {
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = `setlist-${setlist.name.toLowerCase().replace(/\s+/g, '-')}-${theme}.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(downloadUrl);
+      },
+      error: () => alert('Não foi possível gerar o PDF da setlist. Tente novamente.'),
     });
   }
 }
