@@ -247,10 +247,10 @@ As telas indicam opções como:
 
 | ID | Regra |
 |---|---|
-| RN-MEM-001 | O administrador da banda deve poder convidar colaboradores por e-mail. |
+| RN-MEM-001 | O administrador da banda deve poder convidar colaboradores por dois canais: buscando um usuário já cadastrado na plataforma (por nome/e-mail parcial) para envio de notificação direta no app, ou gerando um link de convite de uso único para quem ainda não possui conta (detalhado na feature 025). |
 | RN-MEM-002 | Cada convite deve possuir uma função atribuída. |
 | RN-MEM-003 | O sistema deve permitir cancelar o envio antes da confirmação. |
-| RN-MEM-004 | Após envio, o convite deve aparecer como pendente até aceitação ou expiração. |
+| RN-MEM-004 | Após envio, o convite deve aparecer como pendente até aceitação, recusa ou cancelamento pelo administrador. Não há expiração automática nesta versão (decisão de produto tomada na especificação da feature 025 — ver `specs/025-band-invite-notifications/spec.md`). |
 | RN-MEM-005 | Convites pendentes devem exibir e-mail, função, tempo desde envio e status. |
 | RN-MEM-006 | O sistema deve permitir reenviar convite pendente. |
 | RN-MEM-007 | O sistema deve contabilizar convites ativos/pendentes. |
@@ -338,7 +338,7 @@ As telas indicam funções como:
 | Usuário | ID, nome de exibição, e-mail, senha, função principal, status, data de criação. |
 | Banda | ID, nome, gênero principal, biografia, imagem/logo, criador, data de criação. |
 | Membro da Banda | usuário, banda, função, permissão, status, data de entrada. |
-| Convite | e-mail, banda, função, status, token, enviado em, reenviado em, expira em. |
+| Convite | e-mail (opcional para convite por link), usuário convidado (quando resolvido), banda, função, canal (direto/link), status, token, enviado em, reenviado em. Sem campo de expiração nesta versão (feature 025). |
 | Evento | título, tipo, data, hora início, hora fim, local, status, banda. |
 | Roteiro de Ensaio | evento, itens ordenados, descrição, duração estimada. |
 | Música | título (obrigatório), artista/banda, categoria/gênero, tom, afinação, BPM, duração, tags, status, ordem no catálogo. |
@@ -365,7 +365,7 @@ As telas indicam funções como:
 
 | Objeto | Status identificados ou sugeridos |
 |---|---|
-| Convite | Pendente, reenviado, aceito, expirado, cancelado. |
+| Convite | Pendente, aceito, recusado, cancelado. ("Reenviado" é uma ação sobre um convite pendente, não um status próprio; não há status "expirado" nesta versão — decisão de produto da feature 025.) |
 | Música | Ativa, em ensaio, sugestão. |
 | Setlist | Rascunho, pronto, utilizado, arquivado. |
 | Evento | Agendado, ao vivo, concluído, cancelado. |

@@ -73,20 +73,13 @@ import { AuthStore } from '../core/stores/auth.store';
           </span>
         </div>
         
-        <!-- Membros — bloqueado -->
-        <div
-          class="flex items-center justify-between px-4 py-3 rounded-xl mb-1 opacity-40 cursor-not-allowed select-none"
-          title="Em breve">
-          <div class="flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-            Membros
-          </div>
-          <span class="text-[10px] font-bold uppercase tracking-wider bg-neutral-800 text-neutral-500 px-2 py-0.5 rounded-full">
-            Em breve
-          </span>
-        </div>
+        <!-- Membros — habilitado -->
+        <a routerLink="/dashboard/members" routerLinkActive="bg-neutral-900 text-cyan-400" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-900 hover:text-white transition-colors mb-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          Membros
+        </a>
       </nav>
 
       <!-- Bottom Actions -->

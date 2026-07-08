@@ -15,6 +15,16 @@ export class AuthStore {
   // Selectors
   readonly isAuthenticated = computed(() => !!this._accessToken());
   readonly user = computed(() => this._user());
+  readonly currentUserId = computed<number | null>(() => {
+    const token = this._accessToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.user_id ?? null;
+    } catch {
+      return null;
+    }
+  });
 
   // Actions
   setSession(access: string, user?: any, reloadBands = true) {

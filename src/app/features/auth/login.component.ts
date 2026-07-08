@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthStore } from '../../core/stores/auth.store';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { LogoComponent } from '../../shared/components/logo.component';
 import { GoogleButtonComponent } from './components/google-button/google-button.component';
 @Component({
@@ -83,6 +83,8 @@ import { GoogleButtonComponent } from './components/google-button/google-button.
 export class LoginComponent {
   private fb = inject(FormBuilder);
   private authStore = inject(AuthStore);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   isLoading = false;
   loginForm = this.fb.nonNullable.group({
@@ -93,7 +95,13 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
+      const redirect = this.route.snapshot.queryParamMap.get('redirect');
       this.authStore.login(this.loginForm.getRawValue()).subscribe({
+        next: () => {
+          if (redirect) {
+            this.router.navigateByUrl(redirect);
+          }
+        },
         error: () => {
           this.isLoading = false;
           alert('Login failed. Check your credentials.');

@@ -7,11 +7,11 @@
 export const ENABLED_ROUTES: string[] = [
   '/dashboard',
   '/dashboard/repertoire',
+  '/dashboard/members',
 ];
 
 export const LOCKED_ROUTES: string[] = [
   '/dashboard/agenda',
-  '/dashboard/members',
   '/dashboard/profile',
 ];
 

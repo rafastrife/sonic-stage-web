@@ -1,5 +1,5 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-../specs/024-restore-planned-colors/plan.md
+../specs/025-band-invite-notifications/plan.md
 <!-- SPECKIT END -->

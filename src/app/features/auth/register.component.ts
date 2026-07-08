@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthStore } from '../../core/stores/auth.store';
-import { RouterModule, Router } from '@angular/router';
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { LogoComponent } from '../../shared/components/logo.component';
 import { GoogleButtonComponent } from './components/google-button/google-button.component';
 @Component({
@@ -144,6 +144,7 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authStore = inject(AuthStore);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   isLoading = false;
   showPassword = false;
@@ -186,7 +187,8 @@ export class RegisterComponent {
       this.authStore.register(formValue).subscribe({
         next: () => {
           this.isLoading = false;
-          this.router.navigate(['/login']);
+          const redirect = this.route.snapshot.queryParamMap.get('redirect');
+          this.router.navigate(['/login'], redirect ? { queryParams: { redirect } } : {});
         },
         error: (err) => {
           this.isLoading = false;
