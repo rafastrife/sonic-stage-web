@@ -20,7 +20,7 @@ import { Song, SongPayload, SongStatus } from '../../../models/song.model';
           <div>
             <label class="block text-sm font-medium text-neutral-300 mb-1">Título da música *</label>
             <input type="text" formControlName="title" placeholder="Ex: Thunderstruck"
-                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
             @if (form.controls.title.invalid && form.controls.title.touched) {
               <span class="text-xs text-red-500 mt-1 block">O título da música é obrigatório.</span>
             }
@@ -29,19 +29,19 @@ import { Song, SongPayload, SongStatus } from '../../../models/song.model';
           <div>
             <label class="block text-sm font-medium text-neutral-300 mb-1">Artista / Banda</label>
             <input type="text" formControlName="artist" placeholder="Ex: AC/DC"
-                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
           </div>
 
           <div class="flex gap-3">
             <div class="w-1/2">
               <label class="block text-sm font-medium text-neutral-300 mb-1">Gênero</label>
               <input type="text" formControlName="genre" placeholder="Ex: Rock"
-                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
             </div>
             <div class="w-1/2">
               <label class="block text-sm font-medium text-neutral-300 mb-1">Tom</label>
               <input type="text" formControlName="key" placeholder="Ex: E, Am, D"
-                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
             </div>
           </div>
 
@@ -49,7 +49,7 @@ import { Song, SongPayload, SongStatus } from '../../../models/song.model';
             <div class="w-1/2">
               <label class="block text-sm font-medium text-neutral-300 mb-1">BPM</label>
               <input type="number" formControlName="bpm" placeholder="Ex: 120" min="1"
-                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
               @if (form.controls.bpm.invalid && form.controls.bpm.touched) {
                 <span class="text-xs text-red-500 mt-1 block">BPM deve ser um número positivo.</span>
               }
@@ -57,7 +57,7 @@ import { Song, SongPayload, SongStatus } from '../../../models/song.model';
             <div class="w-1/2">
               <label class="block text-sm font-medium text-neutral-300 mb-1">Afinação</label>
               <select formControlName="tuning"
-                      class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+                      class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
                 <option value="">Selecionar</option>
                 @for (option of tuningOptions; track option) {
                   <option [value]="option">{{ option }}</option>
@@ -81,7 +81,7 @@ import { Song, SongPayload, SongStatus } from '../../../models/song.model';
           <div>
             <label class="block text-sm font-medium text-neutral-300 mb-1">Tags</label>
             <input type="text" formControlName="tags" placeholder="Ex: cover, autoral, set principal"
-                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
             <span class="text-xs text-neutral-500 mt-1 block">Separe por vírgula</span>
           </div>
 
@@ -91,7 +91,7 @@ import { Song, SongPayload, SongStatus } from '../../../models/song.model';
               Cancelar
             </button>
             <button type="submit" [disabled]="form.controls.title.invalid"
-                    class="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    class="bg-neon-cyan hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-black px-4 py-2 rounded-lg font-medium transition-colors">
               Salvar Música
             </button>
           </div>

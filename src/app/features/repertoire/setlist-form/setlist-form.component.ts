@@ -21,7 +21,7 @@ import { Setlist, SetlistPayload } from '../../../models/setlist.model';
           <div class="mb-5">
             <label class="block text-sm font-medium text-neutral-300 mb-1">Nome da setlist *</label>
             <input type="text" formControlName="name" placeholder="Ex: Show Bar do Rock"
-                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
             @if (form.controls.name.invalid && form.controls.name.touched) {
               <span class="text-xs text-red-500 mt-1 block">O nome da setlist é obrigatório.</span>
             }
@@ -48,7 +48,7 @@ import { Setlist, SetlistPayload } from '../../../models/setlist.model';
                         <span class="text-xs text-green-400 font-medium shrink-0">✓ Adicionada</span>
                       } @else {
                         <button type="button" (click)="addSong(song)" [attr.aria-label]="'Adicionar ' + song.title"
-                                class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold">+</button>
+                                class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg bg-neon-cyan hover:bg-cyan-400 text-black font-bold">+</button>
                       }
                     </div>
                   }
@@ -93,7 +93,7 @@ import { Setlist, SetlistPayload } from '../../../models/setlist.model';
               Cancelar
             </button>
             <button type="submit" [disabled]="form.controls.name.invalid"
-                    class="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    class="bg-neon-cyan hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-black px-4 py-2 rounded-lg font-medium transition-colors">
               Salvar Setlist
             </button>
           </div>

@@ -22,7 +22,7 @@ type StatusFilter = SongStatus | null;
           <h1 class="text-3xl font-bold text-white">Repertório</h1>
           <p class="text-neutral-400 mt-1">Gerencie as músicas e crie setlists da sua banda.</p>
         </div>
-        <button (click)="isExportModalOpen.set(true)" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-rose-500/20 transition-all flex items-center gap-2">
+        <button (click)="isExportModalOpen.set(true)" class="bg-neon-cyan hover:bg-cyan-400 text-black px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-neon-cyan/20 transition-all flex items-center gap-2">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path></svg>
           Exportar PDF
         </button>
@@ -41,7 +41,7 @@ type StatusFilter = SongStatus | null;
             <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"></path></svg>
             <input type="text" [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)"
                    placeholder="Buscar músicas..."
-                   class="w-full bg-neutral-900/60 border border-neutral-800 rounded-xl pl-9 pr-3 py-2.5 text-white outline-none focus:border-indigo-500">
+                   class="w-full bg-neutral-900/60 border border-neutral-800 rounded-xl pl-9 pr-3 py-2.5 text-white outline-none focus:border-neon-cyan">
           </div>
           <button (click)="isFiltersOpen.set(!isFiltersOpen())"
                   class="bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700 rounded-xl px-4 py-2.5 text-white font-medium flex items-center gap-2 transition-colors">
@@ -49,7 +49,7 @@ type StatusFilter = SongStatus | null;
             Filtros
           </button>
           <button (click)="openCreateForm()" [disabled]="!hasActiveBand()"
-                  class="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2.5 rounded-xl font-medium transition-colors flex items-center gap-2 whitespace-nowrap">
+                  class="bg-neon-cyan hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-black px-4 py-2.5 rounded-xl font-medium transition-colors flex items-center gap-2 whitespace-nowrap">
             + Nova Música
           </button>
         </div>
@@ -155,10 +155,10 @@ type StatusFilter = SongStatus | null;
             <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"></path></svg>
             <input type="text" [value]="setlistSearchTerm()" (input)="setlistSearchTerm.set($any($event.target).value)"
                    placeholder="Buscar setlists..."
-                   class="w-full bg-neutral-900/60 border border-neutral-800 rounded-xl pl-9 pr-3 py-2.5 text-white outline-none focus:border-indigo-500">
+                   class="w-full bg-neutral-900/60 border border-neutral-800 rounded-xl pl-9 pr-3 py-2.5 text-white outline-none focus:border-neon-cyan">
           </div>
           <button (click)="openCreateSetlistForm()" [disabled]="!hasActiveBand()"
-                  class="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2.5 rounded-xl font-medium transition-colors flex items-center gap-2 whitespace-nowrap">
+                  class="bg-neon-cyan hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-black px-4 py-2.5 rounded-xl font-medium transition-colors flex items-center gap-2 whitespace-nowrap">
             + Nova Setlist
           </button>
         </div>
@@ -180,7 +180,7 @@ type StatusFilter = SongStatus | null;
         } @else {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             @for (setlist of filteredSetlists(); track setlist.id) {
-              <div class="bg-gradient-to-br from-indigo-500/5 to-purple-500/5 border border-indigo-500/20 rounded-2xl p-5">
+              <div class="bg-gradient-to-br from-neon-cyan/5 to-neon-pink/5 border border-neon-cyan/20 rounded-2xl p-5">
                 <div class="flex items-start justify-between mb-2">
                   <div class="min-w-0">
                     <h3 class="font-bold text-lg text-white truncate">{{ setlist.name }}</h3>
@@ -270,7 +270,7 @@ type StatusFilter = SongStatus | null;
           } @else {
             <p class="text-sm text-neutral-400 mb-6">Escolha o tema visual do PDF gerado.</p>
             <div class="space-y-3">
-              <button (click)="exportSetlistToPDF('dark')" class="w-full flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:border-indigo-500 hover:bg-indigo-500/10 transition-all text-left">
+              <button (click)="exportSetlistToPDF('dark')" class="w-full flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:border-neon-cyan hover:bg-neon-cyan/10 transition-all text-left">
                 <div>
                   <div class="text-white font-medium">Tema Escuro</div>
                   <div class="text-xs text-neutral-500">Ideal para palcos (baixo reflexo)</div>
@@ -321,7 +321,7 @@ type StatusFilter = SongStatus | null;
           <p class="text-sm text-neutral-400 mb-6">Escolha o tema visual do PDF gerado.</p>
 
           <div class="space-y-3">
-            <button (click)="exportToPDF('dark')" class="w-full flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:border-indigo-500 hover:bg-indigo-500/10 transition-all text-left">
+            <button (click)="exportToPDF('dark')" class="w-full flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:border-neon-cyan hover:bg-neon-cyan/10 transition-all text-left">
               <div>
                 <div class="text-white font-medium">Tema Escuro</div>
                 <div class="text-xs text-neutral-500">Ideal para palcos (baixo reflexo)</div>
@@ -447,7 +447,7 @@ export class RepertoireComponent {
   tabClasses(tab: 'musicas' | 'setlists'): string {
     const base = 'px-4 py-2 rounded-lg font-medium transition-colors';
     return this.activeTab() === tab
-      ? `${base} bg-indigo-600 text-white`
+      ? `${base} bg-neon-cyan text-black`
       : `${base} bg-neutral-900/60 text-neutral-400 hover:text-white`;
   }
 
