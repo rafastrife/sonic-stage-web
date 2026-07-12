@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Song, SongPayload } from '../models/song.model';
+import { Song, SongPayload, SpotifyTrackPreview } from '../models/song.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,5 +39,9 @@ export class SongService {
     return this.http.post<{ status: string }>(`${this.base(bandId)}/reorder/`, {
       ordered_song_ids: orderedSongIds,
     });
+  }
+
+  lookupSpotify(bandId: number, url: string): Observable<SpotifyTrackPreview> {
+    return this.http.post<SpotifyTrackPreview>(`${this.base(bandId)}/lookup_spotify/`, { url });
   }
 }

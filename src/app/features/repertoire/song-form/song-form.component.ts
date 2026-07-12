@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Song, SongPayload, SongStatus } from '../../../models/song.model';
+import { SongService } from '../../../services/song.service';
+import { BandStore } from '../../../core/stores/band.store';
 
 @Component({
   selector: 'app-song-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   template: `
     <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50" (click)="onBackdropClick($event)">
       <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
@@ -15,6 +17,27 @@ import { Song, SongPayload, SongStatus } from '../../../models/song.model';
           <button type="button" (click)="cancel.emit()" class="text-neutral-500 hover:text-white transition-colors" aria-label="Fechar">✕</button>
         </div>
         <p class="text-sm text-neutral-400 mb-6">{{ song ? 'Atualize os dados da música.' : 'Adicione uma música ao repertório.' }}</p>
+
+        @if (!song) {
+          <div class="mb-4 p-3 bg-neutral-950 border border-neutral-800 rounded-lg">
+            <label class="block text-sm font-medium text-neutral-300 mb-1">Link do Spotify (opcional)</label>
+            <div class="flex gap-2">
+              <input type="text" [(ngModel)]="spotifyLinkInput" [ngModelOptions]="{standalone: true}"
+                     placeholder="Cole o link da música no Spotify"
+                     class="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-neon-cyan">
+              <button type="button" (click)="lookupSpotify()" [disabled]="spotifyLookupLoading() || !spotifyLinkInput.trim()"
+                      class="bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
+                {{ spotifyLookupLoading() ? 'Buscando...' : 'Preencher' }}
+              </button>
+            </div>
+            @if (spotifyLookupError()) {
+              <span class="text-xs text-red-500 mt-1 block">{{ spotifyLookupError() }}</span>
+            }
+            @if (form.controls.spotify_url.value) {
+              <span class="text-xs text-green-500 mt-1 block">✓ Dados preenchidos a partir do Spotify — revise antes de salvar.</span>
+            }
+          </div>
+        }
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
           <div>
@@ -102,6 +125,8 @@ import { Song, SongPayload, SongStatus } from '../../../models/song.model';
 })
 export class SongFormComponent implements OnChanges {
   private fb = inject(FormBuilder);
+  private songService = inject(SongService);
+  private bandStore = inject(BandStore);
 
   @Input() song: Song | null = null;
   @Output() save = new EventEmitter<SongPayload>();
@@ -114,6 +139,10 @@ export class SongFormComponent implements OnChanges {
     { value: 'SUGGESTION', label: 'Sugestão' },
   ];
 
+  spotifyLinkInput = '';
+  spotifyLookupLoading = signal(false);
+  spotifyLookupError = signal<string | null>(null);
+
   form = this.fb.nonNullable.group({
     title: ['', Validators.required],
     artist: [''],
@@ -123,6 +152,7 @@ export class SongFormComponent implements OnChanges {
     tuning: [''],
     status: this.fb.nonNullable.control<SongStatus>('ACTIVE'),
     tags: [''],
+    spotify_url: [''],
   });
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -137,6 +167,7 @@ export class SongFormComponent implements OnChanges {
           tuning: this.song.tuning ?? '',
           status: this.song.status,
           tags: this.song.tags ?? '',
+          spotify_url: this.song.spotify_url ?? '',
         });
       } else {
         this.form.reset({
@@ -148,9 +179,39 @@ export class SongFormComponent implements OnChanges {
           tuning: '',
           status: 'ACTIVE',
           tags: '',
+          spotify_url: '',
         });
+        this.spotifyLinkInput = '';
+        this.spotifyLookupError.set(null);
       }
     }
+  }
+
+  lookupSpotify(): void {
+    const band = this.bandStore.activeBand();
+    const url = this.spotifyLinkInput.trim();
+    if (!band || !url) return;
+
+    this.spotifyLookupLoading.set(true);
+    this.spotifyLookupError.set(null);
+
+    this.songService.lookupSpotify(band.id, url).subscribe({
+      next: (preview) => {
+        this.spotifyLookupLoading.set(false);
+        this.form.patchValue({
+          title: preview.title,
+          artist: preview.artist,
+          spotify_url: preview.spotify_url,
+        });
+      },
+      error: (err) => {
+        this.spotifyLookupLoading.set(false);
+        const body = err?.error;
+        this.spotifyLookupError.set(
+          body?.url || body?.detail || 'Não foi possível buscar esta música agora. Tente novamente em instantes ou adicione manualmente.'
+        );
+      },
+    });
   }
 
   statusButtonClasses(value: SongStatus): string {
@@ -179,6 +240,7 @@ export class SongFormComponent implements OnChanges {
       tuning: raw.tuning?.trim() || null,
       status: raw.status,
       tags: raw.tags?.trim() || null,
+      spotify_url: raw.spotify_url?.trim() || null,
     });
   }
 

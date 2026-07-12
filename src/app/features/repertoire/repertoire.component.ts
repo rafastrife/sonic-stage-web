@@ -119,6 +119,11 @@ type StatusFilter = SongStatus | null;
                 </div>
 
                 <div class="flex items-center gap-2 shrink-0">
+                  @if (song.spotify_url) {
+                    <a [href]="song.spotify_url" target="_blank" rel="noopener noreferrer"
+                       class="px-2 py-1 bg-green-500/10 text-green-400 rounded-md text-xs font-medium hover:bg-green-500/20 transition-colors"
+                       title="Ouvir no Spotify">♫ Spotify</a>
+                  }
                   @if (song.key) {
                     <span class="px-2 py-1 bg-neutral-800 text-neutral-300 rounded-md text-xs font-medium">{{ song.key }}</span>
                   }

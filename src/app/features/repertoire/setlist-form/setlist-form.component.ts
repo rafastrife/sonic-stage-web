@@ -39,7 +39,13 @@ import { Setlist, SetlistPayload } from '../../../models/setlist.model';
                   @for (song of repertoire; track song.id) {
                     <div class="flex items-center justify-between gap-2 p-3">
                       <div class="min-w-0">
-                        <div class="text-sm font-medium text-white truncate">{{ song.title }}</div>
+                        <div class="text-sm font-medium text-white truncate flex items-center gap-1.5">
+                          {{ song.title }}
+                          @if (song.spotify_url) {
+                            <a [href]="song.spotify_url" target="_blank" rel="noopener noreferrer"
+                               class="text-green-400 hover:text-green-300 shrink-0" title="Ouvir no Spotify" (click)="$event.stopPropagation()">♫</a>
+                          }
+                        </div>
                         <div class="text-xs text-neutral-500 truncate">
                           {{ song.artist || '—' }} · {{ formatDuration(song.duration_seconds) }}
                         </div>
@@ -76,7 +82,13 @@ import { Setlist, SetlistPayload } from '../../../models/setlist.model';
                       <span class="cursor-grab text-neutral-600 select-none" title="Arraste para reordenar">⠿</span>
                       <span class="text-neutral-600 font-mono text-xs w-5">{{ i + 1 }}</span>
                       <div class="flex-1 min-w-0">
-                        <div class="text-sm font-medium text-white truncate">{{ song.title }}</div>
+                        <div class="text-sm font-medium text-white truncate flex items-center gap-1.5">
+                          {{ song.title }}
+                          @if (song.spotify_url) {
+                            <a [href]="song.spotify_url" target="_blank" rel="noopener noreferrer"
+                               class="text-green-400 hover:text-green-300 shrink-0" title="Ouvir no Spotify" (click)="$event.stopPropagation()">♫</a>
+                          }
+                        </div>
                         <div class="text-xs text-neutral-500">{{ formatDuration(song.duration_seconds) }}</div>
                       </div>
                       <button type="button" (click)="removeSong(song.id)" class="shrink-0 text-neutral-500 hover:text-red-400" aria-label="Remover">✕</button>
