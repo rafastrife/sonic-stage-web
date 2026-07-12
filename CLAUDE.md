@@ -1,5 +1,5 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-../specs/027-fix-event-time-validation/plan.md
+../specs/029-project-favicon/plan.md
 <!-- SPECKIT END -->
