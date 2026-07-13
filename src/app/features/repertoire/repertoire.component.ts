@@ -131,10 +131,10 @@ type StatusFilter = SongStatus | null;
                     <span class="px-2 py-1 bg-neutral-800 text-neutral-300 rounded-md text-xs font-medium">{{ song.bpm }} BPM</span>
                   }
 
-                  <select [value]="song.status" (change)="changeStatus(song, $any($event.target).value)"
+                  <select (change)="changeStatus(song, $any($event.target).value)"
                           [class]="statusSelectClasses(song.status)">
                     @for (option of statusOptions; track option.value) {
-                      <option [value]="option.value">{{ option.label }}</option>
+                      <option [value]="option.value" [selected]="option.value === song.status">{{ option.label }}</option>
                     }
                   </select>
 
