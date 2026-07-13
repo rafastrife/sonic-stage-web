@@ -41,4 +41,5 @@ export interface SongPayload {
   bpm?: number | null;
   tags?: string | null;
   spotify_url?: string | null;
+  duration_seconds?: number | null;
 }

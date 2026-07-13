@@ -34,7 +34,12 @@ import { BandStore } from '../../../core/stores/band.store';
               <span class="text-xs text-red-500 mt-1 block">{{ spotifyLookupError() }}</span>
             }
             @if (form.controls.spotify_url.value) {
-              <span class="text-xs text-green-500 mt-1 block">✓ Dados preenchidos a partir do Spotify — revise antes de salvar.</span>
+              <span class="text-xs text-green-500 mt-1 block">
+                ✓ Dados preenchidos a partir do Spotify — revise antes de salvar.
+                @if (form.controls.duration_seconds.value) {
+                  <span class="text-neutral-400">(duração: {{ formatDuration(form.controls.duration_seconds.value) }})</span>
+                }
+              </span>
             }
           </div>
         }
@@ -153,6 +158,7 @@ export class SongFormComponent implements OnChanges {
     status: this.fb.nonNullable.control<SongStatus>('ACTIVE'),
     tags: [''],
     spotify_url: [''],
+    duration_seconds: this.fb.control<number | null>(null),
   });
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -168,6 +174,7 @@ export class SongFormComponent implements OnChanges {
           status: this.song.status,
           tags: this.song.tags ?? '',
           spotify_url: this.song.spotify_url ?? '',
+          duration_seconds: this.song.duration_seconds ?? null,
         });
       } else {
         this.form.reset({
@@ -180,6 +187,7 @@ export class SongFormComponent implements OnChanges {
           status: 'ACTIVE',
           tags: '',
           spotify_url: '',
+          duration_seconds: null,
         });
         this.spotifyLinkInput = '';
         this.spotifyLookupError.set(null);
@@ -202,6 +210,7 @@ export class SongFormComponent implements OnChanges {
           title: preview.title,
           artist: preview.artist,
           spotify_url: preview.spotify_url,
+          duration_seconds: preview.duration_seconds,
         });
       },
       error: (err) => {
@@ -212,6 +221,13 @@ export class SongFormComponent implements OnChanges {
         );
       },
     });
+  }
+
+  formatDuration(seconds: number | null | undefined): string {
+    if (seconds === null || seconds === undefined) return '';
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   }
 
   statusButtonClasses(value: SongStatus): string {
@@ -241,6 +257,7 @@ export class SongFormComponent implements OnChanges {
       status: raw.status,
       tags: raw.tags?.trim() || null,
       spotify_url: raw.spotify_url?.trim() || null,
+      duration_seconds: raw.duration_seconds ?? null,
     });
   }
 
