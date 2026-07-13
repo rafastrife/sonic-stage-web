@@ -1,5 +1,5 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
-../specs/031-spotify-song-duration/plan.md
+../specs/032-song-form-spotify-edit/plan.md
 <!-- SPECKIT END -->

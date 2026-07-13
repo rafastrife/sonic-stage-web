@@ -18,31 +18,29 @@ import { BandStore } from '../../../core/stores/band.store';
         </div>
         <p class="text-sm text-neutral-400 mb-6">{{ song ? 'Atualize os dados da música.' : 'Adicione uma música ao repertório.' }}</p>
 
-        @if (!song) {
-          <div class="mb-4 p-3 bg-neutral-950 border border-neutral-800 rounded-lg">
-            <label class="block text-sm font-medium text-neutral-300 mb-1">Link do Spotify (opcional)</label>
-            <div class="flex gap-2">
-              <input type="text" [(ngModel)]="spotifyLinkInput" [ngModelOptions]="{standalone: true}"
-                     placeholder="Cole o link da música no Spotify"
-                     class="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-neon-cyan">
-              <button type="button" (click)="lookupSpotify()" [disabled]="spotifyLookupLoading() || !spotifyLinkInput.trim()"
-                      class="bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
-                {{ spotifyLookupLoading() ? 'Buscando...' : 'Preencher' }}
-              </button>
-            </div>
-            @if (spotifyLookupError()) {
-              <span class="text-xs text-red-500 mt-1 block">{{ spotifyLookupError() }}</span>
-            }
-            @if (form.controls.spotify_url.value) {
-              <span class="text-xs text-green-500 mt-1 block">
-                ✓ Dados preenchidos a partir do Spotify — revise antes de salvar.
-                @if (form.controls.duration_seconds.value) {
-                  <span class="text-neutral-400">(duração: {{ formatDuration(form.controls.duration_seconds.value) }})</span>
-                }
-              </span>
-            }
+        <div class="mb-4 p-3 bg-neutral-950 border border-neutral-800 rounded-lg">
+          <label class="block text-sm font-medium text-neutral-300 mb-1">Link do Spotify (opcional)</label>
+          <div class="flex gap-2">
+            <input type="text" [(ngModel)]="spotifyLinkInput" [ngModelOptions]="{standalone: true}"
+                   placeholder="Cole o link da música no Spotify"
+                   class="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-neon-cyan">
+            <button type="button" (click)="lookupSpotify()" [disabled]="spotifyLookupLoading() || !spotifyLinkInput.trim()"
+                    class="bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
+              {{ spotifyLookupLoading() ? 'Buscando...' : 'Preencher' }}
+            </button>
           </div>
-        }
+          @if (spotifyLookupError()) {
+            <span class="text-xs text-red-500 mt-1 block">{{ spotifyLookupError() }}</span>
+          }
+          @if (form.controls.spotify_url.value) {
+            <span class="text-xs text-green-500 mt-1 block">
+              ✓ Dados preenchidos a partir do Spotify — revise antes de salvar.
+              @if (form.controls.duration_seconds.value) {
+                <span class="text-neutral-400">(duração: {{ formatDuration(form.controls.duration_seconds.value) }})</span>
+              }
+            </span>
+          }
+        </div>
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
           <div>
@@ -176,6 +174,7 @@ export class SongFormComponent implements OnChanges {
           spotify_url: this.song.spotify_url ?? '',
           duration_seconds: this.song.duration_seconds ?? null,
         });
+        this.spotifyLinkInput = this.song.spotify_url ?? '';
       } else {
         this.form.reset({
           title: '',
