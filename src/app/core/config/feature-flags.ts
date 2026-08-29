@@ -9,11 +9,10 @@ export const ENABLED_ROUTES: string[] = [
   '/dashboard/repertoire',
   '/dashboard/members',
   '/dashboard/agenda',
-];
-
-export const LOCKED_ROUTES: string[] = [
   '/dashboard/profile',
 ];
+
+export const LOCKED_ROUTES: string[] = [];
 
 export function isRouteEnabled(path: string): boolean {
   return ENABLED_ROUTES.some(r => path === r || path.startsWith(r + '/'));

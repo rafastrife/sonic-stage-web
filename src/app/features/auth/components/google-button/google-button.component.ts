@@ -63,7 +63,7 @@ export class GoogleButtonComponent implements AfterViewInit {
           this.googleAuthService.googleLogin(response.credential).subscribe({
             error: (err) => {
               console.error('Google login failed', err);
-              alert('Falha ao autenticar com o Google. Tente novamente.');
+              alert(err.message || 'Falha ao autenticar com o Google. Tente novamente.');
             }
           });
         } else if (this.action === 'link') {

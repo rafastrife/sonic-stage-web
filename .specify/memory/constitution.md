@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 Sync Impact Report:
 - Version change: 2.0.0 → 2.2.0
 - Modified: removidas as referências ao nome de outro projeto (nome, logo, feature de exemplo);
@@ -8,832 +8,213 @@ Sync Impact Report:
 - Removed sections: None
 -->
 
-# Sonic Stage Constitution (Full Framework Edition)
+# Constituição do Sonic Stage
 
-## Sonic Stage Specific Core Principles
-
-### I. Architecture Separation
-Frontend must reside in `sonic-stage-web` and Backend in `sonic-stage-api`. Logic, presentation, and persistence layers must maintain strict separation, avoiding overlap between frontend logic and backend services.
-
-### II. Clean & Reusable Code
-Always prioritize clean code patterns. Create highly reusable components and functions. Avoid duplication by generalizing common logic. Ensure maintainability through clear abstractions and modularity.
-
-### III. Relational Persistence
-PostgreSQL MUST be the database engine for persistence. All entity relationships (Bands, Users, Events, Repertoires) must leverage strict foreign keys and relational integrity to ensure data consistency.
-
-### IV. Cross-Platform Consistency
-Business rules must remain identical between Web and Mobile interfaces. Differences are permitted only in presentation, navigation, and amount of data displayed on a single view, never in logic constraints.
-
-### V. Strict Business Domain Adherence
-System behavior must strictly align with `regras/regras_negocio_sonic_stage.md`. This includes role-based access control, event types, status flows, and required fields.
-
-## Technical Stack & Infrastructure
-
-- **Database**: PostgreSQL
-- **Frontend**: Web and Mobile environments inside `sonic-stage-web` (Angular 17+)
-- **Backend**: API services inside `sonic-stage-api`
-- **UI/UX Reference**: Must visually align with the `assets` folder mockups and provide premium experiences.
-- **Export**: Must support PDF generation for Setlists with custom layouts.
-
----
-
-# Constituição do Projeto Frontend
-
-**Versão:** 1.9.0
+**Versão:** 3.0.0
 **Data de Ratificação:** 2026-05-24
-**Última Alteração:** 2026-05-26
+**Última Alteração:** 2026-08-27
 
-## 1. Propósito
+## Escopo de Aplicação
 
-Esta constituição define os princípios, padrões técnicos, convenções de desenvolvimento e critérios de qualidade para todos os projetos frontend da organização. Seu objetivo é garantir consistência arquitetural, alta manutenibilidade, reuso de componentes, segurança e performance.
+Este documento é a fonte única de verdade para decisões de arquitetura, padrão e qualidade dos dois projetos do Sonic Stage: `sonic-stage-web` (frontend) e `sonic-stage-api` (backend). Não se aplica a outros projetos da organização, e regras de outros projetos não se aplicam aqui.
 
-Deve orientar a construção, evolução e revisão de todo o código frontend, servindo como referência oficial para times de desenvolvimento, revisão técnica, onboarding e governança de projetos.
+Toda regra descreve o que **é** ou o que **deve passar a ser** neste repositório. Quando uma regra descreve um alvo que o código ainda não atingiu, isso está dito explicitamente. Nenhuma regra deve descrever ferramenta, biblioteca ou estrutura que o projeto não possui.
 
 ---
 
-## 2. Princípios Fundamentais
+## 1. Princípios Core
 
-Todo projeto frontend deve seguir estes princípios:
+### I. Separação de Arquitetura (Architecture Separation)
 
-1. **Padronização acima da preferência pessoal**
-   As decisões de arquitetura e implementação devem seguir este documento, evitando divergências entre módulos, telas e times.
+O frontend reside em `sonic-stage-web` e o backend em `sonic-stage-api`. As camadas de lógica, apresentação e persistência mantêm separação estrita.
 
-2. **Reatividade nativa como base do estado**
-   O gerenciamento de estado local deve utilizar a API reativa moderna do Angular, priorizando `signal()`, `computed()` e `effect()`.
+**Regra inegociável de autorização:** toda decisão de acesso a dado é tomada no backend. O frontend pode ter guards e telas condicionais, mas eles são camada de experiência — nunca a autoridade. Uma regra de permissão que exista apenas no Angular é uma falha de segurança, não uma implementação.
 
-3. **Reuso por padrão**
-   Componentes, serviços, modelos e utilitários devem ser criados de forma genérica e reutilizável sempre que possível.
+### II. Código Limpo e Reutilizável (Clean & Reusable Code)
 
-4. **Tipagem completa e explícita**
-   Todo código TypeScript deve ter tipagem clara e 100% explícita, incluindo variáveis, parâmetros, tipos de retorno de funções e propriedades.
+Priorizar padrões de código limpo. Criar componentes e funções reutilizáveis. Evitar duplicação generalizando lógica comum. Garantir manutenibilidade por abstrações claras e modularidade.
 
-5. **Segurança e performance por design**
-   Toda implementação deve considerar proteção contra XSS, carregamento eficiente, baixo acoplamento e escalabilidade.
+Na prática: quando a mesma verificação aparece em quatro lugares, ela vira uma classe — e não quatro cópias com pequenas diferenças.
 
 6. **Consistência visual da marca**
    O frontend deve seguir os padrões visuais do Sonic Stage, respeitando o Design System, a paleta de cores e os componentes definidos em `assets/stitch_band_performance_manager/sonic_stage/DESIGN.md` (seção 8.2).
 
+PostgreSQL é o motor de persistência. Todos os relacionamentos entre entidades (Bandas, Usuários, Eventos, Repertórios) usam chaves estrangeiras e integridade relacional estrita.
+
+Restrições que expressam regra de negócio (`unique_together`, `on_delete`, `null=False`) pertencem ao modelo, não apenas ao serializer.
+
+### IV. Consistência Multiplataforma (Cross-Platform Consistency)
+
+As regras de negócio permanecem idênticas entre as interfaces Web e Mobile. Diferenças são permitidas apenas em apresentação, navegação e volume de dados exibido em uma única tela — nunca em restrições de lógica.
+
+Como corolário do Princípio I: regra no backend é herdada por qualquer cliente sem código adicional.
+
+### V. Aderência Estrita ao Domínio (Strict Business Domain Adherence)
+
+O comportamento do sistema deve estar alinhado a `regras/regras_negocio_sonic_stage.md`. Isso inclui controle de acesso por papel, tipos de evento, fluxos de status e campos obrigatórios.
+
+**Duas cópias, um conteúdo:** o arquivo existe em `sonic-stage-api/regras/` e em `sonic-stage-web/regras/`. As duas devem permanecer idênticas; alterar uma sem a outra é divergência.
+
+**Divergência é possível, silêncio não é.** Quando uma feature precisa contrariar uma regra documentada, a divergência deve ser registrada no `plan.md` (seção Complexity Tracking), aprovada por produto, e o documento de regras atualizado na mesma feature. O que não é aceitável é implementar contra a regra sem registrar.
+
 ---
 
-## 3. Diretrizes Obrigatórias de Arquitetura Angular
+## 2. Stack e Infraestrutura
 
-### 3.1 Standalone como padrão absoluto
+| Camada | Tecnologia |
+|---|---|
+| Banco de dados | PostgreSQL |
+| Backend | Django 5.2 + Django REST Framework 3.15, em `sonic-stage-api` |
+| Autenticação | JWT via `djangorestframework-simplejwt` |
+| Frontend | Angular 17.3 (standalone), em `sonic-stage-web` |
+| Estilo | Tailwind CSS 3.4 + `src/styles.css` — **o projeto não usa SCSS** |
+| Configuração | Variáveis de ambiente via `python-dotenv` (`.env`, com `.env.example` versionado) |
+| Exportação | PDF gerado no backend com WeasyPrint |
+| Referência de UI | Mockups da pasta `assets` |
 
-A partir do Angular 19, `standalone: true` tornou-se o padrão implícito para componentes, diretivas e pipes. No Angular 21 (versão atual do projeto) essa é a arquitetura padrão e absoluta. **Não declare `standalone: true` explicitamente** — a propriedade é omitida por padrão e inclui-la é ruído desnecessário.
+Nenhum segredo (chave de assinatura, senha de banco, credencial de integração) pode ser versionado. Configuração sensível vem do ambiente, e a ausência de uma variável obrigatória em produção deve interromper a inicialização — nunca cair em um valor padrão.
 
-O uso de arquitetura baseada em `NgModule` para novas declarações de componentes é proibido, exceto em cenários de interoperabilidade legada previamente aprovados.
+---
 
-### 3.2 API moderna de input/output
+## 3. Arquitetura Angular
 
-O uso dos decoradores legados `@Input()` e `@Output()` é proibido.
+O projeto está em **Angular 17.3**. As regras abaixo respeitam o que essa versão suporta.
 
-Todo componente deve adotar o padrão baseado em funções:
+### 3.1 Standalone como padrão
 
-```ts
-public readonly item = input<ItemModel>();
-public readonly changed = output<{ action: 'update' }>();
-```
+Componentes, diretivas e pipes são standalone. No Angular 17 a propriedade `standalone: true` ainda precisa ser declarada explicitamente. Arquitetura baseada em `NgModule` é proibida para novas declarações.
 
-Este padrão é obrigatório para manter alinhamento com o modelo reativo moderno do Angular.
+### 3.2 Injeção de dependência
 
-### 3.3 Injeção de dependência moderna
-
-A injeção de dependência manual via construtor no formato tradicional é proibida:
-
-```ts
-constructor( private service: ExampleService;){
-}
-```
-
-Toda dependência deve ser obtida com `inject()`:
+Dependências são obtidas com `inject()` em propriedades da classe, não por parâmetro de construtor:
 
 ```ts
 private readonly router: Router = inject(Router);
-private readonly service: ExampleService = inject(ExampleService);
+private readonly songService: SongService = inject(SongService);
 ```
 
-O uso de `inject()` deve ser preferido nas propriedades da classe, preservando clareza e previsibilidade.
+### 3.3 Estado reativo
 
-### 3.4 Fluxo de controle em templates
+O estado local usa a API reativa nativa: `signal()`, `computed()` e `effect()`.
 
-O uso do fluxo de controle nativo do Angular é obrigatório:
+**Armadilha conhecida:** um `computed()` que lê um `@Input` comum não recalcula quando o valor do input muda. Se um valor derivado depende de um input, o input precisa ser um signal.
 
-- `@if`
-- `@else`
-- `@for`
-- `@switch`
-- `@defer`
+### 3.4 API de input/output
 
-O uso dos seguintes é proibido:
-
-- `*ngIf`
-- `*ngFor`
-- `*ngSwitch`
-
-### 3.5 Estado local reativo
-
-Todo estado local de componente deve ser implementado com:
-
-- `signal()`
-- `computed()`
-- `effect()`
-
-Observables podem existir quando necessários para integração HTTP, bibliotecas de terceiros ou fluxos assíncronos, mas o estado interno de UI deve ser normalizado para Signals sempre que aplicável.
-
-### 3.6 Detecção de mudança — OnPush obrigatório
-
-Todo componente deve declarar `changeDetection: ChangeDetectionStrategy.OnPush`.
-
-A estratégia `Default` verifica o componente em cada ciclo de detecção do Angular, independentemente de haver mudança real. Com `OnPush`, a re-renderização ocorre apenas quando:
-
-- um `input()` recebe novo valor por referência
-- um `signal()` ou `computed()` lido no template muda de valor
-- um evento DOM originado dentro do componente é disparado
-- `ChangeDetectorRef.markForCheck()` é chamado explicitamente
-
-Em projetos com Signals (como este), `OnPush` é a escolha natural e deve ser aplicado sem exceção:
-
-```typescript
-@Component({
-  selector: 'app-example',
-  templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,  // obrigatório
-})
-```
-
----
-
-## 4. Estrutura de Modelos
-
-### 4.1 Contrato base obrigatório
-
-Todo modelo do sistema deve estender a interface `ModelBase`.
+Para **componentes novos**, usar a API baseada em funções, disponível a partir do Angular 17.1:
 
 ```ts
-export interface ModelBase {
-  id: number;
-  createdAt: string;
-  modifiedAt: string;
-  active: boolean;
-}
+public readonly song = input<Song>();
+public readonly changed = output<{ action: 'update' }>();
 ```
 
-> **Por quê camelCase?** O `caseConverterInterceptor` converte automaticamente todas as respostas HTTP de snake_case → camelCase. O frontend trabalha **sempre** com camelCase — incluindo os campos do `ModelBase`. Nunca declare `created_at` ou `modified_at` em interfaces TypeScript.
+Componentes existentes que usam `@Input()`/`@Output()` migram quando forem tocados por outro motivo. Não é obrigatório abrir uma frente de migração só para isso.
 
-### 4.2 Regra de definição de modelos
+### 3.5 Fluxo de controle em templates
 
-Todos os modelos devem ser definidos como `interface`.
+Usar o fluxo de controle nativo: `@if`, `@for`, `@switch`, `@empty`. `*ngIf` e `*ngFor` são proibidos em templates novos.
 
-Quando uma propriedade for expansível, relacional ou composta, pode utilizar um dos seguintes formatos:
+### 3.6 Roteamento
 
-- `number` para id
-- `string` para url
-- outra interface de modelo para modelo
-
-E também criar uma função para o objeto quando houver outro modelo, usando o exemplo isDepartmentExpanded.
-
-```ts
-export interface DepartmentModel extends ModelBase {
-  name: string;
-}
-```
-
-```ts
-export interface UserModel extends ModelBase {
-  name: string;
-  email: string;
-  department: number | string | DepartmentModel;
-}
-
-export function isDepartmentExpanded(
-  department: number | string | DepartmentModel,
-): department is DepartmentModel {
-  return typeof department === 'object' && department !== null;
-}
-```
-
-Quando uma propriedade for um Choices, como uma escolha fixa, usar o enum para opções disponíveis.
-Exemplo:
-
-```ts
-export enum Status {
-  TO_DO = 1,
-  DOING = 2,
-  DONE = 3,
-}
-
-export interface TaskModel extends ModelBase {
-  name: string;
-  status: Status;
-}
-```
-
-### 4.3 Convenções de nomenclatura
-
-- Interfaces de domínio devem utilizar o sufixo `Model`.
-- Interfaces auxiliares podem usar nomes sem esse sufixo apenas quando são DTOs internos estritamente justificáveis.
-- Estruturas compartilhadas devem ser centralizadas por domínio.
+Rotas são carregadas sob demanda com `loadComponent` / `loadChildren`. Toda área que exige sessão recebe `canActivate` no nó pai, não em cada filho — assim telas adicionadas depois já nascem protegidas.
 
 ---
 
-## 5. Padrões de Componentização
+## 4. Estado e Serviços
 
-### 5.1 Componentes genéricos e reutilizáveis
+O projeto usa dois padrões complementares. Ambos são legítimos; a escolha depende do papel.
 
-Todo componente deve ser projetado para reuso. Componentes não devem nascer excessivamente acoplados a uma única tela quando há potencial de reuso entre features.
+### 4.1 Stores — estado compartilhado
 
-Componentes reutilizáveis esperados incluem:
+`src/app/core/stores/` — `@Injectable({ providedIn: 'root' })` que expõe signals privados via `computed()` públicos. Guardam estado que sobrevive à navegação e é lido por várias telas: sessão, banda ativa, notificações.
 
-- cards
-- tabelas
-- filtros
-- cabeçalhos de página
-- formulários compostos
-- modais
-- paginadores
-- estados vazios
-- componentes de feedback visual
+Regra: o signal de escrita é privado (`_accessToken`); o mundo externo lê pelo `computed()` e escreve por método nomeado (`setSession()`, `logout()`).
 
-### 5.2 Separação de responsabilidades
+### 4.2 Services — acesso HTTP
 
-Todo componente deve ter uma responsabilidade única e clara.
+`src/app/services/` para serviços de domínio (`song.service.ts`, `setlist.service.ts`) e `src/app/core/services/` para serviços de infraestrutura (`google-auth.service.ts`).
 
-A divisão recomendada é:
+Regras:
 
-- **Page Components:** composição e orquestração de tela
-- **Feature Components:** componentes específicos de domínio
-- **Shared Components:** componentes reutilizáveis globais
-- **UI Components:** componentes visuais puros e genéricos
+- URLs sempre relativas, começando por `/api/`. Host absoluto em código é proibido — a resolução por ambiente é responsabilidade do interceptor.
+- Componentes não montam URL na mão. Se uma tela precisa chamar um endpoint, o método vai no service correspondente.
+- Todo `subscribe()` que grava dado tem tratamento de `error` com retorno visível ao usuário. Falha de gravação silenciosa é defeito.
 
-### 5.3 Comunicação entre componentes
+### 4.3 Interceptors
 
-A comunicação deve priorizar:
-
-- `input()` para dados de entrada
-- `output()` para eventos
-- serviços compartilhados quando há estado de domínio ou coordenação entre múltiplos componentes
-
-### 5.4 Padrão obrigatório para CRUDs
-
-Todo CRUD deve ser estruturado, no mínimo, com dois componentes principais:
-
-- um componente de `list`, responsável pela listagem e ações de navegação
-- um componente de `detail`, responsável por criar, visualizar e editar o registro
-
-O componente de `detail` deve ser implementado como formulário e reutilizado para os três estados de uso:
-
-- criação
-- visualização
-- edição
-
-As rotas devem seguir a convenção abaixo:
-
-- `<entidade>/create`: modo de criação
-- `<entidade>/:id`: modo de edição
-
-Quando a necessidade for apenas visualização, o mesmo componente `detail` deve ser reutilizado, variando o estado da tela conforme a regra de negócio, sem criar um terceiro componente exclusivo para `view`.
+`src/app/core/interceptors/` — o interceptor de autenticação injeta o header `Authorization` e trata `401`; o de erro centraliza a mensagem. Nenhum componente repete essa lógica.
 
 ---
 
-### 5.5 Padrão de Navegação Lateral (Sidebar)
+## 5. Componentização
 
-Todo recurso que precisa aparecer no menu lateral DEVE ser registrado adicionando uma entrada no array `navItems` em `sidebar.component.ts`.
+### 5.1 Responsabilidade única
 
-```ts
-public readonly navItems: NavItem[] = [
-  { route: '/home',         icon: 'home',   label: 'Home',   permission: null },
-  { route: '/courses',      icon: 'school', label: 'Cursos', permission: 'education.view_course' },
-  // ↓ novo recurso
-  { route: '/novo-recurso', icon: 'icone',  label: 'Nome',   permission: 'app_label.view_model' },
-];
-```
+Componente de página orquestra e busca dados; componente de apresentação recebe dados e emite eventos. Um componente de apresentação não injeta service de domínio.
 
-Regras inegociáveis:
+### 5.2 Reuso
 
-- `permission: null` → item sempre visível; uso exclusivo de rotas de acesso geral (ex.: Home)
-- `permission: 'app_label.view_model'` → item visível somente se o JWT do usuário contiver essa permissão
-- O formato da permissão segue o padrão Django: `<app_label>.view_<model>`
-- Nenhuma outra mudança é necessária no frontend — o template já itera `navItems` e aplica
-  `@if (isVisible(item))` automaticamente
+O que é usado por duas ou mais features vai para `src/app/shared/components/`. O que é usado por uma só permanece dentro da pasta da feature.
 
-### 5.6 Catálogo de Componentes Compartilhados
+Componente não utilizado deve ser removido, não mantido "para depois".
 
-O projeto dispõe dos seguintes componentes prontos para uso, todos exportados via `@shared/components`. **Reutilize antes de criar** — qualquer novo componente com potencial de reuso deve seguir o mesmo contrato e ser adicionado a este catálogo.
+### 5.3 Ciclo de vida
 
-| Componente | Seletor | Localização | Principais inputs |
-|---|---|---|---|
-| `BadgeComponent` | `<app-badge>` | `shared/components/badge/` | `variant` (`info`\|`success`\|`danger`\|`warning`\|`neutral`), `shape` (`square`\|`pill`) — texto via `<ng-content>` |
-| `ButtonComponent` | `<app-button>` | `shared/components/button/` | `variant`, `size`, `type`, `disabled`, `loading`, `full`, `iconLeft`, `iconRight` |
-| `DataTableComponent` | `<app-data-table>` | `shared/components/data-table/` | `columns` (required), `rows` (required), `total`, `hasPrevious`, `hasNext`, `recordLabel` — outputs: `previousPage`, `nextPage` |
-| `PageHeaderComponent` | `<app-page-header>` | `shared/components/page-header/` | `title` (required), `subtitle` |
-| `ProgressComponent` | `<app-progress>` | `shared/components/progress/` | `value`, `max`, `variant`, `size`, `label`, `stepLabel`, `indeterminate` |
-| `SearchFieldComponent` | `<app-search-field>` | `shared/components/search-field/` | `placeholder` (padrão `'Buscar...'`), `debounceMs` (padrão `300`) — output: `search` emite `string` após o debounce; largura fixa de 220px. **Use em toda tela que precise de campo de busca** — não crie campos de busca ad-hoc. |
-
-**Diretivas compartilhadas:**
-
-| Diretiva | Seletor | Uso |
-|---|---|---|
-| `TableCellDirective` | `[appTableCell]="'coluna'"` | Define template customizado para célula em `<app-data-table>` |
-
-**Padrão de variantes via `computed()`:**
-
-Componentes de UI com variantes computam dinamicamente as classes CSS a partir dos `input()`:
-
-```typescript
-protected readonly hostClasses = computed<string>(() => {
-  return [
-    'ui-button',
-    `ui-button--${this.variant()}`,
-    `ui-button--${this.size()}`,
-    this.loading() ? 'ui-button--loading' : '',
-  ].filter(Boolean).join(' ');
-});
-```
-
-```html
-<button [class]="hostClasses()">...</button>
-```
-
-Todo novo componente com variantes deve seguir este padrão — nunca usar `[ngClass]` com lógica inline no template.
+Todo recurso que sobrevive ao componente é liberado em `ngOnDestroy`: `addEventListener`, `setInterval`, `setTimeout` e subscriptions manuais. Um listener registrado no construtor sem destruição correspondente é vazamento.
 
 ---
 
-## 6. Padrões de Serviço
+## 6. Segurança
 
-### 6.1 BaseService obrigatório
+### 6.1 Autorização
 
-Todos os serviços HTTP devem usar `BaseService` como diretriz base, conforme definido em:
+Conforme o Princípio I, a autorização vive no backend. No Django REST Framework, isso significa classes de permissão explícitas por viewset — nunca apenas `IsAuthenticated` em um recurso que pertence a uma entidade.
 
-`@.claude/skills/base-service/SKILL.md`
+Um recurso aninhado sob um identificador na URL (`/api/bands/{id}/songs/`) deve verificar que o usuário autenticado tem vínculo com aquela entidade. Filtrar o queryset pelo identificador da URL **não é** autorização.
 
-A classe `BaseService<T>` é `abstract` — subclasses declaram `protected readonly path: string` diretamente, sem o modificador `override` (por ser implementação de propriedade abstrata).
+### 6.2 Segredos e configuração
 
-Isso significa que nenhum serviço de acesso a dados deve implementar chamadas HTTP de forma dispersa ou sem adesão ao padrão central compartilhado.
+Nenhum segredo no repositório. Nenhum valor padrão inseguro. `.env` no `.gitignore`, `.env.example` versionado sem valores reais.
 
-### 6.2 Responsabilidades dos serviços
+### 6.3 Superfície do cliente
 
-Os serviços devem:
+- Não confiar em validação feita apenas no frontend. Toda regra validada na tela é revalidada no servidor.
+- Evitar `innerHTML` e `bypassSecurityTrust*`. Conteúdo dinâmico usa interpolação.
+- Segredo (token de convite, credencial) nunca aparece em query string, log ou mensagem de erro.
 
-- encapsular o acesso à API
-- centralizar a transformação de payload quando necessário
-- evitar lógica visual
-- manter contratos claros e tipados
-- respeitar o modelo de domínio
+### 6.4 Sessão
 
-### 6.3 Nomenclatura
-
-Os serviços devem usar nomes explícitos orientados ao domínio, por exemplo:
-
-- `UserService`
-- `ProjectService`
-- `PermissionService`
-
-### 6.4 Interceptores HTTP
-
-Os interceptores ficam em `src/app/core/interceptors/` e são funções do tipo `HttpInterceptorFn` (padrão funcional do Angular 15+).
-
-**Interceptor ativo: `caseConverterInterceptor`**
-
-Localização: `src/app/core/interceptors/case-converter.interceptor.ts`
-
-Converte automaticamente e de forma transparente o casing entre frontend e backend:
-
-- **Requisições (outgoing):** camelCase → snake_case antes de enviar ao servidor
-- **Respostas (incoming):** snake_case → camelCase ao receber do servidor
-- Não atua em `FormData`, `Blob` ou `ArrayBuffer` — apenas em objetos JSON serializáveis
-
-**Regras obrigatórias:**
-
-- O frontend usa **sempre** camelCase — a conversão é automática e não deve ser feita manualmente
-- **Nunca** chamar `deepToSnakeCase()` ou `deepToCamelCase()` em payloads de request/response — o interceptor já cobre esse passo
-- Em casos excepcionais fora do ciclo HTTP (ex.: dados locais, WebSocket), as funções `deepToSnakeCase()` / `deepToCamelCase()` de `@core/utils` podem ser usadas diretamente
-- O interceptor é registrado em `app.config.ts` via `withInterceptors([caseConverterInterceptor])`
-
-**Ao criar um novo interceptor:**
-
-1. Criar arquivo em `src/app/core/interceptors/<nome>.interceptor.ts`
-2. Usar o tipo `HttpInterceptorFn` (nunca a classe `HttpInterceptor` legada)
-3. Registrar no array `withInterceptors([...])` em `app.config.ts`
-4. Exportar via barrel `src/app/core/interceptors/index.ts`
-
-### 6.5 Proibição de override desnecessário em subclasses de `BaseService`
-
-Sobrescrever (`override`) um método herdado de `BaseService` é permitido **apenas quando** a implementação da classe base não satisfaz a necessidade — ou seja, quando o filho precisa adicionar, alterar ou restringir comportamento.
-
-**É proibido** fazer override cujo corpo seja idêntico (ou funcionalmente equivalente) ao da classe base. Esse padrão não agrega valor e cria ruído, falsa sensação de customização e risco de dessincronização futura caso a base evolua.
-
-**Proibido — override que não acrescenta nada:**
-
-```typescript
-// ❌ body idêntico ao da BaseService
-override getAll(): Observable<UserModel[]> {
-  return this.http.get<UserModel[]>(this.endpoint);
-}
-```
-
-**Correto — sem override (herança direta):**
-
-```typescript
-// ✅ simplesmente não declarar o método; a base já provê
-export class UserService extends BaseService<UserModel> {
-  protected readonly path = ApiRoutes.USERS.ROOT;
-}
-```
-
-**Correto — override com lógica adicional justificada:**
-
-```typescript
-// ✅ adiciona parâmetro de query específico do domínio
-override getAll(active?: boolean): Observable<UserModel[]> {
-  const params = active !== undefined ? { active } : {};
-  return this.http.get<UserModel[]>(this.endpoint, { params });
-}
-```
-
-**Regra de decisão:** antes de escrever `override`, verifique se o comportamento desejado já é entregue pela base. Se sim, delete o método — a herança resolve.
+A verificação de sessão no cliente considera a validade temporal da credencial, não apenas sua presença.
 
 ---
 
-### 6.6 Constantes centralizadas — proibição de strings literais em arquivos `.ts`
+## 7. Código e Tipagem
 
-Strings de configuração como rotas SPA, endpoints de API, chaves de storage e codenames de permissão **nunca devem aparecer como literais** em código TypeScript. Todo valor recorrente ou compartilhado deve ser centralizado em `src/app/core/constants/` e importado via `@core/constants`.
+### 7.1 Tipagem explícita
 
-**Constantes disponíveis:**
+Todo código TypeScript tem tipagem explícita: variáveis, parâmetros, retornos e propriedades.
 
-| Constante | Uso obrigatório |
-|---|---|
-| `AppRoutes` | Rotas do SPA — `router.navigate([AppRoutes.DASHBOARD])`, `canActivate` redirects |
-| `ApiRoutes` | Endpoints de API — `protected readonly path = ApiRoutes.USERS.ROOT` |
-| `Permissions` | Codenames Django — `data: { requiredPermission: Permissions.USERS.VIEW }` |
-| `StorageKeys` | Chaves do `localStorage` — `localStorage.getItem(StorageKeys.ACCESS_TOKEN)` |
-| `CryptoConfig` | Parâmetros de cripto (salt, iterações PBKDF2) — usados por `AuthStorageService` |
-| `Messages` | Strings de mensagem de UI — `this.toastr.success(Messages.users.created)` |
+`any` é proibido em código novo. Toda entidade trafegada pela API tem modelo em `src/app/models/`, como já ocorre com `Song` e `Setlist`.
 
-**Correto:**
-```typescript
-this.router.navigate([AppRoutes.DASHBOARD]);
-protected readonly path = ApiRoutes.USERS.ROOT;
-data: { requiredPermission: Permissions.USERS.VIEW }
-```
+### 7.2 Clareza
 
-**Proibido:**
-```typescript
-this.router.navigate(['/dashboard']);          // ❌ string bruta de rota
-protected readonly path = 'users/';           // ❌ string bruta de endpoint
-data: { requiredPermission: 'auth.view_user' } // ❌ string bruta de permissão
-```
+Nomes descrevem intenção. Funções fazem uma coisa. Aninhamento profundo é sinal de extração pendente.
 
-Ao adicionar novos domínios, inserir as chaves no arquivo correspondente em `src/app/core/constants/` e reexportar via barrel.
+### 7.3 Higiene
+
+Imports no topo do arquivo — nunca no meio ou dentro de função. Import não utilizado é removido. Código comentado não é versionado; o histórico do git cumpre esse papel.
+
+### 7.4 Idioma na interface
+
+A interface é integralmente pt-BR. Mensagens de erro, rótulos e textos exibidos ao usuário são em português, inclusive os originados no backend.
+
+`alert()` e `confirm()` nativos não são padrão de UX aceitável — usar os componentes de modal e feedback do projeto.
 
 ---
 
-### 6.7 Autenticação e Autorização
+## 8. Estrutura de Pastas
 
-**AuthService** (`src/app/core/services/auth.service.ts`):
-
-| Membro | Tipo | Descrição |
-|---|---|---|
-| `currentUser` | `WritableSignal<UserSessionModel \| null>` | Usuário decodificado do JWT; `null` se não autenticado |
-| `isAuthenticated` | `Signal<boolean>` | `true` quando `currentUser !== null` |
-| `hasPermission(perm)` | `Signal<boolean>` | `true` se JWT contém `perm`; superusuário retorna `true` para qualquer permissão |
-
-**Guards disponíveis (exportados via `@core/guards`):**
-
-| Guard | `canActivate` em | Redireciona para |
-|---|---|---|
-| `authGuard` | Qualquer rota protegida | `AppRoutes.LOGIN` se não autenticado |
-| `permissionGuard` | Rota com `data.requiredPermission` | `data.permissionRedirectTo` ou `AppRoutes.DASHBOARD` |
-| `adminGuard` | Rota exclusiva de superusuário | `AppRoutes.DASHBOARD` se não for superuser |
-
-**Padrão de uso no roteador:**
-```typescript
-{
-  path: 'users',
-  loadChildren: ...,
-  canActivate: [permissionGuard],
-  data: { requiredPermission: Permissions.USERS.VIEW },
-}
-```
-
-**`SKIP_AUTH_INTERCEPTOR`** — token `HttpContextToken<boolean>` exportado de `auth.service.ts`. Use para requisições que não devem receber o header `Authorization` (login, logout, refresh):
-```typescript
-import { SKIP_AUTH_INTERCEPTOR } from '@core/services';
-
-this.http.post(url, body, {
-  context: new HttpContext().set(SKIP_AUTH_INTERCEPTOR, true),
-});
-```
-
----
-
-## 7. Padrões de Formulário
-
-### 7.1 Abordagem obrigatória
-
-Todos os formulários devem usar **Signal Forms** do Angular 21 (`@angular/forms`).
-
-O uso de `ReactiveFormsModule`, `FormBuilder`, `FormGroup` clássico ou formulários orientados a template é proibido.
-
-### 7.2 Estrutura de implementação
-
-Os formulários são criados com um signal de modelo de dados e uma field tree gerada pela função `form()`:
-
-```typescript
-import { form, required, minLength, email, validate } from '@angular/forms/signals';
-import { signal } from '@angular/core';
-
-interface LoginData {
-  email: string;
-  password: string;
-}
-
-const loginModel = signal<LoginData>({ email: '', password: '' });
-const loginForm = form(loginModel, (s) => {
-  required(s.email, { message: 'E-mail obrigatório' });
-  email(s.email);
-  required(s.password, { message: 'Senha obrigatória' });
-  minLength(s.password, 8);
-});
-```
-
-No template, use a diretiva `[formField]` para binding bidirecional automático:
-
-```html
-<input type="email" [formField]="loginForm.email" />
-<input type="password" [formField]="loginForm.password" />
-```
-
-Para ler ou escrever um valor reativamente no componente:
-
-```typescript
-// Leitura reativa
-const email = loginForm.email().value();
-
-// Escrita
-loginForm.email().value.set('novo@email.com');
-```
-
-### 7.3 Validação e feedback
-
-Declare todos os validadores no schema passado ao `form()`.
-
-**Validators built-in disponíveis:**
-
-| Validator | Parâmetros extras | Uso |
-|---|---|---|
-| `required(path, opts?)` | `{message?, when?}` | Campo obrigatório (vazio = `null` ou string vazia) |
-| `email(path, opts?)` | `{message?, when?}` | Formato de e-mail |
-| `minLength(path, n, opts?)` | `n`, `{message?, when?}` | Comprimento mínimo de string ou array |
-| `maxLength(path, n, opts?)` | `n`, `{message?, when?}` | Comprimento máximo de string ou array |
-| `min(path, n, opts?)` | `n`, `{message?, when?}` | Valor numérico mínimo |
-| `max(path, n, opts?)` | `n`, `{message?, when?}` | Valor numérico máximo |
-| `pattern(path, regex, opts?)` | `regex`, `{message?, when?}` | Expressão regular |
-
-**Validação condicional — opção `when`:**
-
-Todo built-in aceita `{ when }` para aplicar a regra somente quando uma condição for verdadeira. O callback recebe `{valueOf}` para ler outros campos, e pode referenciar signals externos diretamente:
-
-```typescript
-// Condicional baseado em outro campo do form
-required(s.promoCode, {
-  when: ({ valueOf }) => valueOf(s.applyDiscount),
-});
-
-// Condicional baseado em signal externo (ex.: modo de criação vs. edição)
-required(s.password, {
-  when: () => !this.isEditMode(),
-});
-```
-
-> **Regra obrigatória:** nunca use verificações manuais (`if (!field.trim())`) em `handleSubmit()` para impor obrigatoriedade contextual — use `required` com `when`.
-
-**Estados de campo disponíveis no template:**
-
-- `valid()` — validação passou
-- `invalid()` — validação falhou
-- `touched()` — usuário interagiu com o campo
-- `dirty()` — valor foi alterado
-- `errors()` — array de erros `{ kind: string, message: string }`
-- `pending()` — validação assíncrona em andamento
-
-**Padrão de exibição (componentes customizados):**
-
-```html
-@if (form.email().touched() && form.email().invalid()) {
-  @for (error of form.email().errors(); track error) {
-    <span>{{ error.message }}</span>
-  }
-}
-```
-
-Os componentes `<app-input>`, `<app-select>` e `<app-toggle>` exibem o primeiro erro automaticamente via `[formField]` — o padrão acima só é necessário em campos fora desses componentes.
-
-A validação deve cobrir:
-
-- campos obrigatórios
-- comprimento mínimo/máximo
-- formato
-- consistência de negócio
-
-### 7.4 Componentes de campo reutilizáveis
-
-O projeto dispõe de três componentes de campo prontos para uso, todos localizados em `src/app/shared/components/forms/` e derivados de `BaseFormFieldComponent`. O uso direto desses componentes é obrigatório — não crie campos de formulário ad-hoc em páginas.
-
-| Seletor | Arquivo | Implementa |
-|---|---|---|
-| `<app-input>` | `forms/input/` | `FormValueControl<string>` |
-| `<app-select>` | `forms/select/` | `FormValueControl<string>` |
-| `<app-toggle>` | `forms/toggle/` | `FormCheckboxControl` |
-
-**Inputs comuns (herdados de `BaseFormFieldComponent`):**
-
-- `[formField]` — diretiva do Signal Forms que conecta o campo ao schema (binding automático de `value`/`checked`, `invalid`, `errors`, `touched`, etc.)
-- `label` — rótulo textual
-- `hint` — texto de ajuda (ocultado quando há erro)
-- `serverError` — mensagem de erro vinda da API (exibida separadamente)
-- `name` — atributo HTML `name` do input
-
-**Inputs específicos:**
-
-- `<app-input>`: `type`, `placeholder`, `autocomplete`, `iconLeft` (nome do ícone Lucide em kebab-case), `size` (`'sm'` | `'md'` padrão | `'lg'`) — suporta toggle de senha automático quando `type="password"`
-- `<app-select>`: `options: SelectOption[]` — interface `SelectOption<T>` em `src/app/shared/types/select-option.model.ts`
-- `<app-toggle>`: nenhum extra — usa `checked` como model bidirecional
-
-**Feedback de validação automático:**
-
-Os componentes exibem automaticamente a primeira mensagem de erro após o campo ser tocado (`touched`). As mensagens padrão por `kind` são definidas em `Messages.validation` (`@core/constants`):
-
-| `kind` | Mensagem padrão |
-|---|---|
-| `required` | Campo obrigatório. |
-| `email` | Informe um e-mail válido. |
-| `cpf` | Informe um CPF válido. |
-| `cnpj` | Informe um CNPJ válido. |
-
-Passar `{ message }` no validador só é necessário para sobrescrever casos excepcionais.
-
-**Exemplo de uso:**
-
-```html
-<app-input
-  [formField]="form.email"
-  label="E-mail"
-  type="email"
-  placeholder="seu@email.com"
-/>
-
-<app-select
-  [formField]="form.role"
-  label="Perfil"
-  [options]="roleOptions"
-/>
-
-<app-toggle
-  [formField]="form.active"
-  label="Ativo"
-/>
-```
-
----
-
-### 7.5 Validadores customizados
-
-Validadores específicos de negócio ficam em `src/app/core/validators/index.ts` e seguem a mesma assinatura dos built-ins do Signal Forms (recebem o path do schema + `options?`). Retornam `null` para campo vazio — a obrigatoriedade fica a cargo de `required()`.
-
-Validadores disponíveis:
-
-| Função | `kind` | Validação |
-|---|---|---|
-| `cpf(path, options?)` | `'cpf'` | CPF brasileiro (11 dígitos, dígitos verificadores) |
-| `cnpj(path, options?)` | `'cnpj'` | CNPJ brasileiro (14 dígitos, dígitos verificadores) |
-
-**Uso:**
-
-```typescript
-import { cpf, cnpj } from '@core/validators';
-
-const form = form(model, (s) => {
-  required(s.cpf);
-  cpf(s.cpf);                          // mensagem padrão via Messages.validation
-  cnpj(s.cnpj, { message: 'CNPJ inválido para este convênio' }); // mensagem custom
-});
-```
-
-Novos validadores de domínio devem ser adicionados nesse mesmo arquivo, seguindo o mesmo contrato.
-
-**Criando um validador reutilizável:**
-
-Encapsule `validate()` em uma função com a mesma assinatura dos built-ins e adicione em `src/app/core/validators/index.ts`:
-
-```typescript
-import { validate } from '@angular/forms/signals';
-
-export function url(path: SchemaPath<string>, options?: { message?: string }): void {
-  validate(path, ({ value }) => {
-    try {
-      new URL(value());
-      return null;
-    } catch {
-      return { kind: 'url', message: options?.message ?? 'Informe uma URL válida.' };
-    }
-  });
-}
-```
-
-**Validação inline com `validate()`:**
-
-Para regras únicas de negócio que não justificam extração:
-
-```typescript
-import { validate } from '@angular/forms/signals';
-
-validate(s.website, ({ value }) => {
-  if (!value().startsWith('https://')) {
-    return { kind: 'https', message: 'A URL deve iniciar com https://.' };
-  }
-  return null;
-});
-```
-
-**Validação cruzada entre campos com `valueOf()`:**
-
-Use `valueOf()` dentro do callback para acessar o valor de outro campo. Este é o padrão obrigatório para confirmação de senha e regras de dependência:
-
-```typescript
-validate(s.confirmPassword, ({ valueOf }) => {
-  if (this.isEditMode()) return null;
-  return valueOf(s.confirmPassword) !== valueOf(s.password)
-    ? { kind: 'mismatch', message: 'As senhas não coincidem.' }
-    : null;
-});
-```
-
-**Múltiplos campos com `validateTree()`:**
-
-Quando a regra envolve vários campos e não pertence a um campo específico (ex.: intervalo de datas):
-
-```typescript
-import { validateTree } from '@angular/forms/signals';
-
-validateTree(s, (ctx) => {
-  if (ctx.valueOf(s.endDate) <= ctx.valueOf(s.startDate)) {
-    return { kind: 'dateRange', message: 'A data de fim deve ser posterior à de início.' };
-  }
-  return null;
-});
-```
-
-**Validação de arrays com `applyEach()`:**
-
-```typescript
-import { applyEach } from '@angular/forms/signals';
-
-applyEach(s.items, (item) => {
-  required(item.name);
-  min(item.quantity, 1);
-});
-```
-
-**Validação assíncrona com `validateHttp()`:**
-
-Para verificações server-side como unicidade de e-mail ou username. Só roda após todas as regras síncronas passarem:
-
-```typescript
-import { validateHttp } from '@angular/forms/signals';
-
-validateHttp(s.email, {
-  request: ({ value }) => `/api/check-email?email=${value()}`,
-  onSuccess: (response) =>
-    response.taken ? { kind: 'emailTaken', message: 'E-mail já cadastrado.' } : null,
-  onError: () => ({ kind: 'networkError', message: 'Não foi possível verificar o e-mail.' }),
-});
-```
-
-Use `field.pending()` no template para indicar o carregamento da verificação assíncrona.
-
-**Validação com schema externo (`validateStandardSchema()`):**
-
-Para projetos que adotam Zod ou Valibot como fonte de validação centralizada:
-
-```typescript
-import * as z from 'zod';
-import { validateStandardSchema } from '@angular/forms/signals';
-
-const schema = z.object({
-  email: z.email(),
-  password: z.string().min(8),
-});
-
-const loginForm = form(model, (s) => validateStandardSchema(s, schema));
-```
-
-Schemas dinâmicos (que mudam com base em outros campos) podem ser passados como signal via `computed()`.
-
----
-
-### 7.6 Atributo `novalidate` obrigatório na tag `<form>`
-
-Todo elemento `<form>` no template deve conter o atributo `novalidate`. Isso desativa a validação nativa do HTML5, que pode conflitar com o ciclo de validação do Signal Forms e produzir comportamentos inconsistentes (ex.: tooltips do browser, bloqueios de submit antes que o Signal Forms possa intervir).
+Estrutura real do `sonic-stage-web`:
 
 ```html
 <!-- Correto -->
@@ -1613,33 +994,20 @@ A estrutura do projeto deve favorecer escalabilidade, manutenibilidade e compree
 Estrutura base sugerida:
 
 ```text
-src/
-  app/
-    core/
-      guards/
-      interceptors/
-      services/
-      tokens/
-      utils/
-    shared/
-      components/
-      directives/
-      pipes/
-      models/
-      services/
-    features/
-      users/
-        components/
-        pages/
-        services/
-        models/
-        utils/
-      projects/
-        components/
-        pages/
-        services/
-        models/
-        utils/
+src/app/
+├── core/                 # infraestrutura transversal
+│   ├── config/           # feature flags e constantes
+│   ├── guards/           # guards de rota
+│   ├── interceptors/     # interceptors HTTP
+│   ├── services/         # serviços de infraestrutura
+│   └── stores/           # estado compartilhado
+├── features/             # uma pasta por área funcional
+│   └── <feature>/
+│       └── components/   # componentes exclusivos da feature
+├── layout/               # casca da aplicação (sidebar, layout, navbar)
+├── models/               # interfaces de domínio
+├── services/             # serviços HTTP de domínio
+└── shared/components/    # componentes reutilizados por 2+ features
 ```
 
 ### 12.3 Estrutura do Projeto
@@ -1761,7 +1129,7 @@ src/
     app.config.ts
 ```
 
-**Routes file por feature:**
+Arquivos em kebab-case com sufixo de papel: `song-form.component.ts`, `band.store.ts`, `auth.guard.ts`, `song.model.ts`, `song.service.ts`.
 
 Toda feature com mais de uma rota deve ter seu próprio `<feature>.routes.ts` na raiz da sua pasta. Esse arquivo é registrado no `app.routes.ts` via `loadChildren`:
 
@@ -1828,228 +1196,58 @@ Diretrizes:
 
 ---
 
-### 12.5 Path Aliases — Imports por alias
+## 9. Testes
 
-O projeto configura path aliases no `tsconfig.json` para evitar caminhos relativos longos e tornar os imports legíveis e independentes de localização.
+Substitui a regra anterior, que dizia não criar testes.
 
-**Aliases disponíveis:**
+### 9.1 Backend — obrigatório
 
-| Alias | Aponta para |
-|---|---|
-| `@core/*` | `src/app/core/*` |
-| `@shared/*` | `src/app/shared/*` |
+`sonic-stage-api/core/` mantém suíte de testes em arquivos `test*.py`, executada por `python manage.py test core`.
 
-**Correto — usar alias:**
+Toda correção de comportamento incorreto entra com um teste que **falha antes** e **passa depois**. Toda regra de autorização tem teste do caso negativo — o de quem não deveria ter acesso.
 
-```typescript
-import { BaseFormComponent } from '@core/base';
-import { InputComponent } from '@shared/components';
-import { cpf } from '@core/validators';
-import { isDeepEqual } from '@core/utils';
-```
+A suíte não pode regredir. Falhas pré-existentes conhecidas devem estar registradas para que uma regressão nova não se confunda com elas.
 
-**Proibido — caminhos relativos profundos:**
+### 9.2 Frontend — sob demanda
 
-```typescript
-// ❌ nunca usar quando existe alias equivalente
-import { BaseFormComponent } from '../../../core/base/base-form-component';
-import { InputComponent } from '../../shared/components/forms/input/input.component';
-```
+Testes unitários de componente não são obrigatórios. São exigidos para lógica pura com regra de decisão: guards, funções de transformação e utilitários.
 
-**Regra:** caminhos relativos com mais de um nível (`../`) são proibidos quando o destino está coberto por um alias. Caminhos relativos de primeiro nível (`./`) dentro da própria pasta são permitidos.
+### 9.3 Verificação mínima antes de entregar
+
+`ng build` compila sem erro, e `python manage.py check` passa.
 
 ---
 
-### 12.6 Barrel Files — index.ts
+## 10. Branch e Commit
 
-Todo conjunto lógico de arquivos que será importado por outros módulos deve expor um `index.ts` que centraliza os exports públicos. Isso desacopla os importadores da estrutura interna da pasta.
+### 10.1 Branch
 
-**Padrão obrigatório:**
+Duas convenções coexistem, e isso é intencional:
 
-```
-src/app/core/utils/
-  object.ts        ← implementação interna
-  index.ts         ← export { isDeepEqual } from './object';
-```
+- **Features conduzidas pelo Spec Kit** usam o nome gerado pelo comando (`035-fix-critical-security-bugs`). O número amarra a branch à pasta de especificação.
+- **Trabalho fora do Spec Kit** usa `<tipo>/<nome-kebab>`, com tipo em `feature`, `fix`, `hotfix` ou `improve`.
 
-**Uso:**
+### 10.2 Commit
 
-```typescript
-// Correto — via barrel (preferido)
-import { isDeepEqual } from '@core/utils';
+Conventional Commits: `<tipo>: <descrição>`.
 
-// Correto — import direto quando pasta não tem barrel ainda
-import { isDeepEqual } from '@core/utils/object';
-```
+Tipos: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`.
 
-**Barrels existentes:**
+Identificador de card é opcional — quando existir, `<tipo>(#ID): <descrição>`.
 
-| Barrel | O que exporta |
-|---|---|
-| `@core/base` | `BaseFormComponent` |
-| `@core/constants` | `Messages`, `AppRoutes`, `ApiRoutes`, `Permissions`, `StorageKeys`, `CryptoConfig` |
-| `@core/models` | `UserSessionModel`, `AuthTokenModel`, `LoginCredentials` |
-| `@core/guards` | `authGuard`, `adminGuard`, `permissionGuard` |
-| `@core/interceptors` | `caseConverterInterceptor` |
-| `@core/utils` | `isDeepEqual`, `deepToCamelCase`, `deepToSnakeCase`, `formatChatTimestamp` |
-| `@core/validators` | `cpf`, `cnpj`, `ValidatorOptions` |
-| `@shared/components` | `BadgeComponent`, `ButtonComponent`, `DataTableComponent`, `PageHeaderComponent`, `ProgressComponent`, `SearchFieldComponent` e tipos exportados |
-| `@shared/components/forms` | `InputComponent`, `SelectComponent`, `ToggleComponent` |
-| `@shared/directives` | `TableCellDirective` |
-
-**Regras:**
-
-- Ao criar uma nova pasta com dois ou mais arquivos de exportação pública, criar `index.ts` imediatamente.
-- O barrel exporta apenas o que é público — tipos e funções internas não são re-exportados.
-- Preferir `export { X } from './arquivo'` a `export * from './arquivo'` quando nem tudo no arquivo é público.
-- O `index.ts` não contém lógica — é exclusivamente re-export.
-- **Componentes individuais** (`shared/components/<nome>/`) **não têm** `index.ts` próprio. Todos os exports passam pelo `shared/components/index.ts`.
-- **Diretivas** ficam em `src/app/shared/directives/`, exportadas via `shared/directives/index.ts`.
+Commits não incluem segredos. Antes de commitar alteração de configuração, conferir que `.env` não entrou no diff.
 
 ---
 
-## 13. Exemplo de Referência Técnica
+## 11. Idioma dos Artefatos
 
-```ts
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  computed,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
-import { Router } from '@angular/router';
+**Todos os artefatos gerados pelo Spec Kit são escritos em Português Brasileiro:** `spec.md`, `plan.md`, `tasks.md`, `research.md`, `data-model.md`, `quickstart.md`, `contracts/*.md`, `checklists/*.md` e qualquer outro documento produzido pelos comandos `/speckit-*`.
 
-import { UserModel } from '../models/user.model';
-import { SelectedFilterModel } from '../models/selected-filter.model';
-import { UserService } from '../services/user.service';
-
-@Component({
-  selector: 'app-example',
-  imports: [],
-  templateUrl: './example.component.html',
-  styleUrl: './example.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class ExampleComponent implements OnInit {
-  readonly user = input<UserModel>();
-  readonly emitUpdate = output<{ action: 'change' }>();
-
-  private readonly router = inject(Router);
-  private readonly userService = inject(UserService);
-
-  readonly selectedFilters = signal<SelectedFilterModel[]>([]);
-  readonly totalItems = computed(() => this.items().length);
-  private readonly items = signal<string[]>([]);
-
-  ngOnInit(): void {
-    this.loadItems();
-  }
-
-  handleAction(action: string, id: number): void {
-    this.emitUpdate.emit({ action: 'change' });
-    this.router.navigate(['/details', id]);
-  }
-
-  private loadItems(): void {
-    this.items.set(['A', 'B', 'C']);
-  }
-}
-```
+Código-fonte, identificadores, variáveis e comentários técnicos podem permanecer em inglês quando seguirem a convenção da linguagem ou do framework. As palavras normativas MUST / MUST NOT / SHOULD nos requisitos seguem a RFC 2119 e permanecem em inglês.
 
 ---
 
-## 14. Critérios de Code Review
-
-Todo code review deve validar:
-
-**Angular 21 e arquitetura:**
-
-1. `standalone: true` **não declarado** — é o padrão implícito; declarar é ruído (seção 3.1)
-2. `changeDetection: ChangeDetectionStrategy.OnPush` declarado em **todo** componente (seção 3.6)
-3. ausência dos legados `@Input()` e `@Output()`
-4. uso de `inject()` em vez de injeção via construtor
-5. uso de `signal()`, `computed()` e `effect()` quando aplicável
-6. uso do fluxo de controle moderno do Angular (`@if`, `@for`, `@switch`, `@defer`)
-
-**Imports e organização:**
-
-7. imports usando path aliases (`@core/*`, `@shared/*`) — ausência de caminhos relativos com mais de um nível (`../`) (seção 12.5)
-8. `index.ts` criado (ou atualizado) ao adicionar novos arquivos públicos em uma pasta (seção 12.6)
-9. tipagem completa — variáveis, parâmetros, retornos
-
-**Modelos e domínio:**
-
-10. adesão ao `ModelBase`
-11. uso de componentes reutilizáveis
-
-**Estilos e UI:**
-
-12. uso de tokens do design system para cores, espaçamento (`--space-*`), radius (`--radius-*`), tipografia (`--font-size-*`, `--font-weight-*`) e sombras (`--shadow-*`) — ausência de valores hardcoded e estilos inline
-13. segurança contra XSS
-
-**Serviços e HTTP:**
-
-14. uso de `BaseService` em serviços HTTP
-15. ausência de overrides desnecessários em subclasses de `BaseService` — método só é sobrescrito quando adiciona ou altera comportamento em relação à base; corpo idêntico ao original é proibido (seção 6.5)
-16. paginação ou virtualização em listas grandes
-17. uso de `@defer` para cargas pesadas
-
-**Formulários:**
-
-18. ausência de `ReactiveFormsModule`, `FormBuilder`, `FormGroup` clássico — formulários devem usar Signal Forms (`form()` + `[formField]`)
-19. páginas de formulário estendem `BaseFormComponent<K>` — sem gerenciamento manual de `isSubmitting` ou lógica de submissão duplicada (seção 7.7)
-20. campos de formulário usam `<app-input>`, `<app-select>` ou `<app-toggle>` — sem campos HTML brutos (seção 7.4)
-21. validadores de domínio (CPF, CNPJ, etc.) importados de `@core/validators` — não reimplementar validação inline (seção 7.5)
-22. validação condicional usa `required()` ou `validate()` com `{ when }` — nunca verificação manual de campo em `handleSubmit()` para obrigatoriedade contextual (seção 7.3)
-23. validação cruzada entre campos usa `validate()` com `valueOf()` — nunca comparação manual no método de submissão (seção 7.5)
-24. em modo edição, `getModel()` retorna apenas os campos alterados — não enviar o modelo completo desnecessariamente (seção 7.7)
-25. todo elemento `<form>` contém o atributo `novalidate` — ausência do atributo permite que a validação nativa do HTML5 interfira no ciclo do Signal Forms (seção 7.6)
-26. erros de servidor tratados exclusivamente via `this.handleApiError(err)` herdado da base — ausência de signals de erro por campo, métodos `handle400()`, `handleApiError()` próprios ou parsing manual de `HttpErrorResponse` (seção 7.8)
-27. erros de campo exibidos no template como `[serverError]="serverErrors()['campo']"` — sem signals individuais por campo (seção 7.8)
-28. `ToastrService` não reinjetado em componentes que estendem `BaseFormComponent` — `this.toastr` já está disponível via base (seção 7.7)
-
-**Mensagens e constantes:**
-
-29. toda string de mensagem em arquivos `.ts` referencia `Messages` de `@core/constants` — ausência de strings literais de UI hardcoded em TypeScript; arquivos `.html` são permitidos
-
-**Ícones:**
-
-30. todo ícone referenciado via `<lucide-angular [name]="...">` está registrado no `LucideIconProvider` em `app.config.ts` (seção 8.6)
-
-**Navegação:**
-
-31. entrada em `navItems` criada corretamente ao adicionar novo recurso ao menu lateral (seção 5.5)
-32. clareza de nomenclatura e organização
-
-**Integração HTTP:**
-
-33. payload de request/response **não é convertido manualmente** com `deepToSnakeCase()` / `deepToCamelCase()` — o `caseConverterInterceptor` já cobre o ciclo HTTP; conversão manual só em contextos fora do ciclo HTTP (seção 6.4)
-34. novos interceptores usam `HttpInterceptorFn` (funcional) — nunca a classe `HttpInterceptor` legada (seção 6.4)
-
-**Componentes compartilhados:**
-
-35. componentes do catálogo (`<app-badge>`, `<app-button>`, `<app-data-table>`, `<app-page-header>`, `<app-progress>`, `<app-search-field>`) são reutilizados antes de criar equivalentes — telas de listagem que precisem de busca usam `<app-search-field>` obrigatoriamente; novos componentes com variantes usam `computed()` para montar classes CSS, nunca `[ngClass]` inline (seção 5.6)
-
-**Estilos e estrutura de página:**
-
-36. página de conteúdo usa `<div class="ui-page">` como wrapper — ausência de classes BEM per-página para layout estrutural (seção 8.4)
-37. estrutura interna de página (filtros, formulários, seções) usa Tailwind utilities diretamente no template para propriedades estruturais (flex, gap, padding) — sem criar SCSS para regras que o Tailwind já cobre (seção 8.1)
-38. `styles.scss` contém apenas `@use 'tailwindcss'` e `@use 'styles/index'` — resets e globais ficam exclusivamente em `_reset.scss` via `_index.scss` (seção 12.3)
-39. **nenhum arquivo `*.page.scss` ou `*.component.scss` criado** sem justificativa — qualquer novo `.scss` local deve ter as três condições documentadas no Passo 3 do fluxo de decisão (seção 8.4): semântica visual específica, não reutilizável, Tailwind insuficiente
-
-**Constantes centralizadas:**
-
-40. rotas SPA usam `AppRoutes` de `@core/constants` — ausência de strings de caminho brutas em `.ts` (seção 6.6)
-41. endpoints de API usam `ApiRoutes` de `@core/constants` em `protected readonly path` — ausência de strings URL brutas em serviços (seção 6.6)
-42. permissões usam `Permissions` de `@core/constants` em `data.requiredPermission` e `navItems` — ausência de strings Django brutas (seção 6.6)
-
----
-
-## 15. Convenções de Branch e Commit
+## 12. Governança
 
 ### 15.1 Branches
 
@@ -2057,31 +1255,17 @@ O projeto é mantido por um único desenvolvedor: o trabalho é feito **diretame
 
 ### 15.2 Mensagens de Commit
 
-As mensagens de commit devem seguir o padrão `<tipo>(#id-do-card): Descrição do commit`.
+Código que contraria esta constituição é corrigido ou a divergência é registrada no `plan.md` com justificativa, conforme o Princípio V. Ignorar em silêncio não é opção.
 
-O `#id-do-card` refere-se ao identificador do card no board (ex.: `ANT-956`, `STS-42`).
+### 12.4 Bridge de contexto
 
-| Tipo                     | Uso                                                            |
-| ------------------------ | -------------------------------------------------------------- |
-| `feat(#id): <descrição>` | Nova funcionalidade                                            |
-| `fix(#id): <descrição>`  | Correção de bug                                                |
-| `fix!(#id): <descrição>` | Hotfix — correção crítica que impede funcionamento em produção |
-| `imp(#id): <descrição>`  | Melhoria ou pequena mudança em funcionalidade existente        |
-
-Exemplos:
-
-```text
-feat(#ANT-123): adiciona endpoint de autenticação JWT
-fix(#STS-42): corrige validação de refresh token expirado
-fix!(#ANT-956): corrige erro crítico no login que impede acesso
-imp(#ANT-789): melhora performance da listagem de usuários
-```
+`CLAUDE.md` na raiz e em cada projeto aponta para o plano da feature corrente, entre os marcadores `<!-- SPECKIT START -->` e `<!-- SPECKIT END -->`. Esses arquivos são mantidos pelos comandos do Spec Kit e não devem ser editados à mão.
 
 ---
 
-## 16. Idioma dos Artefatos: Português BR (Obrigatório)
+## 13. Cláusula Final
 
-**Todos os artefatos gerados pelo Spec Kit devem ser escritos em Português Brasileiro (pt-BR).**
+Uma regra que não pode ser cumprida não protege nada — só ensina o time a ignorar o documento. Se uma seção desta constituição descrever ferramenta, biblioteca ou estrutura que o Sonic Stage não possui, isso é um defeito da constituição e deve ser corrigido aqui, não contornado no código.
 
 Isso inclui, sem limitação:
 

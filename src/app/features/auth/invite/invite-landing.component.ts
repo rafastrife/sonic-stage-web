@@ -114,7 +114,7 @@ export class InviteLandingComponent implements OnInit {
     if (!invitation) return;
     this.submitting.set(true);
     this.actionError.set(null);
-    this.http.post(`/api/invitations/${invitation.id}/accept/`, {}).subscribe({
+    this.http.post(`/api/invitations/${invitation.id}/accept/`, { token: this.token }).subscribe({
       next: () => {
         this.bandStore.loadUserBands();
         this.router.navigate(['/dashboard/members']);
@@ -131,7 +131,7 @@ export class InviteLandingComponent implements OnInit {
     if (!invitation) return;
     this.submitting.set(true);
     this.actionError.set(null);
-    this.http.post(`/api/invitations/${invitation.id}/decline/`, {}).subscribe({
+    this.http.post(`/api/invitations/${invitation.id}/decline/`, { token: this.token }).subscribe({
       next: () => {
         this.preview.update(p => (p ? { ...p, status: 'DECLINED' } : p));
         this.submitting.set(false);

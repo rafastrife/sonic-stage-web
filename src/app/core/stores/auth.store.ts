@@ -1,7 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
@@ -23,6 +23,17 @@ export class AuthStore {
       return payload.user_id ?? null;
     } catch {
       return null;
+    }
+  });
+  readonly isSessionValid = computed<boolean>(() => {
+    const token = this._accessToken();
+    if (!token) return false;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (!payload.exp) return true;
+      return payload.exp * 1000 > Date.now();
+    } catch {
+      return false;
     }
   });
 
@@ -65,11 +76,21 @@ export class AuthStore {
     );
   }
 
-  logout() {
+  clearSession() {
     localStorage.removeItem('access_token');
     this._accessToken.set(null);
     this._user.set(null);
-    this.router.navigate(['/login']);
+  }
+
+  logout() {
+    // Best-effort: revoga o token no servidor (SEC-10), mas uma falha de rede
+    // não pode impedir o logout local — o usuário precisa sair mesmo offline.
+    this.http.post('/api/auth/logout/', {}).pipe(
+      catchError(() => of(null))
+    ).subscribe(() => {
+      this.clearSession();
+      this.router.navigate(['/login']);
+    });
   }
 
   requestPasswordReset(data: { email: string }) {
