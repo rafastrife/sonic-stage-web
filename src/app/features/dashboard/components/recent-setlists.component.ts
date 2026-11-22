@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
     <div class="mt-12">
       <div class="flex justify-between items-end mb-6">
         <h2 class="text-3xl font-bold text-white tracking-tight">Setlists Recentes</h2>
-        <a routerLink="/dashboard/repertoire" class="text-cyan-400 hover:text-cyan-300 text-sm font-bold flex items-center gap-1 transition-colors">
+        <a routerLink="/dashboard/repertoire" class="text-primary hover:text-primary-light text-sm font-bold flex items-center gap-1 transition-colors">
           Ver Todos 
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -19,7 +19,7 @@ import { RouterLink } from '@angular/router';
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div *ngFor="let setlist of setlists" class="bg-[#0a0a0a] border border-neutral-800 rounded-2xl p-6 hover:border-neutral-700 transition-colors cursor-pointer group">
+        <div *ngFor="let setlist of setlists" class="bg-surface border border-neutral-800 rounded-2xl p-6 hover:border-neutral-700 transition-colors cursor-pointer group">
           <div class="flex justify-between items-start mb-8">
             <div class="w-10 h-10 bg-neutral-800 group-hover:bg-neutral-700 transition-colors rounded flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">

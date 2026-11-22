@@ -8,7 +8,7 @@ import { NotificationBellComponent } from './notification-bell.component';
   standalone: true,
   imports: [RouterOutlet, SidebarComponent, NotificationBellComponent],
   template: `
-    <div class="flex h-screen bg-[#111111] overflow-hidden text-white">
+    <div class="flex h-screen bg-canvas overflow-hidden text-white">
       <app-sidebar></app-sidebar>
       <div class="flex-1 flex flex-col overflow-hidden">
         <header class="h-16 shrink-0 border-b border-neutral-800 flex items-center justify-end px-6">

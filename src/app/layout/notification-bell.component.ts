@@ -14,7 +14,7 @@ import { BandStore } from '../core/stores/band.store';
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
         @if (store.unreadCount() > 0) {
-          <span class="absolute -top-0.5 -right-0.5 bg-neon-pink text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+          <span class="absolute -top-0.5 -right-0.5 bg-accent text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
             {{ store.unreadCount() }}
           </span>
         }
@@ -26,10 +26,10 @@ import { BandStore } from '../core/stores/band.store';
             <h3 class="text-white font-bold">
               Notificações
               @if (store.unreadCount() > 0) {
-                <span class="text-neon-pink text-sm font-medium ml-1">{{ store.unreadCount() }} novas</span>
+                <span class="text-accent text-sm font-medium ml-1">{{ store.unreadCount() }} novas</span>
               }
             </h3>
-            <button (click)="markAllRead()" class="text-xs text-neon-cyan hover:underline">Marcar tudo como lido</button>
+            <button (click)="markAllRead()" class="text-xs text-primary hover:underline">Marcar tudo como lido</button>
           </div>
 
           @if (store.notifications().length === 0) {
@@ -38,20 +38,20 @@ import { BandStore } from '../core/stores/band.store';
             @for (n of store.notifications(); track n.id) {
               <div class="px-4 py-3 border-b border-neutral-800 last:border-0" [class.bg-neutral-800]="!n.is_read">
                 <div class="flex gap-3">
-                  <div class="w-9 h-9 rounded-full bg-neon-cyan/20 text-neon-cyan flex items-center justify-center font-bold text-sm shrink-0">
+                  <div class="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">
                     {{ (n.actor?.display_name || '?')[0] }}
                   </div>
                   <div class="min-w-0 flex-1">
                     <p class="text-sm text-white">
                       <span class="font-bold">{{ n.actor?.display_name || 'Alguém' }}</span>
                       {{ messageFor(n) }}
-                      <span class="text-neon-cyan font-medium">{{ n.band_name }}</span>
+                      <span class="text-primary font-medium">{{ n.band_name }}</span>
                     </p>
                     <p class="text-xs text-neutral-500 mt-0.5">{{ timeAgo(n.created_at) }}</p>
 
                     @if (n.notif_type === 'INVITE_RECEIVED' && n.invitation_status === 'PENDING') {
                       <div class="flex gap-2 mt-2">
-                        <button (click)="accept(n)" class="bg-neon-cyan hover:bg-cyan-400 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-colors">Aceitar</button>
+                        <button (click)="accept(n)" class="bg-primary hover:bg-primary-hover text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-colors">Aceitar</button>
                         <button (click)="decline(n)" class="bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors">Recusar</button>
                       </div>
                     } @else if (n.notif_type === 'INVITE_RECEIVED') {

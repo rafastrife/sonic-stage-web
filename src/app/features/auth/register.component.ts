@@ -10,7 +10,7 @@ import { GoogleButtonComponent } from './components/google-button/google-button.
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, LogoComponent, GoogleButtonComponent],
   template: `
-    <div class="min-h-screen flex bg-[#0a0a0a] text-white">
+    <div class="min-h-screen flex bg-canvas text-white">
       
       <!-- Left Panel -->
       <div class="hidden lg:flex lg:w-1/2 flex-col p-12 border-r border-white/5 relative overflow-hidden">
@@ -28,13 +28,13 @@ import { GoogleButtonComponent } from './components/google-button/google-button.
         <div class="absolute bottom-0 left-0 w-full h-2/3 opacity-30 flex items-end justify-center pb-10">
           <div class="w-full h-full flex items-end justify-center space-x-8 px-10">
              <div class="w-1/4 h-3/4 bg-neutral-800 rounded-t-3xl relative">
-                <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-4 h-4 bg-neon-cyan rounded-full blur-[2px]"></div>
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full blur-[2px]"></div>
              </div>
              <div class="w-1/3 h-full bg-neutral-800 rounded-t-3xl relative">
-                <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-6 h-6 bg-neon-pink rounded-full blur-[4px]"></div>
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-6 h-6 bg-accent rounded-full blur-[4px]"></div>
              </div>
              <div class="w-1/4 h-2/3 bg-neutral-800 rounded-t-3xl relative">
-                <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-neon-cyan rounded-full blur-[2px]"></div>
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full blur-[2px]"></div>
              </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ import { GoogleButtonComponent } from './components/google-button/google-button.
                   </svg>
                 </span>
                 <input type="text" formControlName="display_name" 
-                  class="w-full pl-11 pr-4 py-3 bg-[#121212] border border-white/10 rounded-lg focus:ring-2 focus:ring-neon-cyan focus:border-transparent transition-all outline-none text-white placeholder-neutral-600"
+                  class="w-full pl-11 pr-4 py-3 bg-surface-input border border-white/10 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-white placeholder-neutral-600"
                   placeholder="ex. Neon Pulse">
               </div>
             </div>
@@ -79,7 +79,7 @@ import { GoogleButtonComponent } from './components/google-button/google-button.
                   </svg>
                 </span>
                 <input type="email" formControlName="email" 
-                  class="w-full pl-11 pr-4 py-3 bg-[#121212] border border-white/10 rounded-lg focus:ring-2 focus:ring-neon-cyan focus:border-transparent transition-all outline-none text-white placeholder-neutral-600"
+                  class="w-full pl-11 pr-4 py-3 bg-surface-input border border-white/10 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-white placeholder-neutral-600"
                   placeholder="voce@exemplo.com">
               </div>
             </div>
@@ -93,7 +93,7 @@ import { GoogleButtonComponent } from './components/google-button/google-button.
                   </svg>
                 </span>
                 <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                  class="w-full pl-11 pr-11 py-3 bg-[#121212] border border-white/10 rounded-lg focus:ring-2 focus:ring-neon-cyan focus:border-transparent transition-all outline-none text-white placeholder-neutral-600"
+                  class="w-full pl-11 pr-11 py-3 bg-surface-input border border-white/10 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-white placeholder-neutral-600"
                   placeholder="••••••••">
                 <button type="button" (click)="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white transition-colors">
                   <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -113,8 +113,8 @@ import { GoogleButtonComponent } from './components/google-button/google-button.
                 <button type="button" *ngFor="let role of roles" 
                   (click)="selectRole(role.id)"
                   [class]="registerForm.get('main_role')?.value === role.id 
-                    ? 'border-neon-pink bg-neon-pink/10 text-white' 
-                    : 'border-white/10 bg-[#121212] text-neutral-400 hover:border-white/30'"
+                    ? 'border-accent bg-accent/10 text-white' 
+                    : 'border-white/10 bg-surface-input text-neutral-400 hover:border-white/30'"
                   class="flex items-center justify-center space-x-2 py-3 border rounded-lg transition-all">
                   <span>{{role.icon}}</span>
                   <span class="text-sm font-medium">{{role.label}}</span>
@@ -123,7 +123,7 @@ import { GoogleButtonComponent } from './components/google-button/google-button.
             </div>
 
             <button type="submit" [disabled]="registerForm.invalid || isLoading"
-              class="w-full mt-6 py-3.5 px-4 bg-neon-cyan text-black rounded-lg font-bold tracking-wider shadow-[0_0_15px_rgba(0,229,255,0.3)] hover:shadow-[0_0_25px_rgba(0,229,255,0.5)] transform transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2">
+              class="w-full mt-6 py-3.5 px-4 bg-primary text-black rounded-lg font-bold tracking-wider shadow-glow-primary hover:shadow-glow-primary-strong transform transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2">
               <span>{{ isLoading ? 'Criando...' : 'Criar Conta' }}</span>
               <svg *ngIf="!isLoading" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -133,7 +133,7 @@ import { GoogleButtonComponent } from './components/google-button/google-button.
 
           <p class="text-center text-neutral-400 mt-8 text-sm">
             Já faz parte da equipe? 
-            <a routerLink="/login" class="text-neon-pink hover:text-pink-400 font-bold transition-colors">Entre aqui</a>
+            <a routerLink="/login" class="text-accent hover:text-accent-hover font-bold transition-colors">Entre aqui</a>
           </p>
         </div>
       </div>

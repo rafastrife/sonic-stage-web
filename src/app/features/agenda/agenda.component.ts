@@ -40,8 +40,8 @@ type ViewMode = 'lista' | 'calendario';
 type TimeFilter = 'all' | 'upcoming' | 'past';
 
 const BAND_TAG_PALETTE = [
-  { bg: 'bg-pink-500/15', border: 'border-pink-500/40', text: 'text-pink-300' },
-  { bg: 'bg-cyan-500/15', border: 'border-cyan-500/40', text: 'text-cyan-300' },
+  { bg: 'bg-accent/15', border: 'border-accent/40', text: 'text-accent-hover' },
+  { bg: 'bg-primary/15', border: 'border-primary/40', text: 'text-primary-light' },
   { bg: 'bg-violet-500/15', border: 'border-violet-500/40', text: 'text-violet-300' },
   { bg: 'bg-emerald-500/15', border: 'border-emerald-500/40', text: 'text-emerald-300' },
   { bg: 'bg-amber-500/15', border: 'border-amber-500/40', text: 'text-amber-300' },
@@ -64,7 +64,7 @@ function toDateOnlyString(date: Date): string {
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div class="p-8 max-w-7xl mx-auto text-white min-h-screen bg-[#121212]">
+    <div class="p-8 max-w-7xl mx-auto text-white min-h-screen bg-canvas">
 
       <!-- Header -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
@@ -72,7 +72,7 @@ function toDateOnlyString(date: Date): string {
           <h1 class="text-4xl font-black tracking-tight mb-1">Agenda</h1>
           <p class="text-neutral-400 font-medium">Acompanhe os shows e eventos de todas as suas bandas.</p>
         </div>
-        <button (click)="openForm()" class="bg-violet-500 hover:bg-violet-400 text-white px-6 py-3 rounded-full font-bold text-sm transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(139,92,246,0.4)]">
+        <button (click)="openForm()" class="bg-primary hover:bg-primary-hover text-black px-6 py-3 rounded-full font-bold text-sm transition-all flex items-center gap-2 shadow-glow-primary">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
           Novo Evento
         </button>
@@ -87,7 +87,7 @@ function toDateOnlyString(date: Date): string {
 
         <div class="relative">
           <select
-            class="bg-neutral-900 border border-neutral-800 text-white rounded-full pl-4 pr-9 py-2.5 appearance-none cursor-pointer focus:outline-none focus:border-cyan-400 transition-colors text-sm font-medium"
+            class="bg-neutral-900 border border-neutral-800 text-white rounded-full pl-4 pr-9 py-2.5 appearance-none cursor-pointer focus:outline-none focus:border-primary transition-colors text-sm font-medium"
             [value]="bandFilter()"
             (change)="onBandFilterChange($event)">
             <option value="all">Todas as Bandas</option>
@@ -111,9 +111,9 @@ function toDateOnlyString(date: Date): string {
           </div>
 
           <div class="space-y-4">
-            <div *ngFor="let ev of group.events" class="bg-[#1a1a1a] border border-neutral-800 rounded-2xl p-5 flex items-start gap-5">
+            <div *ngFor="let ev of group.events" class="bg-surface border border-neutral-800 rounded-2xl p-5 flex items-start gap-5">
               <div class="flex flex-col items-center w-14 flex-shrink-0">
-                <span class="text-[11px] font-bold uppercase tracking-widest text-cyan-400">{{ monthAbbrev(ev.date) }}</span>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-primary">{{ monthAbbrev(ev.date) }}</span>
                 <span class="text-3xl font-black leading-none">{{ dayNumber(ev.date) }}</span>
                 <span class="text-[11px] uppercase text-neutral-500">{{ weekdayAbbrev(ev.date) }}</span>
               </div>
@@ -147,13 +147,13 @@ function toDateOnlyString(date: Date): string {
           </div>
         </div>
 
-        <div *ngIf="monthGroups().length === 0" class="text-center py-16 bg-[#1a1a1a] rounded-2xl border border-neutral-800">
+        <div *ngIf="monthGroups().length === 0" class="text-center py-16 bg-surface rounded-2xl border border-neutral-800">
           <p class="text-neutral-500 font-medium">Nenhum evento encontrado para os filtros selecionados.</p>
         </div>
       </div>
 
       <!-- Calendário view -->
-      <div *ngIf="viewMode() === 'calendario'" class="bg-[#1a1a1a] border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl select-none">
+      <div *ngIf="viewMode() === 'calendario'" class="bg-surface border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl select-none">
         <div class="flex items-center justify-between px-6 py-4 border-b border-neutral-800">
           <div class="flex items-center gap-4">
             <button (click)="previousMonth()" class="text-neutral-400 hover:text-white hover:bg-neutral-800 p-2 rounded-full transition-colors border border-neutral-800 bg-neutral-900">
@@ -167,7 +167,7 @@ function toDateOnlyString(date: Date): string {
           <button (click)="goToToday()" class="bg-neutral-800 hover:bg-neutral-700 text-white text-sm font-medium px-4 py-2 rounded-full transition-colors">Hoje</button>
         </div>
 
-        <div class="grid grid-cols-7 border-b border-neutral-800 bg-[#181818]">
+        <div class="grid grid-cols-7 border-b border-neutral-800 bg-surface-raised">
           <div *ngFor="let day of ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']" class="py-3 text-center text-xs font-bold text-neutral-500 tracking-widest uppercase">
             {{ day }}
           </div>
@@ -175,11 +175,11 @@ function toDateOnlyString(date: Date): string {
         <div class="grid grid-cols-7 bg-neutral-800 gap-[1px]">
           <div *ngFor="let day of calendarDays()"
                (dblclick)="onDayDoubleClick(day.date)"
-               class="bg-[#1a1a1a] min-h-[110px] p-2 transition-colors hover:bg-[#222] cursor-pointer"
+               class="bg-surface min-h-[110px] p-2 transition-colors hover:bg-surface-raised cursor-pointer"
                [ngClass]="{'opacity-40': !day.isCurrentMonth}">
             <div class="flex justify-center items-center w-7 h-7 rounded-full mb-2 text-sm font-medium"
                  [ngClass]="{
-                   'bg-cyan-300 text-neutral-900 font-bold': day.isToday,
+                   'bg-primary text-neutral-900 font-bold': day.isToday,
                    'text-white': !day.isToday && day.isCurrentMonth,
                    'text-neutral-600': !day.isCurrentMonth
                  }">
@@ -196,7 +196,7 @@ function toDateOnlyString(date: Date): string {
 
       <!-- Novo Evento Modal -->
       <div *ngIf="isFormOpen()" class="fixed inset-0 bg-black/70 flex items-start justify-center z-50 overflow-y-auto py-10 px-4">
-        <div class="bg-[#181818] border border-neutral-800 rounded-2xl p-6 w-full max-w-lg">
+        <div class="bg-surface-raised border border-neutral-800 rounded-2xl p-6 w-full max-w-lg">
           <div class="flex items-start justify-between mb-4">
             <div>
               <h3 class="text-xl font-bold text-white">Novo Evento</h3>
@@ -211,14 +211,14 @@ function toDateOnlyString(date: Date): string {
             <div>
               <label class="block text-sm font-bold text-neutral-300 mb-1.5">Nome do evento *</label>
               <input type="text" formControlName="title" placeholder="Ex: Show no Bar do Rock"
-                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+                class="w-full bg-surface-input border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-primary transition-colors">
               <p *ngIf="submitted() && eventForm.get('title')?.invalid" class="text-xs text-red-400 mt-1">Informe o nome do evento.</p>
             </div>
 
             <div>
               <label class="block text-sm font-bold text-neutral-300 mb-1.5">Banda *</label>
               <select formControlName="band" (change)="onFormBandChange()"
-                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+                class="w-full bg-surface-input border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-primary transition-colors">
                 <option [ngValue]="null">Selecionar banda</option>
                 <option *ngFor="let band of bandStore.userBands()" [ngValue]="band.id">{{ band.name }}</option>
               </select>
@@ -228,7 +228,7 @@ function toDateOnlyString(date: Date): string {
             <div>
               <label class="block text-sm font-bold text-neutral-300 mb-1.5">Setlist vinculada</label>
               <select formControlName="setlist"
-                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+                class="w-full bg-surface-input border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-primary transition-colors">
                 <option [ngValue]="null">Nenhuma (opcional)</option>
                 <option *ngFor="let sl of formSetlists()" [ngValue]="sl.id">{{ sl.name }}</option>
               </select>
@@ -239,17 +239,17 @@ function toDateOnlyString(date: Date): string {
               <div class="col-span-1">
                 <label class="block text-sm font-bold text-neutral-300 mb-1.5">Data *</label>
                 <input type="date" formControlName="date"
-                  class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-3 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+                  class="w-full bg-surface-input border border-neutral-800 rounded-lg px-3 py-2.5 text-white outline-none focus:border-primary transition-colors">
               </div>
               <div class="col-span-1">
                 <label class="block text-sm font-bold text-neutral-300 mb-1.5">Horário início</label>
                 <input type="time" formControlName="start_time"
-                  class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-3 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+                  class="w-full bg-surface-input border border-neutral-800 rounded-lg px-3 py-2.5 text-white outline-none focus:border-primary transition-colors">
               </div>
               <div class="col-span-1">
                 <label class="block text-sm font-bold text-neutral-300 mb-1.5">Horário fim</label>
                 <input type="time" formControlName="end_time"
-                  class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-3 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+                  class="w-full bg-surface-input border border-neutral-800 rounded-lg px-3 py-2.5 text-white outline-none focus:border-primary transition-colors">
               </div>
             </div>
             <p *ngIf="submitted() && eventForm.get('date')?.invalid" class="text-xs text-red-400 -mt-2">Informe a data do evento.</p>
@@ -257,7 +257,7 @@ function toDateOnlyString(date: Date): string {
             <div>
               <label class="block text-sm font-bold text-neutral-300 mb-1.5">Local</label>
               <input type="text" formControlName="location" placeholder="Ex: Bar do Rock, São Paulo"
-                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors">
+                class="w-full bg-surface-input border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-primary transition-colors">
             </div>
 
             <div>
@@ -275,12 +275,12 @@ function toDateOnlyString(date: Date): string {
             <div>
               <label class="block text-sm font-bold text-neutral-300 mb-1.5">Observações</label>
               <textarea formControlName="notes" rows="3" placeholder="Informações adicionais sobre o evento..."
-                class="w-full bg-[#0e0e0e] border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-cyan-400 transition-colors resize-none"></textarea>
+                class="w-full bg-surface-input border border-neutral-800 rounded-lg px-4 py-2.5 text-white outline-none focus:border-primary transition-colors resize-none"></textarea>
             </div>
 
             <div class="flex justify-end gap-3 pt-2">
               <button type="button" (click)="closeForm()" class="px-6 py-3 rounded-xl font-medium text-neutral-400 hover:text-white transition-colors">Cancelar</button>
-              <button type="submit" class="bg-violet-500 hover:bg-violet-400 text-white px-6 py-3 rounded-xl font-bold transition-colors">Salvar Evento</button>
+              <button type="submit" class="bg-primary hover:bg-primary-hover text-black px-6 py-3 rounded-xl font-bold transition-colors">Salvar Evento</button>
             </div>
           </form>
         </div>
@@ -387,7 +387,7 @@ export class AgendaComponent implements OnInit {
 
   pillClasses(active: boolean): string {
     return active
-      ? 'px-5 py-2 rounded-full bg-violet-500 text-white font-medium text-sm transition-colors'
+      ? 'px-5 py-2 rounded-full bg-primary text-black font-medium text-sm transition-colors'
       : 'px-5 py-2 rounded-full text-neutral-400 hover:text-white font-medium text-sm transition-colors';
   }
 
@@ -421,7 +421,7 @@ export class AgendaComponent implements OnInit {
     const selected = this.eventForm.get('status')?.value === status;
     return selected
       ? 'py-2.5 rounded-lg border-2 border-emerald-400 text-emerald-300 font-bold text-sm transition-colors'
-      : 'py-2.5 rounded-lg border border-neutral-800 bg-[#0e0e0e] text-neutral-400 hover:border-neutral-600 font-bold text-sm transition-colors';
+      : 'py-2.5 rounded-lg border border-neutral-800 bg-surface-input text-neutral-400 hover:border-neutral-600 font-bold text-sm transition-colors';
   }
 
   setStatus(status: string) {

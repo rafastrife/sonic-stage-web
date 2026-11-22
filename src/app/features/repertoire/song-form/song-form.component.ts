@@ -23,7 +23,7 @@ import { BandStore } from '../../../core/stores/band.store';
           <div class="flex gap-2">
             <input type="text" [(ngModel)]="spotifyLinkInput" [ngModelOptions]="{standalone: true}"
                    placeholder="Cole o link da música no Spotify"
-                   class="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-neon-cyan">
+                   class="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-primary">
             <button type="button" (click)="lookupSpotify()" [disabled]="spotifyLookupLoading() || !spotifyLinkInput.trim()"
                     class="bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
               {{ spotifyLookupLoading() ? 'Buscando...' : 'Preencher' }}
@@ -46,7 +46,7 @@ import { BandStore } from '../../../core/stores/band.store';
           <div>
             <label class="block text-sm font-medium text-neutral-300 mb-1">Título da música *</label>
             <input type="text" formControlName="title" placeholder="Ex: Thunderstruck"
-                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
+                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-primary">
             @if (form.controls.title.invalid && form.controls.title.touched) {
               <span class="text-xs text-red-500 mt-1 block">O título da música é obrigatório.</span>
             }
@@ -55,19 +55,19 @@ import { BandStore } from '../../../core/stores/band.store';
           <div>
             <label class="block text-sm font-medium text-neutral-300 mb-1">Artista / Banda</label>
             <input type="text" formControlName="artist" placeholder="Ex: AC/DC"
-                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
+                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-primary">
           </div>
 
           <div class="flex gap-3">
             <div class="w-1/2">
               <label class="block text-sm font-medium text-neutral-300 mb-1">Gênero</label>
               <input type="text" formControlName="genre" placeholder="Ex: Rock"
-                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
+                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-primary">
             </div>
             <div class="w-1/2">
               <label class="block text-sm font-medium text-neutral-300 mb-1">Tom</label>
               <input type="text" formControlName="key" placeholder="Ex: E, Am, D"
-                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
+                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-primary">
             </div>
           </div>
 
@@ -75,7 +75,7 @@ import { BandStore } from '../../../core/stores/band.store';
             <div class="w-1/2">
               <label class="block text-sm font-medium text-neutral-300 mb-1">BPM</label>
               <input type="number" formControlName="bpm" placeholder="Ex: 120" min="1"
-                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
+                     class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-primary">
               @if (form.controls.bpm.invalid && form.controls.bpm.touched) {
                 <span class="text-xs text-red-500 mt-1 block">BPM deve ser um número positivo.</span>
               }
@@ -83,7 +83,7 @@ import { BandStore } from '../../../core/stores/band.store';
             <div class="w-1/2">
               <label class="block text-sm font-medium text-neutral-300 mb-1">Afinação</label>
               <select formControlName="tuning"
-                      class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
+                      class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-primary">
                 <option value="">Selecionar</option>
                 @for (option of tuningOptions; track option) {
                   <option [value]="option">{{ option }}</option>
@@ -107,7 +107,7 @@ import { BandStore } from '../../../core/stores/band.store';
           <div>
             <label class="block text-sm font-medium text-neutral-300 mb-1">Tags</label>
             <input type="text" formControlName="tags" placeholder="Ex: cover, autoral, set principal"
-                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-neon-cyan">
+                   class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-white outline-none focus:border-primary">
             <span class="text-xs text-neutral-500 mt-1 block">Separe por vírgula</span>
           </div>
 
@@ -117,7 +117,7 @@ import { BandStore } from '../../../core/stores/band.store';
               Cancelar
             </button>
             <button type="submit" [disabled]="form.controls.title.invalid"
-                    class="bg-neon-cyan hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-black px-4 py-2 rounded-lg font-medium transition-colors">
+                    class="bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-black px-4 py-2 rounded-lg font-medium transition-colors">
               Salvar Música
             </button>
           </div>
@@ -235,9 +235,9 @@ export class SongFormComponent implements OnChanges {
     if (!selected) {
       return `${base} border-neutral-800 text-neutral-400 hover:border-neutral-700`;
     }
-    if (value === 'ACTIVE') return `${base} border-green-500 text-green-400 bg-green-500/10`;
-    if (value === 'REHEARSAL') return `${base} border-amber-500 text-amber-400 bg-amber-500/10`;
-    return `${base} border-purple-500 text-purple-400 bg-purple-500/10`;
+    if (value === 'ACTIVE') return `${base} border-success text-success bg-success/10`;
+    if (value === 'REHEARSAL') return `${base} border-warning text-warning bg-warning/10`;
+    return `${base} border-accent text-accent bg-accent/10`;
   }
 
   submit(): void {

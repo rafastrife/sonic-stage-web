@@ -1,17 +1,17 @@
 <section class="hero-section relative py-32 flex flex-col items-center justify-center text-center overflow-hidden">
   <!-- Background with stage lighting effect -->
   <div class="absolute inset-0 bg-gray-900 -z-10">
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-[#00d1ff] opacity-20 rounded-full blur-[128px]"></div>
-    <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-[#ff2d55] opacity-20 rounded-full blur-[128px]"></div>
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary opacity-20 rounded-full blur-[128px]"></div>
+    <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-accent opacity-20 rounded-full blur-[128px]"></div>
   </div>
 
   <div class="container mx-auto px-4 z-10">
-    <div class="inline-block bg-pink-900 bg-opacity-30 border border-[#ff2d55] text-[#ff2d55] px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-8">
+    <div class="inline-block bg-accent/15 border border-accent text-accent px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-8">
       🔴 Em Breve: O Futuro da Gestão Musical
     </div>
     
-    <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 font-montserrat leading-tight">
-      Assuma o <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2d55] to-pink-300 italic">Controle</span> do Seu<br/>Palco
+    <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 font-sans leading-tight">
+      Assuma o <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-hover italic">Controle</span> do Seu<br/>Palco
     </h1>
     
     <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
@@ -24,7 +24,7 @@
         variant="primary"
         size="lg"
         [full]="true"
-        customClass="sm:w-auto shadow-[0_0_15px_rgba(0,209,255,0.5)]">
+        customClass="sm:w-auto shadow-glow-primary-strong">
         Quero ser avisado do lançamento
       </app-button>
       
@@ -33,19 +33,19 @@
         variant="outline"
         size="lg"
         [full]="true"
-        customClass="sm:w-auto text-white border-gray-600 hover:bg-opacity-5">
+        customClass="sm:w-auto">
         Explorar Funcionalidades
       </app-button>
     </div>
     
     <!-- Equalizer Animation visual representation -->
     <div class="mt-20 flex items-end justify-center gap-1 h-12 opacity-50">
-      <div class="w-2 bg-[#00d1ff] rounded-t-sm h-4 animate-pulse"></div>
-      <div class="w-2 bg-[#00d1ff] rounded-t-sm h-8 animate-pulse" style="animation-delay: 0.1s"></div>
-      <div class="w-2 bg-[#00d1ff] rounded-t-sm h-12 animate-pulse" style="animation-delay: 0.2s"></div>
-      <div class="w-2 bg-[#ff2d55] rounded-t-sm h-6 animate-pulse" style="animation-delay: 0.3s"></div>
-      <div class="w-2 bg-[#ff2d55] rounded-t-sm h-10 animate-pulse" style="animation-delay: 0.4s"></div>
-      <div class="w-2 bg-[#00d1ff] rounded-t-sm h-5 animate-pulse" style="animation-delay: 0.5s"></div>
+      <div class="w-2 bg-primary rounded-t-sm h-4 animate-pulse"></div>
+      <div class="w-2 bg-primary rounded-t-sm h-8 animate-pulse" style="animation-delay: 0.1s"></div>
+      <div class="w-2 bg-primary rounded-t-sm h-12 animate-pulse" style="animation-delay: 0.2s"></div>
+      <div class="w-2 bg-accent rounded-t-sm h-6 animate-pulse" style="animation-delay: 0.3s"></div>
+      <div class="w-2 bg-accent rounded-t-sm h-10 animate-pulse" style="animation-delay: 0.4s"></div>
+      <div class="w-2 bg-primary rounded-t-sm h-5 animate-pulse" style="animation-delay: 0.5s"></div>
     </div>
   </div>
 </section>

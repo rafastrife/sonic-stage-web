@@ -10,18 +10,18 @@ import { BandStore } from '../../core/stores/band.store';
   standalone: true,
   imports: [CommonModule, EventBannerComponent, MetricsCardsComponent, RecentSetlistsComponent],
   template: `
-    <div class="p-8 h-full bg-[#111111] min-h-screen">
+    <div class="p-8 h-full bg-canvas min-h-screen">
       
       <!-- Loading State -->
       <div *ngIf="bandStore.isLoading()" class="flex justify-center items-center h-64">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400"></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
 
       <!-- No Band State -->
       <div *ngIf="!bandStore.isLoading() && !bandStore.activeBandId()" class="flex flex-col justify-center items-center h-64 text-center">
         <h2 class="text-2xl font-bold text-white mb-2">Bem-vindo ao Sonic Stage!</h2>
         <p class="text-neutral-400 mb-6">Para começar, crie sua primeira banda.</p>
-        <button class="bg-cyan-400 hover:bg-cyan-300 text-black px-6 py-2.5 rounded-full font-bold transition-colors">
+        <button class="bg-primary hover:bg-primary-hover text-black px-6 py-2.5 rounded-full font-bold transition-colors">
           Criar Banda
         </button>
       </div>

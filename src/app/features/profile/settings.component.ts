@@ -11,7 +11,7 @@ import { GoogleButtonComponent } from '../auth/components/google-button/google-b
     <div class="p-8">
       <h2 class="text-3xl font-bold mb-6 text-white">Configurações de Conta</h2>
       
-      <div class="bg-[#121212] border border-white/10 rounded-xl p-6">
+      <div class="bg-surface border border-white/10 rounded-xl p-6">
         <h3 class="text-xl font-bold text-white mb-4">Integrações</h3>
         
         <div class="flex items-center justify-between py-4 border-b border-white/5">
@@ -22,7 +22,7 @@ import { GoogleButtonComponent } from '../auth/components/google-button/google-b
           
           <div class="flex flex-col items-center">
             <app-google-button buttonText="continue_with" action="link"></app-google-button>
-            <button (click)="unlinkGoogle()" class="mt-2 text-xs font-bold text-neon-pink hover:underline uppercase tracking-wider">
+            <button (click)="unlinkGoogle()" class="mt-2 text-xs font-bold text-accent hover:underline uppercase tracking-wider">
               Desvincular Google
             </button>
           </div>

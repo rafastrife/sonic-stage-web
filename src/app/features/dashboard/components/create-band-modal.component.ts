@@ -24,19 +24,19 @@ import { BandStore } from '../../../core/stores/band.store';
           
           <div class="mb-4">
             <label class="block text-xs font-bold tracking-widest text-neutral-400 uppercase mb-2">Nome da Banda</label>
-            <input type="text" formControlName="name" class="w-full bg-black border border-neutral-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors" placeholder="Ex: The Rockers">
+            <input type="text" formControlName="name" class="w-full bg-black border border-neutral-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="Ex: The Rockers">
           </div>
           
           <div class="mb-6">
             <label class="block text-xs font-bold tracking-widest text-neutral-400 uppercase mb-2">Gênero</label>
-            <input type="text" formControlName="genre" class="w-full bg-black border border-neutral-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors" placeholder="Ex: Rock Alternativo">
+            <input type="text" formControlName="genre" class="w-full bg-black border border-neutral-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-primary transition-colors" placeholder="Ex: Rock Alternativo">
           </div>
 
           <div class="flex justify-end gap-3">
             <button type="button" (click)="close()" class="px-6 py-2.5 rounded-full font-bold text-neutral-400 hover:text-white transition-colors">
               Cancelar
             </button>
-            <button type="submit" [disabled]="bandForm.invalid || isSubmitting" class="bg-cyan-400 hover:bg-cyan-300 disabled:opacity-50 text-black px-6 py-2.5 rounded-full font-bold transition-colors">
+            <button type="submit" [disabled]="bandForm.invalid || isSubmitting" class="bg-primary hover:bg-primary-hover disabled:opacity-50 text-black px-6 py-2.5 rounded-full font-bold transition-colors">
               {{ isSubmitting ? 'Criando...' : 'Criar Banda' }}
             </button>
           </div>

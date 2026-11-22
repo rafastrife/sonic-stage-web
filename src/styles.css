@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-dark-bg text-white font-sans antialiased;
+  @apply bg-canvas text-content font-sans antialiased;
 }
 
 /* Custom Scrollbar */

@@ -61,7 +61,7 @@ export class InputComponent {
       'w-full rounded-md border bg-gray-900 text-white focus:outline-none transition-colors',
       this.iconLeft() ? 'pl-10' : 'px-4',
       'py-3',
-      this.error() ? 'border-red-500 focus:border-red-500' : 'border-gray-600 focus:border-blue-500',
+      this.error() ? 'border-red-500 focus:border-red-500' : 'border-gray-600 focus:border-primary',
       this.disabled() ? 'opacity-50 cursor-not-allowed' : ''
     ].filter(Boolean).join(' ');
   });

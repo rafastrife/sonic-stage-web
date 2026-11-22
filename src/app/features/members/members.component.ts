@@ -24,12 +24,12 @@ import { AuthStore } from '../../core/stores/auth.store';
             <h3 class="text-xl font-bold">Convidar Membro</h3>
             <div class="flex bg-neutral-950 border border-neutral-800 rounded-xl p-1">
               <button type="button" (click)="inviteMode.set('search')"
-                      [class]="inviteMode() === 'search' ? 'bg-neon-cyan text-black' : 'text-neutral-400'"
+                      [class]="inviteMode() === 'search' ? 'bg-primary text-black' : 'text-neutral-400'"
                       class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">
                 Buscar usuário
               </button>
               <button type="button" (click)="inviteMode.set('link')"
-                      [class]="inviteMode() === 'link' ? 'bg-neon-cyan text-black' : 'text-neutral-400'"
+                      [class]="inviteMode() === 'link' ? 'bg-primary text-black' : 'text-neutral-400'"
                       class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">
                 Gerar link
               </button>
@@ -45,13 +45,13 @@ import { AuthStore } from '../../core/stores/auth.store';
                   [(ngModel)]="searchQuery"
                   (ngModelChange)="onSearchChange($event)"
                   placeholder="Ex: Marina ou marina@email.com"
-                  class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-neon-cyan">
+                  class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-primary">
 
                 @if (searchResults().length > 0) {
                   <div class="absolute z-10 mt-1 w-full bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-2xl">
                     @for (u of searchResults(); track u.id) {
                       <button type="button" (click)="selectUser(u)" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-neutral-800 text-left transition-colors">
-                        <div class="w-8 h-8 rounded-full bg-neon-cyan/20 text-neon-cyan flex items-center justify-center font-bold text-sm shrink-0">
+                        <div class="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">
                           {{ (u.display_name || u.username)[0] }}
                         </div>
                         <div class="min-w-0">
@@ -66,11 +66,11 @@ import { AuthStore } from '../../core/stores/auth.store';
 
               <div class="flex-1 min-w-[200px]">
                 <label class="block text-sm font-medium text-neutral-400 mb-2">Função (ex: Baterista)</label>
-                <input type="text" [(ngModel)]="role" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-neon-cyan">
+                <input type="text" [(ngModel)]="role" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-primary">
               </div>
 
               <button type="button" (click)="sendDirectInvite()" [disabled]="!selectedUser() || !role"
-                      class="bg-neon-cyan hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-black px-6 py-3 rounded-xl font-medium transition-colors h-12">
+                      class="bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-black px-6 py-3 rounded-xl font-medium transition-colors h-12">
                 Enviar Convite
               </button>
             </div>
@@ -85,22 +85,22 @@ import { AuthStore } from '../../core/stores/auth.store';
             <div class="flex flex-wrap items-end gap-4">
               <div class="flex-1 min-w-[200px]">
                 <label class="block text-sm font-medium text-neutral-400 mb-2">Função (ex: Baterista)</label>
-                <input type="text" [(ngModel)]="linkRole" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-neon-cyan">
+                <input type="text" [(ngModel)]="linkRole" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-primary">
               </div>
               <div class="flex-1 min-w-[200px]">
                 <label class="block text-sm font-medium text-neutral-400 mb-2">E-mail (opcional)</label>
-                <input type="email" [(ngModel)]="linkEmail" placeholder="pedro.drum@email.com" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-neon-cyan">
+                <input type="email" [(ngModel)]="linkEmail" placeholder="pedro.drum@email.com" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white outline-none focus:border-primary">
               </div>
               <button type="button" (click)="generateLinkInvite()" [disabled]="!linkRole"
-                      class="bg-neon-cyan hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-black px-6 py-3 rounded-xl font-medium transition-colors h-12">
+                      class="bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-black px-6 py-3 rounded-xl font-medium transition-colors h-12">
                 Gerar Link
               </button>
             </div>
 
             @if (generatedLink()) {
               <div class="mt-4 flex items-center gap-2 bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3">
-                <input type="text" readonly [value]="generatedLink()" class="flex-1 bg-transparent text-neon-cyan text-sm outline-none">
-                <button type="button" (click)="copyLink()" class="text-xs font-bold text-black bg-neon-cyan hover:bg-cyan-400 px-3 py-1.5 rounded-lg transition-colors">
+                <input type="text" readonly [value]="generatedLink()" class="flex-1 bg-transparent text-primary text-sm outline-none">
+                <button type="button" (click)="copyLink()" class="text-xs font-bold text-black bg-primary hover:bg-primary-hover px-3 py-1.5 rounded-lg transition-colors">
                   {{ copied() ? 'Copiado!' : 'Copiar' }}
                 </button>
               </div>
@@ -148,7 +148,7 @@ import { AuthStore } from '../../core/stores/auth.store';
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @for (member of activeMembers(); track member.id) {
           <div class="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-neon-cyan/20 text-neon-cyan flex items-center justify-center font-bold text-xl">
+            <div class="w-12 h-12 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-xl">
               {{ (member.user?.display_name || member.invite_email || '?')[0] }}
             </div>
             <div>

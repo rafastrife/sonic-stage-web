@@ -10,15 +10,15 @@ import { LogoComponent } from '../../../shared/components/logo.component';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, LogoComponent],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-dark-bg p-4 relative overflow-hidden">
+    <div class="min-h-screen flex items-center justify-center bg-canvas p-4 relative overflow-hidden">
       <!-- Ambient Glow Effects -->
-      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-cyan/10 rounded-full blur-[100px] pointer-events-none"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon-pink/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div class="w-full max-w-[400px] bg-black/40 backdrop-blur-xl border border-white/5 rounded-2xl shadow-2xl p-8 z-10">
         <div class="text-center mb-10 flex flex-col items-center">
           <app-logo class="w-56 mb-2"></app-logo>
-          <p class="text-neon-cyan text-xs font-bold tracking-widest mt-2 uppercase">Nova Senha</p>
+          <p class="text-primary text-xs font-bold tracking-widest mt-2 uppercase">Nova Senha</p>
         </div>
 
         <div *ngIf="errorMessage" class="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-400 text-sm text-center">
@@ -35,13 +35,13 @@ import { LogoComponent } from '../../../shared/components/logo.component';
                 </svg>
               </span>
               <input type="password" formControlName="new_password" 
-                class="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-neon-cyan focus:border-transparent transition-all outline-none text-white placeholder-neutral-600"
+                class="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-white placeholder-neutral-600"
                 placeholder="••••••••">
             </div>
           </div>
 
           <button type="submit" [disabled]="resetForm.invalid || isLoading"
-            class="w-full mt-4 py-3.5 px-4 bg-neon-cyan text-black rounded-xl font-bold tracking-wider uppercase shadow-[0_0_15px_rgba(0,229,255,0.3)] hover:shadow-[0_0_25px_rgba(0,229,255,0.5)] transform transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+            class="w-full mt-4 py-3.5 px-4 bg-primary text-black rounded-xl font-bold tracking-wider uppercase shadow-glow-primary hover:shadow-glow-primary-strong transform transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
             <span class="flex items-center justify-center">
               {{ isLoading ? 'Salvando...' : 'Redefinir Senha' }}
             </span>
@@ -49,7 +49,7 @@ import { LogoComponent } from '../../../shared/components/logo.component';
         </form>
 
         <p class="text-center text-neutral-400 mt-8 text-sm">
-          <a routerLink="/login" class="text-neon-pink hover:text-pink-400 font-bold transition-colors">Voltar ao Login</a>
+          <a routerLink="/login" class="text-accent hover:text-accent-hover font-bold transition-colors">Voltar ao Login</a>
         </p>
       </div>
     </div>

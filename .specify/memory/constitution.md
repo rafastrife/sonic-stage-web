@@ -1,9 +1,10 @@
 ﻿<!--
 Sync Impact Report:
-- Version change: 1.1.0 → 2.0.0
-- List of modified principles:
-  - Merged GovEasy full constitution into Sonic Stage constitution
-- Added sections: All GovEasy sections (1 to 18)
+- Version change: 2.0.0 → 2.2.0
+- Modified: removidas as referências ao nome de outro projeto (nome, logo, feature de exemplo);
+  seção 15.1 passa a refletir o fluxo de um único desenvolvedor (sem branch obrigatória);
+  seções 8.2 e 8.3 passam a usar a identidade visual do Sonic Stage (DESIGN.md), sem Figma e sem tema claro.
+- Added sections: None
 - Removed sections: None
 -->
 
@@ -69,8 +70,8 @@ Todo projeto frontend deve seguir estes princípios:
 5. **Segurança e performance por design**
    Toda implementação deve considerar proteção contra XSS, carregamento eficiente, baixo acoplamento e escalabilidade.
 
-6. **Consistência visual institucional**
-   O frontend deve seguir os padrões visuais do GovEasy, respeitando o Design System, a paleta de cores e os componentes definidos em `docs/design-system.md`.
+6. **Consistência visual da marca**
+   O frontend deve seguir os padrões visuais do Sonic Stage, respeitando o Design System, a paleta de cores e os componentes definidos em `assets/stitch_band_performance_manager/sonic_stage/DESIGN.md` (seção 8.2).
 
 ---
 
@@ -1034,123 +1035,150 @@ Para propriedades **estruturais** (display, flex-direction, align-items, justify
 - Media queries para responsividade — usar exclusivamente os mixins `bp.up()`, `bp.down()` e `bp.between()` de `src/styles/_breakpoints.scss` (seção 8.7)
 - Classes semânticas consistentes quando encapsuladas em componentes
 
-### 8.2 Sistema de Design — obrigatório via Figma MCP
+### 8.2 Sistema de Design — Sonic Stage
 
-Todas as implementações de front-end devem seguir **exclusivamente** os tokens e diretrizes do **Sistema de Design**, sendo esta a única fonte de verdade para cores, tipografia, espaçamento e estilo de componentes.
-Ao criar ou modificar qualquer componente, página ou elemento visual, é **obrigatório** consultar o **Figma MCP** (`mcp__figma__get_figma_data`) para obter as especificações visuais em tempo real, garantindo conformidade com tokens semânticos, estados interativos e suporte completo a light/dark mode.
+Todas as implementações de front-end devem seguir **exclusivamente** os tokens e diretrizes do **Sistema de Design do Sonic Stage**, sendo esta a única fonte de verdade para cores, tipografia, espaçamento e estilo de componentes.
+
+O estilo é **Neon-Futurismo + Minimalismo**: superfícies muito escuras ("palco apagado / estúdio") que fazem os acentos neon parecerem emitir luz. O contraste forte guia a atenção para o conteúdo e para os pontos de interação.
 
 **Fontes oficiais (em ordem de precedência):**
 
-1. **Figma MCP** (`mcp__figma__get_figma_data`, arquivo `penFRXwrSPVvVtEOcGhMch`) — especificações visuais em tempo real diretamente do Figma
-2. `src/styles/_themes.scss` — implementação via CSS custom properties
+1. `assets/stitch_band_performance_manager/sonic_stage/DESIGN.md` — especificação do design system (tokens, tipografia, elevação, formas e componentes)
+2. Telas de referência em `assets/stitch_band_performance_manager/*/screen.png` (desktop e mobile)
+3. `src/styles/_themes.scss` (CSS custom properties) e `tailwind.config.js` — implementação dos tokens; o Tailwind deve expor os mesmos tokens para uso nas classes utilitárias
 
 **Regras inegociáveis:**
 
-- Utilizar apenas **tokens semânticos** — nunca valores hardcoded (hex, rgb, px) quando houver equivalente
+- Utilizar apenas **tokens semânticos** — nunca valores hardcoded (hex, rgb, px) quando houver equivalente; nada de cores arbitrárias como `text-[#00d1ff]` no template
+- O sistema é **dark-mode-first e exclusivamente escuro**: não implementar tema claro na interface (o tema claro existe apenas como opção de exportação do PDF de repertório)
 - Não usar condicionais manuais de tema (`theme === "dark" ? ... : ...`)
 - Todos os componentes interativos devem conter estados: `default`, `hover`, `active`, `focus-visible`, `disabled`
-- O estado `focus-visible` deve sempre utilizar `border/focus` como outline (acessibilidade obrigatória)
-- Suporte a **light mode e dark mode é obrigatório** e deve ser validado
+- O estado `focus-visible` deve sempre utilizar `border/focus` (azul elétrico) como outline, com glow sutil (acessibilidade obrigatória)
+- Elevação é feita por **camadas tonais e glows**, não por sombras tradicionais
 - Ao criar componentes, usar como classe base `src/styles/components`.
 
-Componentes compartilhados como `Card`, `DataTable`, `Button`, `Input`, `Alert`, `Dashboard`, `Sidenav` e similares devem respeitar integralmente a identidade visual institucional definida nesses tokens.
+Componentes compartilhados como `Card`, `DataTable`, `Button`, `Input`, `Alert`, `Dashboard`, `Sidenav` e similares devem respeitar integralmente a identidade visual do Sonic Stage definida nesses tokens.
 
 ---
 
 ### 8.3 Paleta de Tokens Semânticos
 
-O sistema utiliza tokens semânticos que se adaptam automaticamente entre temas claro e escuro. Nunca utilizar valores diretos quando houver token correspondente.
+O sistema utiliza tokens semânticos sobre uma base escura. Nunca utilizar valores diretos quando houver token correspondente.
 
-A identidade visual do GovEasy é governamental: **azul institucional** (`#0f2d80`) como cor de marca/navegação e **verde de ação** (`#009c3b`) como cor primária de CTA.
+A paleta tem como base o **Midnight Black**. A cor principal é o **Azul Elétrico** (`#00d1ff`), usado em ações principais, indicadores de progresso e elementos de marca. O **Magenta Vívido** (`#ff4b89`) é o acento de alta energia, reservado para ações secundárias de destaque, notificações e indicadores "ao vivo"/"novo". O **Âmbar** (`#feb127`) é a cor terciária, usada com moderação (avisos, destaques pontuais). Os neutros são dessaturados para preservar a pureza dos acentos neon.
 
-**Tokens de interação (light → dark):**
+**Tokens de interação:**
 
-- `interactive/primary/default`: `#009c3b` (verde — botões primários, links, confirmações)
-- `interactive/primary/hover`: `#007a2e` → `#00c44a`
-- `interactive/primary/on`: `#ffffff` (texto sobre fundo primário)
-- `interactive/primary/subtle`: `#f0fdf4` → `rgba(0,156,59,0.15)`
-- `interactive/secondary/default`: `#0f2d80` → `rgba(255,255,255,0.12)` (azul — navegação, botões secundários)
-- `interactive/secondary/hover`: `#1a3d99` → `rgba(255,255,255,0.18)`
-- `interactive/secondary/on`: `#ffffff` → `rgba(255,255,255,0.95)`
-- `interactive/accent/default`: `#0f2d80` → `#4d6ecc`
+- `interactive/primary/default`: `#00d1ff` (azul elétrico — botões primários, links, progresso)
+- `interactive/primary/hover`: `#4cd6ff`
+- `interactive/primary/on`: `#000000` (texto preto sobre fundo azul — alto contraste)
+- `interactive/primary/subtle`: `rgba(0,209,255,0.15)`
+- `interactive/secondary/default`: `transparent` com borda 1px `#00d1ff` e texto `#00d1ff` (botão secundário)
+- `interactive/secondary/hover`: `rgba(0,209,255,0.10)`
+- `interactive/accent/default`: `#ff4b89` (magenta — botão ghost de alta energia, badges "ao vivo"/"novo")
+- `interactive/accent/hover`: `#ffb1c3`
+- `interactive/accent/subtle`: `rgba(255,75,137,0.15)`
+- `interactive/tertiary/default`: `#feb127` (âmbar)
 
-**Tokens de superfície e conteúdo (light → dark):**
+**Tokens de superfície e conteúdo:**
 
-- `bg/base`: `#ffffff` → `#111318`
-- `bg/subtle`: `#f8f9fa` → `#1c2128`
-- `surface/default`: `#ffffff` → `#0d1117`
-- `surface/raised`: `#ffffff` → `#161b22`
-- `content/primary`: `#212529` → `rgba(255,255,255,0.95)`
-- `content/secondary`: `#495057` → `rgba(255,255,255,0.65)`
-- `content/tertiary`: `#6c757d` → `rgba(255,255,255,0.40)`
-- `border/default`: `#dee2e6` → `rgba(255,255,255,0.10)`
-- `border/focus`: `#009c3b` (ambos os temas — acessibilidade)
-- `link/default`: `#009c3b` → `#00c44a`
+- `bg/base`: `#000000` (nível 0 — canvas da aplicação; preto real para contraste e OLED)
+- `surface/default`: `#0a0a0a` (nível 1 — cards, seções, modais)
+- `surface/raised`: `#1a1a1a` (nível 2 — hover, elementos flutuantes)
+- `surface/input`: `#050505` (campos de formulário, mais escuros que a superfície)
+- `content/primary`: `#e5e2e1`
+- `content/secondary`: `#bbc9cf`
+- `content/tertiary`: `#859399`
+- `border/default`: `#1a1a1a`
+- `border/strong`: `#3c494e`
+- `border/focus`: `#00d1ff` (acessibilidade)
+- `link/default`: `#00d1ff` → hover `#a4e6ff`
 
-**Tokens de status (light → dark):**
+**Tokens de status:**
 
-- `status/success`: bg `#f0fdf4`, content `#009c3b` → `#00c44a`
-- `status/warning`: bg `#fef3c7`, content `#d97706` → `#fbbf24`
-- `status/danger`: bg `#fee2e2`, content `#ef4444` → `#f87171`
-- `status/info`: bg `#eff6ff`, content `#0f2d80` → `#7b9dea`
+- `status/success`: bg `rgba(74,222,128,0.15)`, content `#4ade80`
+- `status/warning`: bg `rgba(254,177,39,0.15)`, content `#feb127`
+- `status/danger`: bg `rgba(147,0,10,0.35)`, content `#ffb4ab`
+- `status/info`: bg `rgba(0,209,255,0.15)`, content `#00d1ff`
+- `status/live`: bg `rgba(255,75,137,0.15)`, content `#ff4b89` (ao vivo, novo, próximo show)
 
 **Tipografia:**
 
-- **Fonte primária:** Inter (interface geral, formulários, navegação)
-- **Fonte secundária:** DM Sans (tabelas, dados, dashboards)
-- **Base de corpo:** `font/size/base` = 14px · escala: `xs`=10 · `sm`=12 · `md`=13 · `base`=14 · `lg`=17 · `xl`=18 · `2xl`=28 · `3xl`=30 · `4xl`=36
+- **Fonte única:** Montserrat (pesos 400, 500, 600, 700, 800)
+- **Títulos e display:** Bold/ExtraBold com letter-spacing negativo, transmitindo impacto
+- **Corpo:** Regular com line-height generoso (1.5–1.6) para leitura sobre fundo escuro
+- **Labels:** Medium/SemiBold, frequentemente em maiúsculas com letter-spacing positivo (estética de "painel de instrumento")
+- **Base de corpo:** 16px · escala: `xs`=12 · `sm`=14 · `base`=16 · `lg`=18 · `xl`=24 · `2xl`=32 · `display`=56
 
 **Tokens de espaçamento (`--space-*`):**
+
+O grid usa unidade base de **8px**. Desktop: 12 colunas, gutter 24px, margem a partir de 48px, largura máxima 1440px. Tablet: 8 colunas, gutter 20px, margem 32px. Mobile: 4 colunas, gutter e margem de 16px. Use gaps grandes (48px+) entre seções distintas e pequenos (8–16px) entre elementos relacionados.
 
 | Token | Valor | Uso típico |
 | --------------- | ----- | ----------------------------------------- |
 | `--space-1` | 4px | micro espaçamento, gaps mínimos |
-| `--space-2` | 8px | espaçamento interno compacto |
+| `--space-2` | 8px | espaçamento interno compacto (unidade base) |
 | `--space-3` | 12px | padding de elementos pequenos |
-| `--space-4` | 16px | padding padrão de componentes |
-| `--space-5` | 20px | espaçamento entre grupos |
-| `--space-6` | 24px | seções internas de cards/forms |
-| `--space-8` | 32px | separação de blocos |
+| `--space-4` | 16px | padding padrão de componentes, margem mobile |
+| `--space-5` | 20px | gutter tablet |
+| `--space-6` | 24px | gutter desktop, seções internas de cards/forms |
+| `--space-8` | 32px | separação de blocos, margem tablet |
 | `--space-10` | 40px | padding de seções de página |
-| `--space-12` | 48px | espaçamento entre seções grandes |
+| `--space-12` | 48px | espaçamento entre seções grandes, margem desktop |
 | `--space-16` | 64px | espaçamento de layout |
 | `--space-20` | 80px | margens de seção |
 
 **Tokens de radius (`--radius-*`):**
 
+Geometria **suave**: cantos discretos, com aparência técnica de equipamento musical.
+
 | Token | Valor | Uso típico |
 | -------------- | ------ | ---------------------------------- |
-| `--radius-xs` | 4px | badges, chips |
-| `--radius-sm` | 6px | botões |
-| `--radius-md` | 8px | cards, painéis, selects |
-| `--radius-input` | 10px | inputs padrão (md/lg) |
-| `--radius-lg` | 12px | modais, drawers |
-| `--radius-xl` | 14px | inputs large, elementos de destaque |
+| `--radius-xs` | 2px | detalhes mínimos |
+| `--radius-sm` | 4px | botões, inputs, chips e tags |
+| `--radius-md` | 6px | selects, dropdowns |
+| `--radius-lg` | 8px | cards, modais, painéis |
+| `--radius-xl` | 12px | hero, banners, seções de destaque |
 | `--radius-full` | 9999px | avatares, pílulas, toggles |
 
 **Tokens de tipografia:**
 
 | Token | Valor | Uso típico |
 | ----------------------- | ----- | -------------------------------- |
-| `--font-size-xs` | 10px | rótulos auxiliares |
-| `--font-size-sm` | 12px | legendas, metadados |
-| `--font-size-md` | 13px | texto secundário |
-| `--font-size-base` | 14px | texto padrão de interface |
-| `--font-size-lg` | 17px | subtítulos, destaques |
-| `--font-size-xl` | 18px | títulos de seção |
-| `--font-size-2xl` | 28px | títulos de página |
+| `--font-size-xs` | 12px | labels pequenos, metadados |
+| `--font-size-sm` | 14px | labels, texto secundário |
+| `--font-size-base` | 16px | texto padrão de interface |
+| `--font-size-lg` | 18px | corpo de destaque |
+| `--font-size-xl` | 24px | títulos de seção, títulos de página no mobile |
+| `--font-size-2xl` | 32px | títulos de página |
+| `--font-size-display` | 56px | hero / landing page |
 | `--font-weight-regular` | 400 | texto corrido |
-| `--font-weight-medium` | 500 | labels, navegação |
-| `--font-weight-semibold` | 600 | cabeçalhos, rótulos importantes |
-| `--font-weight-bold` | 700 | títulos, ênfase |
+| `--font-weight-medium` | 500 | labels pequenos, navegação |
+| `--font-weight-semibold` | 600 | labels, cabeçalhos |
+| `--font-weight-bold` | 700 | títulos |
+| `--font-weight-extrabold` | 800 | display, hero |
 
-**Tokens de sombra (`--shadow-*`):**
+**Tokens de elevação e glow:**
 
-- `--shadow-sm` — elevação sutil (hover de linha de tabela)
-- `--shadow-md` — cards e painéis padrão
-- `--shadow-lg` — modais, dropdowns, popovers
+A profundidade é transmitida por camadas tonais (`bg/base` → `surface/default` → `surface/raised`) e por glows sutis, nunca por sombras escuras tradicionais.
 
-Para a lista completa de tokens atualizada, consultar o Figma MCP (`mcp__figma__get_figma_data`) ou `src/styles/_themes.scss`.
+- `--glow-primary` (`shadow-glow-primary`) — `0 0 15px rgba(0,209,255,0.3)` (CTA principal, foco de input)
+- `--glow-primary-strong` (`shadow-glow-primary-strong`) — `0 0 25px rgba(0,209,255,0.5)` (hover do CTA principal)
+- `--glow-accent` (`shadow-glow-accent`) — `0 0 15px rgba(255,75,137,0.3)` (elementos "ao vivo" / destaque)
+- `--glow-tertiary` (`shadow-glow-tertiary`) — `0 0 15px rgba(254,177,39,0.3)` (destaques pontuais em âmbar)
+- `--shadow-lg` — `0 8px 24px rgba(0,0,0,0.6)` (apenas modais, dropdowns e popovers sobre conteúdo)
+
+**Componentes de referência (resumo do DESIGN.md):**
+
+- **Botão primário:** fundo azul elétrico sólido, texto preto
+- **Botão secundário:** fundo transparente, borda 1px azul elétrico, texto azul
+- **Botão terciário/ghost:** sem fundo e sem borda, texto magenta (ações de alta energia)
+- **Input:** fundo `surface/input`, borda 1px `border/default`; no foco, borda azul elétrico com `--glow-primary`
+- **Card:** fundo `surface/default`; acentos pequenos ("Novo", "Ao vivo") em magenta
+- **Chips e tags:** radius 4px; categorias com fundo cinza escuro e texto branco; status com `status/live` (fundo magenta translúcido, texto magenta)
+- **Visualizador de áudio:** barras verticais com gradiente do azul elétrico (base) ao magenta (pico)
+
+Para a lista completa de tokens, consultar `assets/stitch_band_performance_manager/sonic_stage/DESIGN.md` ou `src/styles/_themes.scss`.
 
 ---
 
@@ -1343,7 +1371,7 @@ justificam um arquivo `.scss` local. Propriedades estruturais (`flex`, `gap`, `p
 - [ ] Tokens do design system para cores, espaçamento, radius, tipografia e sombras
 - [ ] Nenhum valor hardcoded (hex, rgb, px) quando token equivalente existir
 - [ ] Estados interativos implementados (hover, focus, disabled)
-- [ ] Light/dark mode validados
+- [ ] Tema escuro validado (contraste dos textos e estados de foco)
 
 ---
 
@@ -1614,7 +1642,7 @@ src/
         utils/
 ```
 
-### 12.3 Estrutura do Projeto GovEasy
+### 12.3 Estrutura do Projeto
 
 ```text
 src/
@@ -1633,11 +1661,11 @@ src/
     _breakpoints.scss         ← mixins bp.up(), bp.down(), bp.between() — uso obrigatório para @media
     _index.scss               ← ponto de entrada dos estilos globais
     _reset.scss               ← resets globais (box-sizing, body, accent-color)
-    _themes.scss              ← todos os design tokens (light/dark)
+    _themes.scss              ← todos os design tokens (tema escuro)
   public/
     assets/
-      logo-goveasy.png         ← logo horizontal completa (usada no sidebar expandido e na tela de login)
-      logo-goveasy-icon.png    ← ícone da logo (usada no sidebar colapsado e no painel de marca do login)
+      logo.png                 ← logo horizontal completa (usada no sidebar expandido e na tela de login)
+      logo-icon.png            ← ícone da logo (usada no sidebar colapsado e no painel de marca do login)
     favicon.ico
     favicon.svg
   environments/
@@ -1721,8 +1749,8 @@ src/
           login.page.scss
         services/
           auth.service.ts
-      automagov/
-        automagov.routes.ts     ← routes file da feature (padrão para features com múltiplas rotas)
+      repertoire/
+        repertoire.routes.ts    ← routes file da feature (padrão para features com múltiplas rotas)
         components/
         models/
         pages/
@@ -1740,9 +1768,9 @@ Toda feature com mais de uma rota deve ter seu próprio `<feature>.routes.ts` na
 ```typescript
 // app.routes.ts
 {
-  path: 'automagov',
+  path: 'repertoire',
   loadChildren: () =>
-    import('./features/automagov/automagov.routes').then((m) => m.AUTOMAGOV_ROUTES),
+    import('./features/repertoire/repertoire.routes').then((m) => m.REPERTOIRE_ROUTES),
 }
 ```
 
@@ -2023,25 +2051,9 @@ Todo code review deve validar:
 
 ## 15. Convenções de Branch e Commit
 
-### 15.1 Nomenclatura de Branch
+### 15.1 Branches
 
-Os branches devem seguir o padrão `<tipo>/<nome-da-branch>`, onde o nome usa kebab-case (letras minúsculas separadas por hífen):
-
-| Tipo             | Uso                                                   |
-| ---------------- | ----------------------------------------------------- |
-| `feature/<nome>` | Nova funcionalidade                                   |
-| `fix/<nome>`     | Correção de bug                                       |
-| `hotfix/<nome>`  | Correção crítica que impede funcionamento em produção |
-| `improve/<nome>` | Melhoria ou refatoração em funcionalidade existente   |
-
-Exemplos:
-
-```text
-feature/autenticacao-jwt
-fix/validacao-senha
-hotfix/erro-critico-login
-improve/performance-listagem
-```
+O projeto é mantido por um único desenvolvedor: o trabalho é feito **diretamente na `main`**. Não é necessário criar branch para novas atividades, features ou specs. Branches são opcionais (por exemplo, para experimentos) e, quando usadas, não seguem padrão obrigatório.
 
 ### 15.2 Mensagens de Commit
 
@@ -2131,7 +2143,7 @@ Toda regra de desenvolvimento **deve ser adicionada exclusivamente a esta consti
 
 ## 18. Cláusula Final
 
-Todo desenvolvimento frontend da organização deve refletir esta constituição como um compromisso com qualidade, consistência, segurança, escalabilidade e identidade técnica institucional.
+Todo desenvolvimento frontend da organização deve refletir esta constituição como um compromisso com qualidade, consistência, segurança, escalabilidade e identidade visual do Sonic Stage.
 
 Na ausência de uma regra específica, deve prevalecer a decisão que melhor preserve:
 

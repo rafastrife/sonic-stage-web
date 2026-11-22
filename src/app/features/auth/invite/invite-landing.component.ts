@@ -19,9 +19,9 @@ interface InvitationPreview {
   standalone: true,
   imports: [CommonModule, RouterLink, LogoComponent],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-dark-bg p-4 relative overflow-hidden">
-      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-cyan/10 rounded-full blur-[100px] pointer-events-none"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon-pink/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="min-h-screen flex items-center justify-center bg-canvas p-4 relative overflow-hidden">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div class="w-full max-w-[420px] bg-black/40 backdrop-blur-xl border border-white/5 rounded-2xl shadow-2xl p-8 z-10 text-center">
         <app-logo class="w-48 mx-auto mb-6"></app-logo>
@@ -38,7 +38,7 @@ interface InvitationPreview {
           <h2 class="text-xl font-bold text-white mb-2">Você foi convidado!</h2>
           <p class="text-neutral-300 mb-6">
             <span class="font-bold">{{ preview()!.inviter_name }}</span> te chamou para integrar a banda
-            <span class="text-neon-cyan font-bold">{{ preview()!.band_name }}</span>
+            <span class="text-primary font-bold">{{ preview()!.band_name }}</span>
             como <span class="font-bold">{{ preview()!.role }}</span>.
           </p>
 
@@ -48,7 +48,7 @@ interface InvitationPreview {
             }
             <div class="flex gap-3 justify-center">
               <button (click)="accept()" [disabled]="submitting()"
-                      class="bg-neon-cyan hover:bg-cyan-400 disabled:opacity-50 text-black px-6 py-3 rounded-xl font-bold transition-colors">
+                      class="bg-primary hover:bg-primary-hover disabled:opacity-50 text-black px-6 py-3 rounded-xl font-bold transition-colors">
                 Aceitar
               </button>
               <button (click)="decline()" [disabled]="submitting()"
@@ -59,11 +59,11 @@ interface InvitationPreview {
           } @else {
             <div class="flex flex-col gap-3">
               <a [routerLink]="['/register']" [queryParams]="{ redirect: '/invite/' + token }"
-                 class="bg-neon-cyan hover:bg-cyan-400 text-black px-6 py-3 rounded-xl font-bold transition-colors">
+                 class="bg-primary hover:bg-primary-hover text-black px-6 py-3 rounded-xl font-bold transition-colors">
                 Criar Conta e Aceitar
               </a>
               <a [routerLink]="['/login']" [queryParams]="{ redirect: '/invite/' + token }"
-                 class="text-sm text-neon-cyan hover:text-white transition-colors">
+                 class="text-sm text-primary hover:text-white transition-colors">
                 Já tenho conta — Entrar
               </a>
             </div>

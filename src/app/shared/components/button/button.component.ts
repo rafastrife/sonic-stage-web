@@ -43,24 +43,24 @@ export class ButtonComponent {
   customClass = input<string>('');
 
   protected readonly hostClasses = computed<string>(() => {
-    const baseClasses = 'inline-flex items-center justify-center font-bold rounded-md transition-colors focus:outline-none';
+    const baseClasses = 'inline-flex items-center justify-center font-bold rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary';
     
     let variantClasses = '';
     switch (this.variant()) {
       case 'primary':
-        variantClasses = 'bg-[#00d1ff] hover:bg-blue-400 text-gray-900 shadow-[0_0_15px_rgba(0,209,255,0.3)] hover:shadow-[0_0_15px_rgba(0,209,255,0.5)]';
+        variantClasses = 'bg-primary hover:bg-primary-hover text-black shadow-glow-primary hover:shadow-glow-primary-strong';
         break;
       case 'secondary':
-        variantClasses = 'bg-[#ff2d55] hover:bg-pink-500 text-white';
+        variantClasses = 'bg-accent hover:bg-accent-hover text-black';
         break;
       case 'outline':
-        variantClasses = 'bg-transparent border border-gray-600 text-white hover:bg-white hover:bg-opacity-5';
+        variantClasses = 'bg-transparent border border-primary text-primary hover:bg-primary/10';
         break;
       case 'ghost':
         variantClasses = 'bg-transparent text-gray-300 hover:text-white';
         break;
       case 'danger':
-        variantClasses = 'bg-red-600 hover:bg-red-500 text-white';
+        variantClasses = 'bg-danger-container hover:bg-danger-container/80 text-danger';
         break;
     }
 
